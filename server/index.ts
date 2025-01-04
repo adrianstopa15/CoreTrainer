@@ -25,9 +25,6 @@ app.use(cookieParser());
 const MONGODB_URI = process.env.MONGODB_URI;
 console.log(MONGODB_URI);
 
-const dbUri =
-  "mongodb+srv://adrians:BasdfadAF@coretrainer.8tj8w.mongodb.net/?retryWrites=true&w=majority&appName=CoreTrainer";
-
 mongoose
   .connect(MONGODB_URI)
   .then(() => console.log("Połączono z MongoDB"))
