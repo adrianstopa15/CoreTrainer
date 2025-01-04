@@ -7,7 +7,7 @@ const userSchema = new mongoose.Schema({
   surname: { type: String, required: true },
   password: { type: String, required: true },
   firstLogin: { type: Boolean, default: true },
-  userFeatuers: {
+  userFeatures: {
     roles: { type: [String], default: [] },
     weight: { type: Number, default: 0 },
     height: { type: Number, default: 0 },
