@@ -19,8 +19,8 @@ function App() {
     <Provider store={store}>
       <QueryClientProvider client={queryClient}>
         <div className="root">
-          <Survey />
-          {/* <MainMenu /> */}
+          {/* <Survey /> */}
+          <MainMenu />
         </div>
       </QueryClientProvider>
     </Provider>

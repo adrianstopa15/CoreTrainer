@@ -1,6 +1,7 @@
-import React, { useReducer, useState } from "react";
+import React, { useMemo, useReducer, useState } from "react";
 import styles from "./Survey.module.css";
 import Swal from "sweetalert2";
+import axios from "axios";
 type SurveyAction = { type: "nextStep" } | { type: "prevStep" };
 
 function Survey() {
@@ -65,9 +66,16 @@ function Survey() {
       }
     });
   };
-  const stepsLogic = React.useMemo(() => {
-    const steps = [0, 1];
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setSurveyForm((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
 
+  const showSteps = React.useMemo(() => {
+    const steps = [0, 1];
     if (surveyForm.roles.includes("podopieczny")) {
       steps.push(2);
     }
@@ -80,26 +88,18 @@ function Survey() {
 
   const [currentIndex, setCurrentIndex] = useState(0);
 
+  const currentStep = showSteps[currentIndex];
+
   const handleNext = () => {
-    if (currentIndex < stepsLogic.length - 1) {
-      setCurrentIndex((prev) => prev + 1);
+    if (currentIndex < showSteps.length - 1) {
+      setCurrentIndex(currentIndex + 1);
     }
   };
 
   const handlePrev = () => {
     if (currentIndex > 0) {
-      setCurrentIndex((prev) => prev - 1);
+      setCurrentIndex(currentIndex - 1);
     }
-  };
-
-  const currentStep = stepsLogic[currentIndex];
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setSurveyForm((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
   };
 
   const handleChangeCheckbox = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -117,6 +117,28 @@ function Survey() {
         };
       }
     });
+  };
+
+  const handleSubmitSurvey = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const response = await fetch("http://localhost:5000/api/submitSurvey", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(surveyForm),
+        credentials: "include",
+      });
+      const data = await response.json();
+      if (!response.ok) {
+        alert("Błąd!" + data.error);
+      } else {
+        alert("Dane zostały zapisane!" + JSON.stringify(data.userFeatures));
+      }
+    } catch (error) {
+      console.error("Problem z wyslaniem ankiety.", error);
+    }
   };
 
   return (
@@ -195,9 +217,15 @@ function Survey() {
                 <label>
                   <span>Cel:</span>
                   <select id="goal" name="goal" onChange={handleChange}>
-                    <option id="reduction">Redukcja</option>
-                    <option id="maintain">Utrzymanie</option>
-                    <option id="mass">Masa</option>
+                    <option id="reduction" key="reduction">
+                      Redukcja
+                    </option>
+                    <option id="maintain" key="maintain">
+                      Utrzymanie
+                    </option>
+                    <option id="mass" key="mass">
+                      Masa
+                    </option>
                   </select>
                 </label>
               </form>
@@ -212,9 +240,10 @@ function Survey() {
               </p>
               {trainerRoles.map((role) => (
                 <label>
-                  {role.name}
+                  {role.role}
                   <input
                     type="checkbox"
+                    key={role.name}
                     id={role.role}
                     name={role.role}
                     onChange={handleChangeCheckbox}
@@ -226,7 +255,10 @@ function Survey() {
             </div>
           )}
           {currentStep === 4 && (
-            <div className={styles.pageContainer}>podsumowanie</div>
+            <div className={styles.pageContainer}>
+              <p>podsumowanie</p>
+              <button onClick={handleSubmitSurvey}>Zapisz</button>
+            </div>
           )}
         </div>
         <div className={styles.buttonContainer}>

@@ -8,6 +8,7 @@ import * as cors from "cors";
 import * as bcrypt from "bcrypt";
 import * as jwt from "jsonwebtoken";
 import * as cookieParser from "cookie-parser";
+import { request } from "http";
 dotenv.config();
 
 const app = express();
@@ -104,6 +105,56 @@ app.post("/api/login", async (req: Request, res: Response) => {
   } catch (error) {
     console.error("Blad podczas logowania", error);
     res.status(500).json({ error: "Wystapil blad podczas logowania" });
+  }
+});
+
+//Wysyłanie danych z Survey
+
+app.post("/api/submitSurvey", async (req: Request, res: Response) => {
+  try {
+    const token = req.cookies.token;
+    if (!token) {
+      return res
+        .status(401)
+        .json({ error: "Brak aktywnego tokenu. Zaloguj się!" });
+    }
+    let decoded;
+    try {
+      decoded = jwt.verify(token, process.env.JWT_SECRET!);
+    } catch (err) {
+      return res
+        .status(401)
+        .json({ error: "Token jest nieprawidłowy lub wygasł!" });
+    }
+    const userId = decoded.userId;
+
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ error: "Uzytkownik nie istnieje." });
+    }
+
+    const { roles, weight, height, goal, age, experience, subroles } = req.body;
+
+    user.userFeatures = {
+      roles: roles || [],
+      weight: weight || 0,
+      height: height || 0,
+      goal: goal || "",
+      age: age || 0,
+      experience: experience || "",
+      subroles: subroles || [],
+    };
+    user.firstLogin = false;
+
+    await user.save();
+
+    return res.status(200).json({
+      message: "Dane użytkownika zapisane pomyślnie",
+      userFeatures: user.userFeatures,
+    });
+  } catch (error) {
+    console.error("Błąd podczas zapisu ankiety", error);
+    return res.status(500).json({ error: "Coś poszło nie tak" });
   }
 });
 
