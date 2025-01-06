@@ -3,13 +3,14 @@ import PortalModal from "../modals/PortalModal";
 import padLock from "../../assets/Padlock.png";
 import loginAvatar from "../../assets/loginAvatar.png";
 import axios from "axios";
+import { data, useNavigate } from "react-router-dom";
 import { useLogin, useRegister } from "../../hooks/useAuth";
 // import SweetAlert2 from "react-sweetalert2";
 import Swal from "sweetalert2";
 
 export default function Header() {
   // const [swalProps, setSwalProps] = useState({});
-
+  const navigate = useNavigate();
   const loginMutation = useLogin();
   const registerMutation = useRegister();
 
@@ -51,7 +52,18 @@ export default function Header() {
 
   const handleLoginSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    loginMutation.mutate(loginData);
+    loginMutation.mutate(loginData, {
+      onSuccess: (dataFromServer) => {
+        if (dataFromServer.user.firstLogin) {
+          navigate("/survey");
+        } else {
+          navigate("loggedMainMenu");
+        }
+      },
+      onError: (error) => {
+        console.error("Problem z logowaniem", error);
+      },
+    });
   };
 
   const openModal = () => setIsModalOpen(true);

@@ -1,6 +1,7 @@
 import "./App.css";
 import MainMenu from "./components/main-menu/mainMenu";
 import Modal from "react-modal";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./components/modals/modalStyles.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
@@ -8,6 +9,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Provider } from "react-redux";
 import store from "./store/store";
 import Survey from "./components/user/Survey";
+import LoggedMainMenu from "./components/features/LoggedMainMenu";
 
 Modal.setAppElement("#root");
 axios.defaults.withCredentials = true;
@@ -18,10 +20,16 @@ function App() {
   return (
     <Provider store={store}>
       <QueryClientProvider client={queryClient}>
-        <div className="root">
-          {/* <Survey /> */}
-          <MainMenu />
-        </div>
+        <BrowserRouter>
+          <div className="root">
+            {/* <Survey /> */}
+            <Routes>
+              <Route path="/" element={<MainMenu />} />
+              <Route path="/survey" element={<Survey />} />
+              <Route path="/loggedMainMenu" element={<LoggedMainMenu />} />
+            </Routes>
+          </div>
+        </BrowserRouter>
       </QueryClientProvider>
     </Provider>
   );

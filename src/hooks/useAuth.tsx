@@ -18,14 +18,14 @@ export const useLogin = () => {
     mutationFn: loginUser,
     onSuccess: (data: LoginResponse) => {
       dispatch(loginSuccess(data.user));
-      Swal.fire({
-        title: "Sukces",
-        text: "Zalogowano pomyślnie",
-        icon: "success",
-        showConfirmButton: false,
-        timer: 2500,
-        position: "top",
-      });
+      // Swal.fire({
+      //   title: "Sukces",
+      //   text: "Zalogowano pomyślnie",
+      //   icon: "success",
+      //   showConfirmButton: false,
+      //   timer: 2500,
+      //   position: "top",
+      // });
       console.log("Użytkownik został zalogowany", data);
     },
     onError: (error: Error) => {

@@ -2,10 +2,10 @@ import React, { useMemo, useReducer, useState } from "react";
 import styles from "./Survey.module.css";
 import Swal from "sweetalert2";
 import axios from "axios";
-type SurveyAction = { type: "nextStep" } | { type: "prevStep" };
+import { useNavigate } from "react-router-dom";
 
 function Survey() {
-  // const [step, setStep] = useState(0);
+  const navigate = useNavigate();
   const trainerRoles = [
     { role: "personalTrainer", name: "Trener Personalny" },
     { role: "dietician", name: "Dietetyk" },
@@ -125,19 +125,31 @@ function Survey() {
       const response = await fetch("http://localhost:5000/api/submitSurvey", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "Application/json",
         },
         body: JSON.stringify(surveyForm),
         credentials: "include",
       });
       const data = await response.json();
       if (!response.ok) {
-        alert("Błąd!" + data.error);
+        console.error("Błąd!" + data.error);
       } else {
-        alert("Dane zostały zapisane!" + JSON.stringify(data.userFeatures));
+        console.log(
+          "Dane zostały zapisane!" + JSON.stringify(data.userFeatures)
+        );
+        Swal.fire({
+          position: "top",
+          icon: "success",
+          title: "Pomyślnie wypełniono ankietę.",
+          text: "W każdej chwili możesz zmienić swoję dane w zakładce profil.",
+          showConfirmButton: true,
+          timer: 5000,
+        }).then((result) => {
+          navigate("/loggedMainMenu");
+        });
       }
     } catch (error) {
-      console.error("Problem z wyslaniem ankiety.", error);
+      console.error("Problem z wysłaniem formularza", error);
     }
   };
 
