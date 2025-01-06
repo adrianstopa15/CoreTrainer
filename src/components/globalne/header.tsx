@@ -57,7 +57,7 @@ export default function Header() {
         if (dataFromServer.user.firstLogin) {
           navigate("/survey");
         } else {
-          navigate("loggedMainMenu");
+          navigate("loggedMenu");
         }
       },
       onError: (error) => {

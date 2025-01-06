@@ -1,0 +1,46 @@
+.header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  align-items: center;
+  z-index: 100;
+  /* display: flex; */
+  justify-content: space-between;
+  background-color: rgba(0, 0, 0, 0.829);
+  /* backdrop-filter: blur(455px); */
+}
+.iconsHeader {
+  height: 22px;
+  filter: invert(1);
+}
+.iconsHeader:hover {
+}
+.navbar {
+  min-width: 220px;
+}
+.midIconsHeader {
+  height: 24px;
+  filter: invert(0.85);
+  /* padding-right: 3rem; */
+}
+.midIconContainer {
+  border-radius: 30%;
+}
+
+.midIconContainer:hover {
+  background-color: rgb(70, 70, 70);
+}
+
+.midIconsHeaderSelected {
+  height: 24px;
+  filter: invert(31%) sepia(81%) saturate(1645%) hue-rotate(200deg)
+    brightness(96%) contrast(99%);
+}
+.rightIconsContainer {
+  background-color: rgba(73, 73, 73, 0.774);
+  border-radius: 40%;
+}
+.rightIconsContainer:hover {
+  background-color: rgba(95, 95, 95, 0.623);
+}

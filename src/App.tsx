@@ -9,7 +9,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Provider } from "react-redux";
 import store from "./store/store";
 import Survey from "./components/user/Survey";
-import LoggedMainMenu from "./components/features/LoggedMainMenu";
+import LoggedMenu from "./components/features/LoggedMenu";
 
 Modal.setAppElement("#root");
 axios.defaults.withCredentials = true;
@@ -26,7 +26,7 @@ function App() {
             <Routes>
               <Route path="/" element={<MainMenu />} />
               <Route path="/survey" element={<Survey />} />
-              <Route path="/loggedMainMenu" element={<LoggedMainMenu />} />
+              <Route path="/loggedMenu" element={<LoggedMenu />} />
             </Routes>
           </div>
         </BrowserRouter>

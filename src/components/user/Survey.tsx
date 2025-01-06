@@ -145,7 +145,7 @@ function Survey() {
           showConfirmButton: true,
           timer: 5000,
         }).then((result) => {
-          navigate("/loggedMainMenu");
+          navigate("/loggedMenu");
         });
       }
     } catch (error) {
