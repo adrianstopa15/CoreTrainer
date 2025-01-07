@@ -1,14 +1,15 @@
 .header {
-  position: absolute;
+  /* position: absolute;
   top: 0;
-  left: 0;
-  width: 100%;
+  left: 0; */
+  /* width: 100%; */
   align-items: center;
   z-index: 100;
   /* display: flex; */
   justify-content: space-between;
-  background-color: rgba(0, 0, 0, 0.829);
+  background-color: rgb(43, 45, 49);
   /* backdrop-filter: blur(455px); */
+  border-bottom: 1px solid rgb(70, 70, 70);
 }
 .iconsHeader {
   height: 22px;
@@ -43,4 +44,22 @@
 }
 .rightIconsContainer:hover {
   background-color: rgba(95, 95, 95, 0.623);
+}
+.profileDropdown {
+  z-index: 100;
+  position: absolute;
+  background-color: rgb(43, 45, 49);
+  padding-top: 1rem;
+  padding-bottom: 2rem;
+  width: 10rem;
+
+  color: red;
+  right: 1%;
+  top: 5.4%;
+}
+.iconsHeaderProfile {
+  height: 40px;
+}
+li:hover {
+  background-color: rgb(92, 95, 102);
 }

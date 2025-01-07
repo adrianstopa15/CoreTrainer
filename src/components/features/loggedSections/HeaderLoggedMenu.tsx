@@ -1,11 +1,18 @@
-import notificationIcon from "../../assets/bell.png";
-import messageIcon from "../../assets/message.png";
-import profileIcon from "../../assets/user.png";
-import trainingIcon from "../../assets/training.png";
-import progressIcon from "../../assets/progress.png";
-import friendsIcon from "../../assets/friends.png";
+import notificationIcon from "../../../assets/bell.png";
+import messageIcon from "../../../assets/message.png";
+import profileIcon from "../../../assets/user.png";
+import trainingIcon from "../../../assets/training.png";
+import progressIcon from "../../../assets/progress.png";
+import friendsIcon from "../../../assets/friends.png";
 import styles from "./LoggedMenu.module.css";
-export function headerLoggedMenu() {
+import React, { useState } from "react";
+export default function HeaderLoggedMenu() {
+  const [isDropdown, setIsDropdown] = useState(false);
+
+  const toggleDropdown = () => {
+    setIsDropdown(!isDropdown);
+  };
+
   return (
     <div>
       <header className={`${styles.header}  lg:flex text-center`}>
@@ -48,17 +55,27 @@ export function headerLoggedMenu() {
           >
             <img src={notificationIcon} className={styles.iconsHeader} />
           </a>
-
           <a
             href="#"
-            className={`${styles.rightIconsContainer} py-2 my-2  xl:my-0 lg:ml-4 px-3 md:text-3xl xl:text-2xl`}
+            className={` my-2  xl:my-0 lg:ml-4  md:text-3xl xl:text-2xl`}
           >
-            <img src={profileIcon} className={styles.iconsHeader} />
+            <img
+              src={profileIcon}
+              className={styles.iconsHeaderProfile}
+              onClick={toggleDropdown}
+            />
+            {isDropdown && (
+              <div className={styles.profileDropdown}>
+                <ul>
+                  <li className={styles.e}>Pokaż profil</li>
+                  <li>Ustawienia</li>
+                  <li>Wyloguj się</li>
+                </ul>
+              </div>
+            )}
           </a>
         </nav>
       </header>
     </div>
   );
 }
-
-export default headerLoggedMenu;
