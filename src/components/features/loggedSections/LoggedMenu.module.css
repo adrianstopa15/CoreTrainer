@@ -46,20 +46,31 @@
   background-color: rgba(95, 95, 95, 0.623);
 }
 .profileDropdown {
-  z-index: 100;
   position: absolute;
   background-color: rgb(43, 45, 49);
   padding-top: 1rem;
-  padding-bottom: 2rem;
-  width: 10rem;
 
-  color: red;
+  width: 10rem;
+  color: white;
   right: 1%;
   top: 5.4%;
+  list-style: none;
 }
 .iconsHeaderProfile {
   height: 40px;
 }
 li:hover {
   background-color: rgb(92, 95, 102);
+}
+.liIcons {
+  height: 20px;
+  filter: invert(1);
+}
+.ulDropdown li {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 8px;
+  padding: 11px;
+  font-size: 16px;
 }

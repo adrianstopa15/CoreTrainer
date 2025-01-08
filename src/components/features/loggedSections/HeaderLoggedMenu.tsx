@@ -4,8 +4,12 @@ import profileIcon from "../../../assets/user.png";
 import trainingIcon from "../../../assets/training.png";
 import progressIcon from "../../../assets/progress.png";
 import friendsIcon from "../../../assets/friends.png";
+import liIconProfil from "../../../assets/userLogin.png";
+import liIconSettings from "../../../assets/settings.png";
+import liIconLogout from "../../../assets/logout.png";
 import styles from "./LoggedMenu.module.css";
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 export default function HeaderLoggedMenu() {
   const [isDropdown, setIsDropdown] = useState(false);
 
@@ -66,10 +70,29 @@ export default function HeaderLoggedMenu() {
             />
             {isDropdown && (
               <div className={styles.profileDropdown}>
-                <ul>
-                  <li className={styles.e}>Pokaż profil</li>
-                  <li>Ustawienia</li>
-                  <li>Wyloguj się</li>
+                <ul className={styles.ulDropdown}>
+                  <Link
+                    to="/userProfile"
+                    style={{ textDecoration: "none", color: "inherit" }}
+                  >
+                    <li>
+                      <img src={liIconProfil} className={styles.liIcons} />
+                      Pokaż profil
+                    </li>
+                  </Link>
+                  <Link
+                    to="/userSettings"
+                    style={{ textDecoration: "none", color: "inherit" }}
+                  >
+                    <li>
+                      <img src={liIconSettings} className={styles.liIcons} />
+                      Ustawienia
+                    </li>
+                  </Link>
+                  <li>
+                    <img src={liIconLogout} className={styles.liIcons} />
+                    Wyloguj się
+                  </li>
                 </ul>
               </div>
             )}

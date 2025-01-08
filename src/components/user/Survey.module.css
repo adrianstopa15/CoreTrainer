@@ -3,13 +3,16 @@
   align-items: center;
   height: 100vh;
   flex-direction: column;
+  background-color: rgb(20, 20, 20);
+  color: rgb(231, 231, 231);
 }
 .borderGlass {
+  margin-top: 2rem;
   text-align: center;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.082);
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
   backdrop-filter: blur(5.5px);
   -webkit-backdrop-filter: blur(5.5px);
@@ -26,13 +29,11 @@
   text-align: center;
 } */
 .pMain {
-  color: green;
-  font-size: 2rem;
+  color: white;
+
   margin-bottom: 3rem;
 }
-.pSubMain {
-  font-size: 1.5rem;
-}
+
 .buttonContainer {
   display: flex;
   justify-content: space-evenly;
@@ -44,22 +45,52 @@
   align-items: center;
 }
 .formMain {
-  font-size: 1.3rem;
-  text-align: left;
+  /* text-align: left; */
   display: flex;
   flex-direction: column;
 }
 
 .formMain label {
-  margin-bottom: 2.5rem;
+  margin-bottom: 4rem;
   display: flex;
   justify-content: center;
 }
 .formMain label > span {
-  width: 5rem;
+  width: 7rem;
 }
 .formMain input,
-.formMain select {
+.formMain select,
+option {
   background-color: rgba(128, 128, 128, 0.13);
   width: 15rem;
+}
+.checkbox {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+}
+.checkboxLabel {
+  margin-bottom: 2rem;
+}
+.rolePickerContainer:hover {
+  cursor: pointer;
+}
+.roleIcon {
+}
+.rolePickerContainer:hover {
+}
+.rolePickerContainer:hover p {
+  color: rgb(52, 131, 250);
+}
+.rolePickerContainerSelected p {
+  color: rgb(52, 131, 250);
+}
+
+.rolePickerContainer:hover img {
+  filter: brightness(0) saturate(100%) invert(20%) sepia(50%) saturate(2000%)
+    hue-rotate(200deg) brightness(97%) contrast(105%);
+}
+.rolePickerContainerSelected img {
+  filter: brightness(0) saturate(100%) invert(30%) sepia(50%) saturate(2000%)
+    hue-rotate(200deg) brightness(97%) contrast(200%);
 }

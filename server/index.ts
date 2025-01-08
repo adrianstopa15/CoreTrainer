@@ -157,6 +157,34 @@ app.post("/api/submitSurvey", async (req: Request, res: Response) => {
   }
 });
 
+app.get("/api/getCurrentUser", async (req: Request, res: Response) => {
+  try {
+    const token = req.cookies.token;
+    if (!token) {
+      res
+        .status(400)
+        .json({ message: "Nie udało się pobrać tokena, lub jest nieaktywny" });
+    }
+    let decoded;
+    try {
+      decoded = jwt.verify(token, process.env.JWT_SECRET!);
+    } catch (error) {
+      return res
+        .status(400)
+        .json({ error: "Nie udało się zweryfikować tokenu" });
+    }
+    const userId = decoded.userId;
+    const user = await User.findById(userId).select("-password");
+    if (!user) {
+      return res.status(400).json({ error: "Nie znaleziono użytkownika" });
+    }
+    return res.status(200).json({ user });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Problem z api/getCurrentUser" });
+  }
+});
+
 // Obsługa żądań preflight (OPTIONS)
 app.options("/api/register", cors());
 app.options("/api/login", cors());

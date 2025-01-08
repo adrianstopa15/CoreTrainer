@@ -10,6 +10,7 @@ import { Provider } from "react-redux";
 import store from "./store/store";
 import Survey from "./components/user/Survey";
 import LoggedMenu from "./components/features/loggedSections/LoggedMenu";
+import UserProfile from "./components/features/loggedSections/UserProfile";
 
 Modal.setAppElement("#root");
 axios.defaults.withCredentials = true;
@@ -27,6 +28,7 @@ function App() {
               <Route path="/" element={<MainMenu />} />
               <Route path="/survey" element={<Survey />} />
               <Route path="/loggedMenu" element={<LoggedMenu />} />
+              <Route path="/userProfile" element={<UserProfile />} />
             </Routes>
           </div>
         </BrowserRouter>
