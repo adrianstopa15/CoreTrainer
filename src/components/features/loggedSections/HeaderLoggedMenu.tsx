@@ -22,7 +22,9 @@ export default function HeaderLoggedMenu() {
       <header className={`${styles.header}  lg:flex text-center`}>
         <nav className={`${styles.navbar} flex flex-col lg:flex-row`}>
           <a className=" text-2xl xl:text-3xl text-gray-100 ml-2">
-            Core<span className="text-red-600">Trainer</span>
+            <Link to="/loggedMenu">
+              Core<span className="text-red-600">Trainer</span>
+            </Link>
           </a>
         </nav>
         <nav className={`${styles.navbar} flex flex-col xl:flex-row`}>
@@ -65,7 +67,7 @@ export default function HeaderLoggedMenu() {
           >
             <img
               src={profileIcon}
-              className={styles.iconsHeaderProfile}
+              className={`${styles.iconsHeaderProfile} pointerItem`}
               onClick={toggleDropdown}
             />
             {isDropdown && (

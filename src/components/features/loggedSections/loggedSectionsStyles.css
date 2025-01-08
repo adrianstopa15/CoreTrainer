@@ -1,4 +1,29 @@
-.backgroundPage {
+.bgLogged {
   background-color: rgb(28, 30, 33);
+  color: white;
   padding-bottom: 100vh;
+}
+.userInfoP {
+  font-size: 18px;
+  margin-top: 8px;
+}
+.bgLoggedSub {
+  background-color: rgb(31, 33, 36);
+}
+.profileOptionsP {
+  display: flex;
+}
+.profileOptionsP p {
+  margin-right: 8px;
+  cursor: pointer;
+}
+.bm-w {
+  border-bottom: 1px solid rgb(102, 102, 102);
+}
+.p-selected {
+  color: rgb(35, 131, 255);
+}
+.pointerItem:hover {
+  cursor: pointer;
+  filter: brightness(115%);
 }
