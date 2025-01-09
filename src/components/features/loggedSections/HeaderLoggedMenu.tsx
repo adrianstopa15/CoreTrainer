@@ -9,7 +9,7 @@ import liIconSettings from "../../../assets/settings.png";
 import liIconLogout from "../../../assets/logout.png";
 import styles from "./LoggedMenu.module.css";
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 export default function HeaderLoggedMenu() {
   const [isDropdown, setIsDropdown] = useState(false);
 
@@ -22,31 +22,61 @@ export default function HeaderLoggedMenu() {
       <header className={`${styles.header}  lg:flex text-center`}>
         <nav className={`${styles.navbar} flex flex-col lg:flex-row`}>
           <a className=" text-2xl xl:text-3xl text-gray-100 ml-2">
-            <Link to="/loggedMenu">
+            <NavLink to="/loggedMenu">
               Core<span className="text-red-600">Trainer</span>
-            </Link>
+            </NavLink>
           </a>
         </nav>
         <nav className={`${styles.navbar} flex flex-col xl:flex-row`}>
-          <a
-            href="#"
-            className={`${styles.midIconContainer} xl:my-0 mx-6 py-3 px-8`}
-          >
-            <img src={trainingIcon} className={styles.midIconsHeaderSelected} />
-          </a>
+          <NavLink to="/loggedMenu/trainingSection">
+            {({ isActive }) => (
+              <div
+                className={`${styles.midIconContainer} xl:my-0 mx-6 py-3 px-8`}
+              >
+                <img
+                  src={trainingIcon}
+                  className={
+                    isActive
+                      ? styles.midIconsHeaderSelected
+                      : styles.midIconsHeader
+                  }
+                />
+              </div>
+            )}
+          </NavLink>
 
-          <a
-            href="#"
-            className={`${styles.midIconContainer} xl:my-0 mx-6 py-3 px-8`}
-          >
-            <img src={progressIcon} className={styles.midIconsHeader} />
-          </a>
-          <a
-            href="#"
-            className={`${styles.midIconContainer} xl:my-0 mx-6 py-3 px-8`}
-          >
-            <img src={friendsIcon} className={styles.midIconsHeader} />
-          </a>
+          <NavLink to="/loggedMenu/progressSection">
+            {({ isActive }) => (
+              <div
+                className={`${styles.midIconContainer} xl:my-0 mx-6 py-3 px-8`}
+              >
+                <img
+                  src={progressIcon}
+                  className={
+                    isActive
+                      ? styles.midIconsHeaderSelected
+                      : styles.midIconsHeader
+                  }
+                />
+              </div>
+            )}
+          </NavLink>
+          <NavLink to="/loggedMenu/friendsSection">
+            {({ isActive }) => (
+              <div
+                className={`${styles.midIconContainer} xl:my-0 mx-6 py-3 px-8`}
+              >
+                <img
+                  src={friendsIcon}
+                  className={
+                    isActive
+                      ? styles.midIconsHeaderSelected
+                      : styles.midIconsHeader
+                  }
+                />
+              </div>
+            )}
+          </NavLink>
         </nav>
         <nav className={`${styles.navbar} flex flex-col xl:flex-row`}>
           <a

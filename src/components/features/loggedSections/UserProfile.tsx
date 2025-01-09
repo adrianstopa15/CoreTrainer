@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import HeaderLoggedMenu from "./HeaderLoggedMenu";
 import profileIcon from "../../../assets/user.png";
+import UserProfileInfo from "./UserProfileInfo";
+import { Link, NavLink, Outlet } from "react-router-dom";
 export default function UserProfile() {
   const [currentUser, setCurrentUser] = useState(null);
 
@@ -39,30 +41,34 @@ export default function UserProfile() {
             {currentUser ? `${currentUser.surname}` : ""}
           </p>
           <p className="bm-w w-64 my-1"></p>
-          <div className="profileOptionsP">
-            <p className="p-selected">Informacje</p>
-            <p className="">Znajomi</p>
-            <p className="">Zdjęcia</p>
-          </div>
-          <p className="mt-16 lg:text-2xl">Dane osobowe:</p>
-          <p className="userInfoP">
-            {" "}
-            {currentUser ? `${currentUser.userFeatures.roles} ` : ""}{" "}
-          </p>
-          <p className="userInfoP">
-            Wiek: {currentUser ? `${currentUser.userFeatures.age} ` : ""}
-          </p>
-          <p className="userInfoP">
-            Waga: {currentUser ? `${currentUser.userFeatures.weight} ` : ""}
-          </p>
-          <p className="userInfoP">
-            Staż: {currentUser ? `${currentUser.userFeatures.experience} ` : ""}
-          </p>
-          <p className="userInfoP">
-            {" "}
-            Aktualny cel:{" "}
-            {currentUser ? `${currentUser.userFeatures.goal} ` : ""}
-          </p>
+          <nav className="profileOptionsP mb-16">
+            <NavLink
+              to="info"
+              className={({ isActive }) =>
+                isActive ? "l-selected" : "l-unselected"
+              }
+            >
+              Informacje
+            </NavLink>
+            <NavLink
+              to="friends"
+              className={({ isActive }) =>
+                isActive ? "l-selected" : "l-unselected"
+              }
+            >
+              Znajomi
+            </NavLink>
+            <NavLink
+              to="photos"
+              className={({ isActive }) =>
+                isActive ? "l-selected" : "l-unselected"
+              }
+            >
+              Zdjęcia
+            </NavLink>
+          </nav>
+
+          <Outlet />
         </div>
       </div>
     </>
