@@ -1,21 +1,48 @@
 import React, { useEffect, useRef } from "react";
 import PerfectScrollbar from "perfect-scrollbar";
 import "perfect-scrollbar/css/perfect-scrollbar.css";
+import { NavLink } from "react-router-dom";
 
 export default function TrainingSection() {
   const fakeTrainings = [
     { date: "09.01.2025", trainingName: "FBW-A", trainingTime: "1:15" },
     { date: "05.01.2025", trainingName: "FBW-B", trainingTime: "1:35" },
-    { date: "03.01.2025", trainingName: "FBW-A", trainingTime: "1:10" },
-    { date: "03.01.2025", trainingName: "FBW-A", trainingTime: "1:10" },
-    { date: "03.01.2025", trainingName: "FBW-A", trainingTime: "1:10" },
-    { date: "03.01.2025", trainingName: "FBW-A", trainingTime: "1:10" },
+    { date: "03.01.2025", trainingName: "FBW-A", trainingTime: "1:05" },
+    { date: "01.01.2025", trainingName: "FBW-A", trainingTime: "1:10" },
+    { date: "27.12.2024", trainingName: "FBW-B", trainingTime: "1:55" },
+    { date: "25.12.2024", trainingName: "FBW-A", trainingTime: "1:10" },
   ];
 
   return (
     <div className="bgLogged">
       <div className="pt-24 flex flex-col items-center">
         <p className="lg:text-2xl mb-3">Historia Treningów</p>
+        <div className="flex mb-4 mt-2">
+          <NavLink
+            to="workoutCreate"
+            className={({ isActive }) =>
+              isActive ? "l-selected" : "l-unselected"
+            }
+          >
+            kreator treningów
+          </NavLink>
+          <NavLink
+            to="workoutsHistory"
+            className={({ isActive }) =>
+              isActive ? "l-selected" : "l-unselected"
+            }
+          >
+            wykonane treningi
+          </NavLink>
+          <NavLink
+            to="workoutsToAccept"
+            className={({ isActive }) =>
+              isActive ? "l-selected" : "l-unselected"
+            }
+          >
+            treningi do akceptacji
+          </NavLink>
+        </div>
         <div className="trainingHistoryContainer">
           {fakeTrainings.map((t) => (
             <div className="trainingElement">

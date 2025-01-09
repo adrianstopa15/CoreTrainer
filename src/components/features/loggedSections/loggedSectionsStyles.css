@@ -1,7 +1,7 @@
 .bgLogged {
   background-color: rgb(28, 30, 33);
   color: white;
-  padding-bottom: 50vh;
+  padding-bottom: 95vh;
 }
 ::-webkit-scrollbar {
   width: 6px;
@@ -64,6 +64,7 @@
   border: 2px solid rgba(204, 201, 201, 0.479);
   overflow-y: auto;
   border-radius: 3px;
+  background-color: rgb(31, 33, 36);
 }
 .button-red {
   font-size: 12px;
@@ -120,13 +121,13 @@
   margin: 17px 15px;
   padding: 20px 0px;
   justify-content: center;
-  background-color: rgba(151, 36, 36, 0.11);
+  background-color: rgba(59, 25, 25, 0.856);
   overscroll-behavior: none;
   overflow: hidden;
 }
 .trainingElement:hover {
   cursor: pointer;
-  filter: brightness(250%);
+  filter: brightness(130%);
 }
 .trainingElement p {
   margin-right: 25px;
