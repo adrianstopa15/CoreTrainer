@@ -21,11 +21,12 @@ export default function HeaderLoggedMenu() {
     <div>
       <header className={`${styles.header}  lg:flex text-center`}>
         <nav className={`${styles.navbar} flex flex-col lg:flex-row`}>
-          <a className=" text-2xl xl:text-3xl text-gray-100 ml-2">
-            <NavLink to="/loggedMenu">
-              Core<span className="text-red-600">Trainer</span>
-            </NavLink>
-          </a>
+          <NavLink
+            to="/loggedMenu"
+            className=" text-2xl xl:text-3xl text-gray-100 ml-2 td-h"
+          >
+            Core<span className="text-red-600">Trainer</span>
+          </NavLink>
         </nav>
         <nav className={`${styles.navbar} flex flex-col xl:flex-row`}>
           <NavLink to="/loggedMenu/trainingSection">

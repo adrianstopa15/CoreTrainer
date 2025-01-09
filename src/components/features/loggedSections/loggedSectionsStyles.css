@@ -1,7 +1,17 @@
 .bgLogged {
   background-color: rgb(28, 30, 33);
   color: white;
-  padding-bottom: 100vh;
+  padding-bottom: 50vh;
+}
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background-color: rgb(31, 33, 36);
+}
+::-webkit-scrollbar-thumb {
+  background-color: rgb(102, 102, 102);
+  border-radius: 4px;
 }
 .userInfoP {
   font-size: 18px;
@@ -22,7 +32,6 @@
 }
 .l-selected {
   color: rgb(35, 131, 255);
-  text-decoration: none;
   margin-right: 8px;
 }
 .l-unselected {
@@ -43,4 +52,82 @@
 }
 .NavLink {
   text-decoration: none;
+}
+.td-h:hover {
+  text-decoration: none;
+  color: white;
+}
+.trainingHistoryContainer {
+  position: relative;
+  height: 300px;
+  width: 800px;
+  border: 2px solid rgba(204, 201, 201, 0.479);
+  overflow-y: auto;
+  border-radius: 3px;
+}
+.button-red {
+  font-size: 12px;
+  background-color: red;
+  padding: 0.3rem 0.3rem;
+  border-radius: 8px;
+  text-transform: uppercase;
+  transition: 0.2s;
+  box-shadow: rgb(158, 5, 5) 0 0 25px;
+}
+.button-red:hover {
+  color: red;
+  background-color: #fff;
+  box-shadow: rgb(255, 255, 255) 0 0 25px;
+}
+.button-blue {
+  font-size: 12px;
+  background-color: rgb(0, 17, 255);
+  padding: 0.3rem 0.3rem;
+  border-radius: 8px;
+  text-transform: uppercase;
+  transition: 0.2s;
+  /* box-shadow: rgb(28, 95, 240) 0 0 25px; */
+}
+.button-blue:hover {
+  color: rgb(0, 17, 255);
+  background-color: #fff;
+  box-shadow: rgb(255, 255, 255) 0 0 25px;
+}
+.button-green {
+  font-size: 12px;
+  background-color: rgb(8, 196, 48);
+  padding: 0.3rem 0.3rem;
+  border-radius: 8px;
+  text-transform: uppercase;
+  transition: 0.2s;
+  /* box-shadow: rgb(13, 219, 92) 0 0 25px; */
+}
+.button-green:hover {
+  color: rgb(8, 196, 48);
+  background-color: #fff;
+  box-shadow: rgb(255, 255, 255) 0 0 25px;
+}
+.button-smooth {
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  border-radius: 5%;
+}
+.button-smooth:hover {
+  background-color: rgb(46, 47, 51);
+}
+.trainingElement {
+  display: flex;
+  border: 1px solid rgb(116, 108, 108);
+  margin: 17px 15px;
+  padding: 20px 0px;
+  justify-content: center;
+  background-color: rgba(151, 36, 36, 0.11);
+  overscroll-behavior: none;
+  overflow: hidden;
+}
+.trainingElement:hover {
+  cursor: pointer;
+  filter: brightness(250%);
+}
+.trainingElement p {
+  margin-right: 25px;
 }
