@@ -1,23 +1,34 @@
 import React, { useEffect, useRef } from "react";
 import PerfectScrollbar from "perfect-scrollbar";
 import "perfect-scrollbar/css/perfect-scrollbar.css";
-import { NavLink } from "react-router-dom";
-
+import { NavLink, Outlet } from "react-router-dom";
+import WorkoutsHistory from "./WorkoutsHistory";
+import WorkoutCreate from "./WorkoutCreate";
+import WorkoutsAccept from "./WorkoutsAccept";
+import { useLocation } from "react-router-dom";
 export default function TrainingSection() {
-  const fakeTrainings = [
-    { date: "09.01.2025", trainingName: "FBW-A", trainingTime: "1:15" },
-    { date: "05.01.2025", trainingName: "FBW-B", trainingTime: "1:35" },
-    { date: "03.01.2025", trainingName: "FBW-A", trainingTime: "1:05" },
-    { date: "01.01.2025", trainingName: "FBW-A", trainingTime: "1:10" },
-    { date: "27.12.2024", trainingName: "FBW-B", trainingTime: "1:55" },
-    { date: "25.12.2024", trainingName: "FBW-A", trainingTime: "1:10" },
-  ];
-
+  const location = useLocation();
+  let currentHeader = "Historia Treningów";
+  if (location.pathname.includes("workoutCreate")) {
+    currentHeader = "Zarządzaj treningiem";
+  } else if (location.pathname.includes("workoutsToAccept")) {
+    currentHeader = "Zarządzaj zaplanowanymi treningami";
+  } else if (location.pathname.includes("workoutsHistory")) {
+    currentHeader = "Historia treningów";
+  }
   return (
     <div className="bgLogged">
       <div className="pt-24 flex flex-col items-center">
-        <p className="lg:text-2xl mb-3">Historia Treningów</p>
-        <div className="flex mb-4 mt-2">
+        <p className="lg:text-4xl mb-3">{currentHeader}</p>
+        <div className="flex mb-24 mt-2">
+          <NavLink
+            to="workoutsToAccept"
+            className={({ isActive }) =>
+              isActive ? "l-selected" : "l-unselected"
+            }
+          >
+            zaplanowane treningi
+          </NavLink>
           <NavLink
             to="workoutCreate"
             className={({ isActive }) =>
@@ -34,34 +45,8 @@ export default function TrainingSection() {
           >
             wykonane treningi
           </NavLink>
-          <NavLink
-            to="workoutsToAccept"
-            className={({ isActive }) =>
-              isActive ? "l-selected" : "l-unselected"
-            }
-          >
-            treningi do akceptacji
-          </NavLink>
         </div>
-        <div className="trainingHistoryContainer">
-          {fakeTrainings.map((t) => (
-            <div className="trainingElement">
-              <p>Data: {t.date}</p>
-              <p>Nazwa treningu: {t.trainingName}</p>
-              <p>Czas treningu: {t.trainingTime}</p>
-            </div>
-          ))}
-        </div>
-        <div className="my-3">
-          <button className="button-green  mr-8">dodaj</button>
-          <button className="button-blue">zaplanuj</button>
-        </div>
-        <p className="pt-2">
-          {fakeTrainings.length} zarejestrowanych treningów.
-        </p>
-        <button className="mt-3 p-2 button-smooth">
-          Pokaż wszystkie treningi
-        </button>
+        <Outlet />
       </div>
     </div>
   );

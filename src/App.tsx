@@ -20,7 +20,8 @@ import FriendsSection from "./components/features/loggedSections/loggedMenuSecti
 import WorkoutCreate from "./components/features/loggedSections/loggedMenuSections/TrainingSection/WorkoutCreate";
 import WorkoutsHistory from "./components/features/loggedSections/loggedMenuSections/TrainingSection/WorkoutsHistory";
 import WorkoutsAccept from "./components/features/loggedSections/loggedMenuSections/TrainingSection/WorkoutsAccept";
-
+import TrainingCreator from "./components/features/loggedSections/loggedMenuSections/TrainingSection/TrainingCreator";
+import LogWorkout from "./components/features/loggedSections/loggedMenuSections/TrainingSection/logWorkout";
 Modal.setAppElement("#root");
 axios.defaults.withCredentials = true;
 
@@ -42,10 +43,16 @@ function App() {
                   element={<Navigate to="trainingSection" replace />}
                 />
                 <Route path="trainingSection" element={<TrainingSection />}>
+                  <Route
+                    index
+                    element={<Navigate to="workoutsToAccept" replace />}
+                  />
                   <Route path="workoutCreate" element={<WorkoutCreate />} />
                   <Route path="workoutsHistory" element={<WorkoutsHistory />} />
                   <Route path="workoutsToAccept" element={<WorkoutsAccept />} />
                 </Route>
+                <Route path="trainingCreator" element={<TrainingCreator />} />
+                <Route path="logWorkout" element={<LogWorkout />} />
                 <Route path="progressSection" element={<ProgressSection />} />
                 <Route path="friendsSection" element={<FriendsSection />} />
               </Route>
