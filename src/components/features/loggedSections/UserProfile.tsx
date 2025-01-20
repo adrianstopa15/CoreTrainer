@@ -4,7 +4,12 @@ import profileIcon from "../../../assets/user.png";
 import UserProfileInfo from "./UserProfileInfo";
 import { Link, NavLink, Outlet } from "react-router-dom";
 export default function UserProfile() {
-  const [currentUser, setCurrentUser] = useState(null);
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
+  interface User {
+    name: string;
+    surname: string;
+    email: string;
+  }
 
   useEffect(() => {
     fetch("http://localhost:5000/api/getCurrentUser", {

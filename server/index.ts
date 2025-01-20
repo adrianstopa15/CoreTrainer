@@ -103,7 +103,7 @@ app.post("/api/login", async (req: Request, res: Response) => {
       .json({ message: "Zalogowano pomyslnie", user });
   } catch (error) {
     console.error("Blad podczas logowania", error);
-    res.status(500).json({ error: "Wystapil blad podczas logowania" });
+    res.status(400).json({ error: "Wystapil blad podczas logowania" });
   }
 });
 

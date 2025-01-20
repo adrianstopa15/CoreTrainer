@@ -63,16 +63,23 @@
   width: 800px;
   border: 2px solid rgba(204, 201, 201, 0.479);
   overflow-y: auto;
-  border-radius: 3px;
+  border-radius: 8px;
   background-color: rgb(31, 33, 36);
 }
-.button-red {
+.button-red,
+.button-blue,
+.button-green {
+  display: flex;
+  text-align: center;
+  justify-content: center;
   font-size: 12px;
-  background-color: red;
   padding: 0.3rem 0.3rem;
   border-radius: 8px;
   text-transform: uppercase;
   transition: 0.2s;
+}
+.button-red {
+  background-color: red;
   box-shadow: rgb(158, 5, 5) 0 0 25px;
 }
 .button-red:hover {
@@ -81,12 +88,8 @@
   box-shadow: rgb(255, 255, 255) 0 0 25px;
 }
 .button-blue {
-  font-size: 12px;
-  background-color: rgb(0, 17, 255);
-  padding: 0.3rem 0.3rem;
-  border-radius: 8px;
-  text-transform: uppercase;
   transition: 0.2s;
+  background-color: rgb(0, 17, 255);
   /* box-shadow: rgb(28, 95, 240) 0 0 25px; */
 }
 .button-blue:hover {
@@ -95,12 +98,8 @@
   box-shadow: rgb(255, 255, 255) 0 0 25px;
 }
 .button-green {
-  font-size: 12px;
-  background-color: rgb(8, 196, 48);
-  padding: 0.3rem 0.3rem;
-  border-radius: 8px;
-  text-transform: uppercase;
   transition: 0.2s;
+  background-color: rgb(8, 196, 48);
   /* box-shadow: rgb(13, 219, 92) 0 0 25px; */
 }
 .button-green:hover {
@@ -121,13 +120,15 @@
   margin: 17px 15px;
   padding: 20px 0px;
   justify-content: center;
-  background-color: rgba(196, 41, 41, 0.39);
+  background: linear-gradient(to right, #946705e5, #bd5506ea);
   overscroll-behavior: none;
   overflow: hidden;
+  border-radius: 5px;
+  filter: brightness(95%);
 }
 .trainingElement:hover {
   cursor: pointer;
-  filter: brightness(130%);
+  filter: brightness(105%);
 }
 .trainingElement p {
   margin-right: 25px;
@@ -163,4 +164,102 @@
 }
 .workoutButtonContainer {
   margin-bottom: 2rem;
+}
+.creatorSection-left {
+  background-color: rgba(224, 35, 35, 0.027);
+  height: 60rem;
+  width: 45rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.creatorSection-right {
+  background-color: rgb(167, 165, 165);
+  height: 60rem;
+  width: 88rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.bodyPartsIcon,
+.bodyPartsIconSelected {
+  height: 40px;
+  cursor: pointer;
+}
+.bodyPartsIcon:hover,
+.bodyPartsIconSelected:hover {
+  filter: brightness(130%);
+}
+.bodyPartsIcon {
+  filter: brightness(65%);
+}
+.bodyPartsIconSelected {
+  filter: brightness(100%);
+}
+.exerciseImg {
+  height: 124px;
+}
+.exercises-grid {
+  margin-top: 1rem;
+  display: grid;
+  gap: 30px;
+  grid-template-columns: repeat(3, 1fr);
+}
+.exercises-grid--card {
+  background-color: rgba(70, 70, 70, 0.336);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(129, 129, 129, 0.486);
+  padding: 0.2rem 0.5rem 0.5rem 0.5rem;
+  filter: brightness(80%);
+  cursor: pointer;
+}
+.exercises-grid--card:hover {
+  filter: brightness(110%);
+}
+.exercisesButtonsContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2rem;
+}
+.exercisesBox {
+  border: 1px solid rgba(255, 255, 255, 0.541);
+  width: 90%;
+  height: 90%;
+  background-color: rgb(197, 195, 195);
+  overflow-y: scroll;
+}
+.selectedExerciseElement {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: fit-content;
+  margin-bottom: 10px;
+  width: fit-content;
+}
+.selectedExerciseBox {
+  display: flex;
+  flex-direction: row;
+  border: 1px solid rgba(241, 241, 241, 0.76);
+  width: 40rem;
+}
+.selectedExerciseElementInfo {
+  flex: 1;
+}
+.selectedExerciseElementForm {
+  display: flex;
+  justify-content: space-around;
+}
+.selectedExerciseElementForm label {
+}
+.selectedExerciseElementInfo {
+}
+.bodyPartsIconSelected {
+}
+.creatorSection-left--workoutsContainer {
 }
