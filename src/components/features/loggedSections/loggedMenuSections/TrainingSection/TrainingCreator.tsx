@@ -8,9 +8,19 @@ export default function TrainingCreator() {
   const [filterBodyPart, setFilterBodyPart] = useState<string>("");
   const [selectedExercises, setSelectedExercises] = useState<any[]>([]);
   const [formData, setFormData] = useState();
+  const [seriesCount, setSeriesCount] = useState({});
+  const [training, setTraining] = useState([]);
+  const handleCountSeries = (event, exerciseName) => {
+    const count = parseInt(event.target.value, 10);
+    setSeriesCount((prev) => ({
+      ...prev,
+      [exerciseName]: count,
+    }));
+  };
+
   const fakeExercises = [
     {
-      name: "wiosłowanie ze sztangą",
+      name: "wiosłowanie ze sztangami",
       bodySection: "upper",
       bodyPart: "shoulders",
       img: barbelRowing,
@@ -174,26 +184,42 @@ export default function TrainingCreator() {
                   </div>
                   <div className="selectedExerciseElementInfo">
                     <form className="selectedExerciseElementForm">
-                      <div>
-                        ilość serii
-                        <select>
+                      <div className="flex flex-col">
+                        <p>ilość serii</p>
+                        <select
+                          className="text-center"
+                          value={seriesCount[e.name] || 0}
+                          onChange={(event) => handleCountSeries(event, e.name)}
+                        >
                           <option value="1">1</option>
                           <option value="2">2</option>
                           <option value="3">3</option>
                           <option value="4">4</option>
                           <option value="5">5</option>
-                          <option value="6">6</option>
-                          <option value="7">7</option>
-                          <option value="8">8</option>
                         </select>
                       </div>
-                      <div className="flex flex-col">
-                        <p className="text-center"> ilość powtórzeń w serii</p>
-                        <input placeholder="1 seria" className="my-2" />
-                        <input placeholder="2 seria" className="my-2" />
-                        <input placeholder="3 seria" className="my-2" />
-                        <input placeholder="4 seria" className="my-2" />
-                        <input placeholder="5 seria" className="my-2" />
+                      <div className="workoutContainer flex flex-col">
+                        <div className="flex flex-col">
+                          {[...Array(seriesCount[e.name] || 1)].map(
+                            (_, index) => (
+                              <div className="flex items-center mt-2">
+                                <p className="mr-2 w-14"> seria {index + 1} </p>
+
+                                <input
+                                  placeholder="ilość kilogramów"
+                                  className="mr-2 mb-1 p-1"
+                                />
+
+                                <input
+                                  type="number"
+                                  key={index}
+                                  placeholder="liczba powtórzeń"
+                                  className="mb-1 p-1"
+                                />
+                              </div>
+                            )
+                          )}
+                        </div>
                       </div>
                     </form>
                   </div>
