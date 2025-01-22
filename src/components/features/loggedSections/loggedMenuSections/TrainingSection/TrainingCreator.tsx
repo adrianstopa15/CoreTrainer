@@ -58,7 +58,7 @@ export default function TrainingCreator() {
   }
   function closeModal() {
     setIsOpen(false);
-    setrNewExercise({
+    setNewExercise({
       name: "",
       bodyPart: "",
       bodySection: "",

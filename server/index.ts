@@ -9,6 +9,9 @@ import * as bcrypt from "bcrypt";
 import * as jwt from "jsonwebtoken";
 import * as cookieParser from "cookie-parser";
 import { request } from "http";
+import * as multer from "multer";
+import * as path from "path";
+import Exercise from "./models/Exercise";
 dotenv.config();
 
 const app = express();
@@ -185,11 +188,58 @@ app.get("/api/getCurrentUser", async (req: Request, res: Response) => {
   }
 });
 
-// Obsługa żądań preflight (OPTIONS)
+//multer:
+
+//config dla multera:
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, path.join(__dirname, "./uploads"));
+  },
+  filename: (req, file, cb) => {
+    const uniqeName = Date.now() + "-" + file.originalname;
+    cb(null, uniqeName);
+  },
+});
+
+const upload = multer({ storage });
+
+app.post(
+  "/api/addExercise",
+  upload.single("image"),
+  async (req: Request, res: Response) => {
+    try {
+      const { name, bodySection, bodyPart, img } = req.body;
+      if (!name || !bodySection || !bodyPart) {
+        return res
+          .status(400)
+          .json({ error: "Wypełnij wszystkie wymagane dane" });
+      }
+      let filePath = null;
+
+      if (req.file) {
+        filePath = "uploads/" + req.file.filename;
+      }
+      const newExercise = new Exercise({
+        name,
+        bodySection,
+        bodyPart,
+        img: filePath,
+      });
+      await newExercise.save();
+      return res
+        .status(201)
+        .json({ message: "Pomyślnie dodano nowe ćwiczenie", newExercise });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ error: "Nie udało się dodać ćwiczenia" });
+    }
+  }
+);
+
 app.options("/api/register", cors());
 app.options("/api/login", cors());
+app.use("/uploads", express.static(path.join(__dirname, "./uploads")));
 
-// Start serwera
 app.listen(port, () => {
   console.log(`Serwer działa na porcie ${port}`);
 });
