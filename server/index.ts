@@ -203,12 +203,14 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
+//endpointy z ćwiczeniami/treningami
+
 app.post(
   "/api/addExercise",
   upload.single("image"),
   async (req: Request, res: Response) => {
     try {
-      const { name, bodySection, bodyPart, img } = req.body;
+      const { name, bodySection, bodyPart } = req.body;
       if (!name || !bodySection || !bodyPart) {
         return res
           .status(400)
@@ -235,6 +237,21 @@ app.post(
     }
   }
 );
+app.get("/api/getExercises", async (req: Request, res: Response) => {
+  try {
+    const exercises = await Exercise.find();
+    if (!exercises) {
+      console.error("Nie znaleziono ćwiczeń");
+      return res
+        .status(404)
+        .json({ error: "Baza danych nie zawiera żadnych ćwiczeń." });
+    }
+    return res.status(200).json(exercises);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json("Nie udało się pobrać ćwiczeń");
+  }
+});
 
 app.options("/api/register", cors());
 app.options("/api/login", cors());

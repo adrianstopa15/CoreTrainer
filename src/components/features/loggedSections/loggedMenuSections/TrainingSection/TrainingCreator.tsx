@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import HeaderLoggedMenu from "../../HeaderLoggedMenu";
+import React, { useEffect, useState } from "react";
 import lowerPartsIcon from "../../../../../assets/lowerPartsIcon.png";
 import upperPartsIcon from "../../../../../assets/upperPartsIcon.png";
 import barbelRowing from "../../../../../assets/exerciseBarbelRowingPhoto.png";
 import Modal from "react-modal";
+import axios from "axios";
 
 interface ISelectedExercise {
   name: string;
@@ -15,8 +15,16 @@ interface ISelectedExercise {
     reps: number | string;
   }[];
 }
+interface Exercise {
+  _id: string;
+  name: string;
+  bodySection: string;
+  bodyPart: string;
+  img: string;
+}
 
 const muscleGroupMap: Record<string, "góra" | "dół"> = {
+  Barki: "góra",
   Biceps: "góra",
   Triceps: "góra",
   Brzuch: "góra",
@@ -48,10 +56,38 @@ const modalStyles = {
 
 export default function TrainingCreator() {
   const [modalIsOpen, setIsOpen] = useState(false);
-  const [filterBodyPart, setFilterBodyPart] = useState<string>("");
+  const [filterBodySection, setFilterBodySection] = useState<string>("");
+  const [exercises, setExercises] = useState<Exercise[]>([]);
+
   const [selectedExercises, setSelectedExercises] = useState<
     ISelectedExercise[]
   >([]);
+
+  const [newExercise, setNewExercise] = useState<{
+    name: string;
+    bodyPart: string;
+    bodySection: string;
+    file: File | null;
+  }>({
+    name: "",
+    bodyPart: "",
+    bodySection: "",
+    file: null,
+  });
+
+  const fetchExercises = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:5000/api/getExercises"
+      );
+      setExercises(response.data);
+    } catch (error) {
+      console.error("Błąd podczas pobierania ćwiczeń", error);
+    }
+  };
+  useEffect(() => {
+    fetchExercises();
+  }, [exercises]);
 
   function openModal() {
     setIsOpen(true);
@@ -65,16 +101,104 @@ export default function TrainingCreator() {
       file: null,
     });
   }
+
+  const handleDragStart = (e: React.DragEvent, exercise: any) => {
+    e.dataTransfer.setData("exercise", JSON.stringify(exercise));
+  };
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    const exerciseData = e.dataTransfer.getData("exercise");
+    const exercise = JSON.parse(exerciseData);
+
+    const exerciseWithSeries: ISelectedExercise = {
+      ...exercise,
+      series: [{ kg: "", reps: "" }],
+    };
+
+    setSelectedExercises((prev) => [...prev, exerciseWithSeries]);
+  };
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+  };
+
+  const handleChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setNewExercise((prev) => ({ ...prev, name: e.target.value }));
+  };
+
+  const handleChangeBodyPart = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedPart = e.target.value;
+    const mappedSection = muscleGroupMap[selectedPart];
+    setNewExercise((prev) => ({
+      ...prev,
+      bodyPart: selectedPart,
+      bodySection: mappedSection ? mappedSection : "",
+    }));
+  };
+
+  const handleChangeFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      setNewExercise((prev) => ({ ...prev, file: e.target.files![0] }));
+    }
+  };
+
+  const sendExerciseToApi = async () => {
+    try {
+      const formData = new FormData();
+      formData.append("name", newExercise.name);
+      formData.append(
+        "bodySection",
+        newExercise.bodySection === "góra" ? "upper" : "lower"
+      );
+      formData.append("bodyPart", newExercise.bodyPart);
+
+      if (newExercise.file) {
+        formData.append("image", newExercise.file);
+      }
+
+      const response = await axios.post(
+        "http://localhost:5000/api/addExercise",
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
+
+      console.log("Odpowiedź z serwera:", response.data);
+      return response.data.newExercise;
+    } catch (error) {
+      console.error("Błąd podczas wysyłania żądania", error);
+      throw error;
+    }
+  };
+
+  const handleSubmitForm = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (
+      !newExercise.name ||
+      !newExercise.bodyPart ||
+      !newExercise.bodySection
+    ) {
+      alert("Uzupełnij brakujące pola!");
+      return;
+    }
+
+    try {
+      await sendExerciseToApi();
+      closeModal();
+    } catch (err) {
+      console.error("Nie udało się dodać ćwiczenia", err);
+    }
+  };
+
   const handleCountSeries = (
     event: React.ChangeEvent<HTMLSelectElement>,
     exerciseName: string
   ) => {
     const count = parseInt(event.target.value, 10);
-
     setSelectedExercises((prevExercises) =>
       prevExercises.map((ex) => {
         if (ex.name !== exerciseName) return ex;
-
         let newSeries = [...ex.series];
         if (newSeries.length < count) {
           const missing = count - newSeries.length;
@@ -84,7 +208,6 @@ export default function TrainingCreator() {
         } else if (newSeries.length > count) {
           newSeries = newSeries.slice(0, count);
         }
-
         return { ...ex, series: newSeries };
       })
     );
@@ -112,105 +235,6 @@ export default function TrainingCreator() {
     );
   };
 
-  const [newExercise, setNewExercise] = useState<{
-    name: string;
-    bodyPart: string;
-    bodySection: string;
-    file: File | null;
-  }>({
-    name: "",
-    bodyPart: "",
-    bodySection: "",
-    file: null,
-  });
-
-  const fakeExercises = [
-    {
-      name: "wiosłowanie ze sztangami",
-      bodySection: "upper",
-      bodyPart: "shoulders",
-      img: barbelRowing,
-    },
-    {
-      name: "wiosłowanie ze sztangą",
-      bodySection: "upper",
-      bodyPart: "shoulders",
-      img: barbelRowing,
-    },
-    {
-      name: "przysiad ze sztangą",
-      bodySection: "lower",
-      bodyPart: "legs",
-      img: barbelRowing,
-    },
-  ];
-
-  const handleDragStart = (e: React.DragEvent, exercise: any) => {
-    e.dataTransfer.setData("exercise", JSON.stringify(exercise));
-  };
-
-  const handleDrop = (e: React.DragEvent) => {
-    e.preventDefault();
-    const exerciseData = e.dataTransfer.getData("exercise");
-    const exercise = JSON.parse(exerciseData);
-
-    const exerciseWithSeries: ISelectedExercise = {
-      ...exercise,
-      series: [{ kg: "", reps: "" }],
-    };
-
-    setSelectedExercises((prev) => [...prev, exerciseWithSeries]);
-  };
-
-  const handleDragOver = (e: React.DragEvent) => {
-    e.preventDefault();
-  };
-
-  const handleChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setNewExercise((prev) => ({ ...prev, name: e.target.value }));
-  };
-
-  const handleChangeBodyPart = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedPart = e.target.value;
-    const mappedSection = muscleGroupMap[selectedPart];
-
-    setNewExercise((prev) => ({
-      ...prev,
-      bodyPart: selectedPart,
-      bodySection: mappedSection ? mappedSection : "",
-    }));
-  };
-
-  const handleChangeFile = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      setNewExercise((prev) => ({ ...prev, file: e.target.files![0] }));
-    }
-  };
-
-  const handleSubmitForm = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (
-      !newExercise.name ||
-      !newExercise.bodyPart ||
-      !newExercise.bodySection
-    ) {
-      alert("uzupełnij brakujące pola!");
-      return;
-    }
-
-    const exerciseToAdd: ISelectedExercise = {
-      name: newExercise.name,
-      bodySection: newExercise.bodySection === "góra" ? "upper" : "lower",
-      bodyPart: newExercise.bodyPart,
-      img: newExercise.file ? URL.createObjectURL(newExercise.file) : null,
-      series: [{ kg: "", reps: "" }],
-    };
-    setSelectedExercises((prev) => [...prev, exerciseToAdd]);
-
-    closeModal();
-  };
-
   return (
     <>
       <div className="bgLogged">
@@ -223,13 +247,13 @@ export default function TrainingCreator() {
             <div className="flex mt-3">
               <div
                 className="mr-4"
-                onClick={() => setFilterBodyPart("filterUpperBody")}
+                onClick={() => setFilterBodySection("lower")}
               >
                 <img
                   src={upperPartsIcon}
                   alt=""
                   className={
-                    filterBodyPart === "filterUpperBody"
+                    filterBodySection === "lower"
                       ? "bodyPartsIconSelected"
                       : "bodyPartsIcon"
                   }
@@ -240,28 +264,34 @@ export default function TrainingCreator() {
                   src={lowerPartsIcon}
                   alt=""
                   className={
-                    filterBodyPart === "filterBottomBody"
+                    filterBodySection === "upper"
                       ? "bodyPartsIconSelected"
                       : "bodyPartsIcon"
                   }
-                  onClick={() => setFilterBodyPart("filterBottomBody")}
+                  onClick={() => setFilterBodySection("upper")}
                 />
               </div>
             </div>
 
             <div className="creatorSection-left--workoutsContainer">
               <div className="exercises-grid">
-                {fakeExercises.map((e) => (
-                  <div
-                    className="exercises-grid--card"
-                    key={e.name}
-                    draggable
-                    onDragStart={(event) => handleDragStart(event, e)}
-                  >
-                    <img src={e.img} className="exerciseImg" />
-                    <h3>{e.name}</h3>
-                  </div>
-                ))}
+                {exercises
+                  .filter((e) => e.bodySection !== filterBodySection)
+                  .map((e) => (
+                    <div
+                      className="exercises-grid--card"
+                      key={e.name}
+                      draggable
+                      onDragStart={(event) => handleDragStart(event, e)}
+                    >
+                      <img
+                        src={`http://localhost:5000/${e.img}`}
+                        className="exerciseImg"
+                        alt={e.name}
+                      />
+                      <h3 className="mt-1">{e.name}</h3>
+                    </div>
+                  ))}
               </div>
 
               <div className="exercisesButtonsContainer">
@@ -283,7 +313,9 @@ export default function TrainingCreator() {
               {selectedExercises.map((exercise) => (
                 <div className="selectedExerciseBox" key={exercise.name}>
                   <div className="selectedExerciseElement">
-                    <img src={exercise.img} alt="ex-img" />
+                    {exercise.img && (
+                      <img src={exercise.img} alt="ex-img" width={60} />
+                    )}
                     {exercise.name}
                   </div>
 
@@ -309,7 +341,7 @@ export default function TrainingCreator() {
                       <div className="workoutContainer flex flex-col">
                         {exercise.series.map((serie, idx) => (
                           <div key={idx} className="flex items-center mt-2">
-                            <p className="mr-2 w-14"> seria {idx + 1} </p>
+                            <p className="mr-2 w-14">seria {idx + 1}</p>
                             <input
                               value={serie.kg}
                               placeholder="ilość kilogramów"
@@ -347,6 +379,7 @@ export default function TrainingCreator() {
           </div>
         </div>
       </div>
+
       <Modal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
@@ -371,12 +404,13 @@ export default function TrainingCreator() {
                 />
               </label>
               <label>
-                Partia mięsniowa
+                Partia mięśniowa
                 <select
                   value={newExercise.bodyPart}
                   onChange={handleChangeBodyPart}
                 >
                   <option value="">-- wybierz --</option>
+                  <option value="Barki">Biceps</option>
                   <option value="Brzuch">Brzuch</option>
                   <option value="Biceps">Biceps</option>
                   <option value="Czworoboczny uda">Czworoboczny uda</option>
@@ -393,10 +427,21 @@ export default function TrainingCreator() {
                   <option value="Triceps">Triceps</option>
                 </select>
               </label>
-              <input type="text" value={newExercise.bodySection} readOnly />
+
               <label>
-                zdjęcie <input type="file" onChange={handleChangeFile} />
+                Grupa mięśniowa
+                <input type="text" value={newExercise.bodySection} readOnly />
               </label>
+
+              <label>
+                Zdjęcie{" "}
+                <input
+                  type="file"
+                  onChange={handleChangeFile}
+                  accept="image/*"
+                />
+              </label>
+
               <button className="button-green mt-4" type="submit">
                 Zapisz
               </button>
