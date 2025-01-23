@@ -12,6 +12,7 @@ import { request } from "http";
 import * as multer from "multer";
 import * as path from "path";
 import Exercise from "./models/Exercise";
+import Workout from "./models/Workout";
 dotenv.config();
 
 const app = express();
@@ -203,7 +204,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-//endpointy z ćwiczeniami/treningami
+//endpointy z ćwiczeniami
 
 app.post(
   "/api/addExercise",
@@ -250,6 +251,34 @@ app.get("/api/getExercises", async (req: Request, res: Response) => {
   } catch (error) {
     console.error(error);
     return res.status(500).json("Nie udało się pobrać ćwiczeń");
+  }
+});
+
+//endpointy z treningami
+
+app.post("/api/submitWorkout", async (req: Request, res: Response) => {
+  try {
+    const { name, date, exercises } = req.body;
+
+    if (!date || !exercises) {
+      return res
+        .status(400)
+        .json({ error: "Pola date oraz exercises są wymagane." });
+    }
+    const workoutDate = new Date(date);
+
+    const newWorkout = new Workout({
+      name,
+      date: workoutDate,
+      exercises,
+    });
+    await newWorkout.save();
+    return res
+      .status(201)
+      .json({ message: "Trening zapisany pomyślnie", newWorkout });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Nie udało się zapisać treningu" });
   }
 });
 

@@ -56,6 +56,7 @@ const modalStyles = {
 
 export default function TrainingCreator() {
   const [modalIsOpen, setIsOpen] = useState(false);
+  const [workoutModalOpen, setWorkoutModalOpen] = useState(false);
   const [filterBodySection, setFilterBodySection] = useState<string>("");
   const [exercises, setExercises] = useState<Exercise[]>([]);
 
@@ -63,6 +64,7 @@ export default function TrainingCreator() {
     ISelectedExercise[]
   >([]);
 
+  //do kreatora ćwiczzeń (nie treningu!!)
   const [newExercise, setNewExercise] = useState<{
     name: string;
     bodyPart: string;
@@ -73,6 +75,16 @@ export default function TrainingCreator() {
     bodyPart: "",
     bodySection: "",
     file: null,
+  });
+  const [workoutName, setWorkoutName] = useState("");
+  const [workoutDate, setWorkoutDate] = useState(() => {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, "0");
+    const day = String(now.getDate()).padStart(2, "0");
+    const hours = String(now.getHours()).padStart(2, "0");
+    const minutes = String(now.getMinutes()).padStart(2, "0");
+    return `${year}=${month}-${day}T${hours}:${minutes}`;
   });
 
   const fetchExercises = async () => {
@@ -101,6 +113,14 @@ export default function TrainingCreator() {
       file: null,
     });
   }
+
+  //modal do treningu:
+  const openWorkoutModal = () => {
+    setWorkoutModalOpen(true);
+  };
+  const closeWorkoutModal = () => {
+    setWorkoutModalOpen(false);
+  };
 
   const handleDragStart = (e: React.DragEvent, exercise: any) => {
     e.dataTransfer.setData("exercise", JSON.stringify(exercise));
@@ -235,6 +255,21 @@ export default function TrainingCreator() {
     );
   };
 
+  const handleSubmitWorkout = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      await axios.post("http://localhost:5000/api/submitWorkout", {
+        name: workoutName,
+        date: workoutDate,
+        exercises: selectedExercises,
+      });
+      console.log("trening zapisany");
+      closeWorkoutModal();
+    } catch (error) {
+      console.error("Nie udało się zapisac treningu", error);
+    }
+  };
+
   return (
     <>
       <div className="bgLogged">
@@ -302,7 +337,6 @@ export default function TrainingCreator() {
               </div>
             </div>
           </div>
-
           <div className="creatorSection-right">
             <p className="mt-8">Ćwiczenia</p>
             <div
@@ -314,7 +348,11 @@ export default function TrainingCreator() {
                 <div className="selectedExerciseBox" key={exercise.name}>
                   <div className="selectedExerciseElement">
                     {exercise.img && (
-                      <img src={exercise.img} alt="ex-img" width={60} />
+                      <img
+                        src={`http://localhost:5000/${exercise.img}`}
+                        alt="ex-img"
+                        width={60}
+                      />
                     )}
                     {exercise.name}
                   </div>
@@ -376,6 +414,9 @@ export default function TrainingCreator() {
                 </div>
               ))}
             </div>
+            <button className="button-green mt-1" onClick={openWorkoutModal}>
+              Zapisz trening
+            </button>
           </div>
         </div>
       </div>
@@ -447,6 +488,48 @@ export default function TrainingCreator() {
               </button>
             </form>
           </div>
+        </div>
+      </Modal>
+      <Modal
+        isOpen={workoutModalOpen}
+        onRequestClose={closeWorkoutModal}
+        contentLabel="Zapisz trening"
+        style={modalStyles}
+      >
+        <div>
+          <h2 className="mb-8 text-center">Zapisz swój trening</h2>
+          <form onSubmit={handleSubmitWorkout}>
+            <div className="flex flex-col mb-4">
+              <label>Nazwa treningu</label>
+              <input
+                type="text"
+                value={workoutName}
+                onChange={(e) => setWorkoutName(e.target.value)}
+                placeholder="Np. Poniedziałek - klatka i triceps"
+              />
+            </div>
+            <div className="flex flex-col mb-4">
+              <label>Data i godzina</label>
+
+              <input
+                type="datetime-local"
+                value={workoutDate}
+                onChange={(e) => setWorkoutDate(e.target.value)}
+              />
+            </div>
+            <div className="text-center">
+              <button type="submit" className="button-green mr-2">
+                Zapisz
+              </button>
+              <button
+                type="button"
+                className="button-blue"
+                onClick={closeWorkoutModal}
+              >
+                Anuluj
+              </button>
+            </div>
+          </form>
         </div>
       </Modal>
     </>
