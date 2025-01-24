@@ -1,31 +1,122 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
+import Modal from "react-modal";
 
 export default function WorkoutsHistory() {
-  const fakeTrainings = [
-    { date: "09.01.2025", trainingName: "FBW-A", trainingTime: "1:15" },
-    { date: "05.01.2025", trainingName: "FBW-B", trainingTime: "1:35" },
-    { date: "03.01.2025", trainingName: "FBW-A", trainingTime: "1:05" },
-    { date: "01.01.2025", trainingName: "FBW-A", trainingTime: "1:10" },
-    { date: "27.12.2024", trainingName: "FBW-B", trainingTime: "1:55" },
-    { date: "25.12.2024", trainingName: "FBW-A", trainingTime: "1:10" },
-  ];
+  // interface ITraining {
+  //   userId: string;
+  //   name: string;
+  //   date: string;
+  //   exercises: {
+  //     name: string;
+  //     bodyPart: string;
+  //     bodySection: string;
+  //     img: string | null;
+  //     series: {
+  //       kg: number;
+  //       reps: number;
+  //     }[];
+  //   }[];
+  // }
+  type Series = {
+    kg: number;
+    reps: number;
+  };
+  type Exercise = {
+    name: string;
+    bodyPart: string;
+    bodySection: string;
+    img: string | null;
+    series: Series[];
+  };
+  type Training = {
+    userId: string;
+    name: string;
+    date: string;
+    exercises: Exercise[];
+  };
+
+  const [trainingHistory, setTrainingHistory] = useState<Training[]>([]);
+  const [selectedTrainingHistory, setSelectedTrainingHistory] =
+    useState<Training | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = (training: Training) => {
+    setSelectedTrainingHistory(training);
+    setIsModalOpen(() => true);
+  };
+  const closeModal = () => {
+    setSelectedTrainingHistory(null);
+    setIsModalOpen(() => false);
+  };
+
+  const fetchWorkouts = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:5000/api/getWorkouts",
+        {
+          withCredentials: true,
+        }
+      );
+      setTrainingHistory(() => response.data.userWorkouts);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchWorkouts();
+  }, []);
+
   return (
     <>
       <div className="trainingHistoryContainer">
-        {fakeTrainings.map((t) => (
-          <div className="trainingElement">
-            <p>Data: {t.date}</p>
-            <p>Nazwa treningu: {t.trainingName}</p>
-            <p>Czas treningu: {t.trainingTime}</p>
-          </div>
-        ))}
+        {trainingHistory.map((t) => {
+          const formattedDate = new Date(t.date).toLocaleDateString("en-CA");
+          const formattedTime = new Date(t.date).toLocaleTimeString("en-GB", {
+            hour: "2-digit",
+            minute: "2-digit",
+          });
+          return (
+            <div className="trainingElement" onClick={() => openModal(t)}>
+              <p>Data: {formattedDate}</p>
+              <p>Godzina: {formattedTime}</p>
+              <p>Nazwa treningu: {t.name}</p>
+            </div>
+          );
+        })}
       </div>
 
-      <p className="pt-2">{fakeTrainings.length} zarejestrowanych treningów.</p>
+      <p className="pt-2">
+        {trainingHistory.length} zarejestrowanych treningów.
+      </p>
       <button className="mt-3 p-2 button-smooth">
         Pokaż wszystkie treningi
       </button>
+      <Modal
+        isOpen={isModalOpen}
+        contentLabel="Przejrzyj trening"
+        onRequestClose={closeModal}
+      >
+        <div>
+          {selectedTrainingHistory &&
+            selectedTrainingHistory.exercises.map((exercise, index) => (
+              <div key={index}>
+                <p>Ćwiczenie: {exercise.name}</p>
+                <p>Partia mięśniowa: {exercise.bodyPart}</p>
+                <p>Seria:</p>
+                {exercise.series.map((s, i) => (
+                  <div key={i}>
+                    <p>
+                      {s.kg}x{s.reps}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            ))}
+        </div>
+      </Modal>
     </>
   );
 }

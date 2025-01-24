@@ -14,6 +14,11 @@ const exerciseSchema = new mongoose.Schema({
 });
 
 const workoutSchema = new mongoose.Schema({
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
   name: { type: String },
   date: { type: Date, required: true },
   exercises: { type: [exerciseSchema], default: [] },

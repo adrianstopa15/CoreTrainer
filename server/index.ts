@@ -265,9 +265,23 @@ app.post("/api/submitWorkout", async (req: Request, res: Response) => {
         .status(400)
         .json({ error: "Pola date oraz exercises są wymagane." });
     }
+    const token = req.cookies.token;
+
+    let decoded;
+    try {
+      decoded = jwt.verify(token, process.env.JWT_SECRET!);
+    } catch (error) {
+      console.error(error);
+      return res
+        .status(400)
+        .json({ error: "Nie udało się zweryfikować użytkownika" });
+    }
+    const userId = decoded.userId;
+
     const workoutDate = new Date(date);
 
     const newWorkout = new Workout({
+      userId: userId,
       name,
       date: workoutDate,
       exercises,
@@ -279,6 +293,30 @@ app.post("/api/submitWorkout", async (req: Request, res: Response) => {
   } catch (error) {
     console.error(error);
     return res.status(500).json({ error: "Nie udało się zapisać treningu" });
+  }
+});
+
+app.get("/api/getWorkouts", async (req: Request, res: Response) => {
+  try {
+    const token = req.cookies.token;
+    if (!token) {
+      return res
+        .status(400)
+        .json({ error: "Nie udało się zweryfikować użytkownika" });
+    }
+    let decoded;
+    try {
+      decoded = jwt.verify(token, process.env.JWT_SECRET!);
+    } catch (error) {
+      console.error(error);
+    }
+    const loggedUserId = decoded.userId;
+
+    const userWorkouts = await Workout.find({ userId: loggedUserId });
+
+    return res.status(200).json({ userWorkouts });
+  } catch (error) {
+    console.error(error);
   }
 });
 
