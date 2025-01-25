@@ -68,7 +68,8 @@
 }
 .button-red,
 .button-blue,
-.button-green {
+.button-green,
+.button-green-whitebg {
   display: flex;
   text-align: center;
   justify-content: center;
@@ -106,6 +107,14 @@
   color: rgb(8, 196, 48);
   background-color: #fff;
   box-shadow: rgb(255, 255, 255) 0 0 25px;
+}
+.button-green-whitebg {
+  transition: 0.2s;
+  background-color: rgb(8, 196, 48);
+  /* box-shadow: rgb(13, 219, 92) 0 0 25px; */
+}
+.button-green-whitebg:hover {
+  box-shadow: rgb(6, 230, 36) 0 0 25px;
 }
 .button-smooth {
   border: 1px solid rgba(255, 255, 255, 0.24);
@@ -198,7 +207,7 @@
   filter: brightness(100%);
 }
 .exerciseImg {
-  height: 124px;
+  height: 8rem;
 }
 .exercises-grid {
   margin-top: 1rem;
@@ -216,6 +225,7 @@
   padding: 0.2rem 0.5rem 0.5rem 0.5rem;
   filter: brightness(80%);
   cursor: pointer;
+  box-shadow: rgb(17, 17, 17) 0 0 15px;
 }
 .exercises-grid--card:hover {
   filter: brightness(110%);
@@ -232,15 +242,12 @@
   height: 90%;
   background-color: rgb(197, 195, 195);
   overflow-y: scroll;
+  box-shadow: rgb(128, 128, 128) 0 0 15px;
 }
 .selectedExerciseElement {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: fit-content;
   margin-bottom: 10px;
-  width: fit-content;
 }
 .selectedExerciseBox {
   display: flex;
@@ -248,6 +255,7 @@
   border: 1px solid rgba(241, 241, 241, 0.76);
   margin: 2rem;
   margin-bottom: 2rem;
+  box-shadow: rgb(128, 128, 128) 0 0 15px;
 }
 .selectedExerciseElementInfo {
   flex: 1;
@@ -264,8 +272,33 @@
   text-align: center;
   background-color: rgb(54, 54, 54);
   color: white;
+  margin-left: 1.5rem;
+  font-size: 1.5rem;
+  width: 20rem;
+  margin-bottom: 2.5rem;
+  font-size: 16px;
 }
-
+.addWorkoutForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+}
+.addWorkoutForm h3 {
+  margin-bottom: 15px;
+  font-size: 1.5rem;
+}
+.close-selectedExerciseBox {
+  font-size: 1.3rem;
+  position: absolute;
+  top: 0;
+  right: 1%;
+}
+.close-selectedExerciseBox:hover {
+  color: rgba(253, 4, 4, 0.767);
+  cursor: pointer;
+}
 .selectedExerciseElementForm label {
 }
 .selectedExerciseElementInfo {

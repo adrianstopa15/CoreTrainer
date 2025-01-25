@@ -20,8 +20,8 @@ import FriendsSection from "./components/features/loggedSections/loggedMenuSecti
 import WorkoutCreate from "./components/features/loggedSections/loggedMenuSections/TrainingSection/WorkoutCreate";
 import WorkoutsHistory from "./components/features/loggedSections/loggedMenuSections/TrainingSection/WorkoutsHistory";
 import WorkoutsAccept from "./components/features/loggedSections/loggedMenuSections/TrainingSection/WorkoutsAccept";
-import TrainingCreator from "./components/features/loggedSections/loggedMenuSections/TrainingSection/TrainingCreator";
-import LogWorkout from "./components/features/loggedSections/loggedMenuSections/TrainingSection/logWorkout";
+import TrainingCreator from "./components/features/loggedSections/loggedMenuSections/TrainingSection/WorkoutCreator";
+import LogWorkout from "./components/features/loggedSections/loggedMenuSections/TrainingSection/LogWorkout";
 Modal.setAppElement("#root");
 axios.defaults.withCredentials = true;
 

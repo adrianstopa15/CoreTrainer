@@ -37,6 +37,22 @@ export default function WorkoutsHistory() {
     exercises: Exercise[];
   };
 
+  const modalStyles = {
+    content: {
+      top: "50%",
+      left: "50%",
+      right: "auto",
+      bottom: "auto",
+      marginRight: "-50%",
+      padding: "2rem",
+      transform: "translate(-50%, -50%)",
+      backgroundColor: "rgba(0,0,0,0.9)",
+    },
+    overlay: {
+      backgroundColor: "rgba(0,0,0,0.75)",
+    },
+  };
+
   const [trainingHistory, setTrainingHistory] = useState<Training[]>([]);
   const [selectedTrainingHistory, setSelectedTrainingHistory] =
     useState<Training | null>(null);
@@ -98,18 +114,25 @@ export default function WorkoutsHistory() {
         isOpen={isModalOpen}
         contentLabel="Przejrzyj trening"
         onRequestClose={closeModal}
+        style={modalStyles}
       >
-        <div>
+        <div className="text-white mx-16 flex flex-col items-center text-center">
+          <h1 className=" lg:text-3xl mb-6 text-center">
+            {selectedTrainingHistory?.name}
+          </h1>
+
           {selectedTrainingHistory &&
             selectedTrainingHistory.exercises.map((exercise, index) => (
               <div key={index}>
-                <p>Ćwiczenie: {exercise.name}</p>
-                <p>Partia mięśniowa: {exercise.bodyPart}</p>
-                <p>Seria:</p>
+                <p className="my-3">
+                  <strong>{exercise.name}</strong>
+                </p>
+
+                <p className="mb-1"></p>
                 {exercise.series.map((s, i) => (
-                  <div key={i}>
+                  <div key={i} className="mb-2">
                     <p>
-                      {s.kg}x{s.reps}
+                      {s.kg}kg x {s.reps}
                     </p>
                   </div>
                 ))}

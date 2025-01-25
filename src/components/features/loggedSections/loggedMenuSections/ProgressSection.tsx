@@ -108,6 +108,11 @@ export default function ProgressSection() {
     <>
       <div className="bgLogged">
         <h1>Strefa Progresu</h1>
+        <div className="flex">
+          <p>Aktywność</p>
+          <p>Mięsnie</p>
+          <p>Siła</p>
+        </div>
         <div style={{ width: "100%", height: "400px" }}>
           <ResponsiveContainer>
             <PieChart>
