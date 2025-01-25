@@ -258,7 +258,7 @@ app.get("/api/getExercises", async (req: Request, res: Response) => {
 
 app.post("/api/submitWorkout", async (req: Request, res: Response) => {
   try {
-    const { name, date, exercises } = req.body;
+    const { name, date, exercises, trainingTime } = req.body;
 
     if (!date || !exercises) {
       return res
@@ -285,6 +285,7 @@ app.post("/api/submitWorkout", async (req: Request, res: Response) => {
       name,
       date: workoutDate,
       exercises,
+      trainingTime,
     });
     await newWorkout.save();
     return res

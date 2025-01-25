@@ -108,52 +108,26 @@ export default function ProgressSection() {
     <>
       <div className="bgLogged">
         <h1>Strefa Progresu</h1>
-        <div className="flex">
-          <p>Aktywność</p>
-          <p>Mięsnie</p>
-          <p>Siła</p>
-        </div>
-        <div style={{ width: "100%", height: "400px" }}>
-          <ResponsiveContainer>
-            <PieChart>
-              <Legend
-                layout="horizontal"
-                align="center"
-                verticalAlign="top"
-                iconSize={10}
-              />
-              <Pie
-                data={muscleGroupData}
-                cx="50%"
-                cy="50%"
-                labelLine={false}
-                label={renderCustomizedLabel}
-                outerRadius={120}
-                innerRadius={60}
-                fill="#8884d8"
-                dataKey="value"
-                animationDuration={800}
-              >
-                {muscleGroupData.map((entry, index) => (
-                  <Cell
-                    key={`cell-${index}`}
-                    fill={COLORS[index % COLORS.length]}
-                    stroke="#fff"
-                    strokeWidth={2}
-                  />
-                ))}
-              </Pie>
+        <div className="flex align-center justify-center mb-16 mt-4">
+          <p className="mr-5">Aktywność</p>
+          {/*
+            ilosc treningow w ciagu ostatnich 30dni/roku/ogolnie-slupkowy,
+            srednia ilosc treningow w danym miesiacu-slupkowy?,
+           
 
-              <Tooltip
-                contentStyle={{
-                  backgroundColor: "#fff",
-                  borderRadius: "10px",
-                  boxShadow: "0 2px 10px rgba(0,0,0,0.1)",
-                }}
-                itemStyle={{ color: "#333" }}
-              />
-            </PieChart>
-          </ResponsiveContainer>
+          */}
+          <p className="mr-5">Mięsnie</p>
+          {/* jakie miesnie sa trenowane procentowo-kolowy,
+           ile serii na dane miesnie bylo cwiczonie (ogolnie/w ostatnim miesiacu)-slupkowy, 
+           
+           */}
+          <p>Ćwiczenia</p>
+          {/*
+           ulubione cwiczenie w ciagu ostatnich 30dni/roku/ogolnie-slupkowo,
+          maxy- 1RM- przewidywany 1max rep dla danego cwiczenia na podstawie ilosci powtorzen i kilogramow w serii
+          wzor:  waga* (1+ powtorzenia/30)-wykres
+
+          */}
         </div>
       </div>
     </>

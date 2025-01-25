@@ -21,6 +21,7 @@ const workoutSchema = new mongoose.Schema({
   },
   name: { type: String },
   date: { type: Date, required: true },
+  trainingTime: { type: Number },
   exercises: { type: [exerciseSchema], default: [] },
 });
 

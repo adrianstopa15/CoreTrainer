@@ -79,7 +79,16 @@ export default function TrainingCreator() {
     file: null,
   });
   const [workoutName, setWorkoutName] = useState("");
-  const [workoutDate, setWorkoutDate] = useState(() => {
+  const [startDateTime, setStartDateTime] = useState(() => {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, "0");
+    const day = String(now.getDate()).padStart(2, "0");
+    const hours = String(now.getHours()).padStart(2, "0");
+    const minutes = String(now.getMinutes()).padStart(2, "0");
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
+  });
+  const [endDateTime, setEndDateTime] = useState(() => {
     const now = new Date();
     const year = now.getFullYear();
     const month = String(now.getMonth() + 1).padStart(2, "0");
@@ -257,13 +266,61 @@ export default function TrainingCreator() {
     );
   };
 
+  const handleStartDateTimeChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const newStart = e.target.value;
+    setStartDateTime(newStart);
+    setEndDateTime(newStart);
+
+    if (new Date(newStart) > new Date(endDateTime)) {
+      setEndDateTime(newStart);
+    }
+  };
+  const handleEndDateTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newEnd = e.target.value;
+    const start = new Date(startDateTime).getTime();
+    const end = new Date(newEnd).getTime();
+    const eightHoursMs = 8 * 60 * 60 * 1000;
+    if (end < start) {
+      alert("Czas zakończenia nie może być wczesniejszy niż czas rozpoczęcia!");
+      setEndDateTime(startDateTime);
+      return;
+    }
+    if (end > start + eightHoursMs) {
+      alert("Nie możesz ustawić treningu dłuższego niż 8 godzin!");
+      setEndDateTime(getMaxEndTime(startDateTime));
+      return;
+    }
+    setEndDateTime(newEnd);
+  };
+
+  function getMaxEndTime(start: string): string {
+    const startDate = new Date(start);
+    const endLimit = new Date(startDate.getTime() + 8 * 60 * 60 * 1000);
+    const year = endLimit.getFullYear();
+    const month = String(endLimit.getMonth() + 1).padStart(2, "0");
+    const day = String(endLimit.getDate()).padStart(2, "0");
+    const hours = String(endLimit.getHours()).padStart(2, "0");
+    const minutes = String(endLimit.getMinutes()).padStart(2, "0");
+
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
+  }
+
   const handleSubmitWorkout = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
+      const start = new Date(startDateTime).getTime();
+      const end = new Date(endDateTime).getTime();
+
+      const trainingDurationMs = end - start;
+      const trainingTime = Math.floor(trainingDurationMs / (1000 * 60));
+
       await axios.post("http://localhost:5000/api/submitWorkout", {
         name: workoutName,
-        date: workoutDate,
+        date: startDateTime,
         exercises: selectedExercises,
+        trainingTime,
       });
       console.log("trening zapisany");
       closeWorkoutModal();
@@ -297,7 +354,7 @@ export default function TrainingCreator() {
               onChange={(e) =>
                 setSearchQuery(e.target.value.toLocaleLowerCase())
               }
-              className="text-center mt-4 bg-gray-200 text-gray-700"
+              className="bs-black text-center mt-4 bg-gray-200 text-gray-700"
             />
             <div className="flex mt-3">
               <div className="mr-4" onClick={HideUpper}>
@@ -522,7 +579,7 @@ export default function TrainingCreator() {
         style={modalStyles}
       >
         <div>
-          <h2 className="mb-8 text-center text-m lg:text-2xl xl:text-3xl">
+          <h2 className="mb-10 text-center text-m lg:text-2xl xl:text-3xl">
             Zapisz swój trening
           </h2>
           <form onSubmit={handleSubmitWorkout} className="addWorkoutForm">
@@ -536,15 +593,31 @@ export default function TrainingCreator() {
                 maxLength={30}
               />
             </div>
-            <div className="mb-4">
-              <h3>Data i godzina</h3>
+            <div className="mb-3">
+              <h3>Data i godzina:</h3>
+            </div>
+            <div>
+              <h2>Rozpoczęcia</h2>
 
               <input
                 type="datetime-local"
-                value={workoutDate}
-                onChange={(e) => setWorkoutDate(e.target.value)}
+                value={startDateTime}
+                onChange={handleStartDateTimeChange}
               />
             </div>
+            <div className="mb-4">
+              <h2>Zakończenia</h2>
+
+              <input
+                min={startDateTime}
+                max={getMaxEndTime(startDateTime)}
+                type="datetime-local"
+                value={endDateTime}
+                onChange={handleEndDateTimeChange}
+                className="styling-none"
+              />
+            </div>
+
             <div className="flex">
               <button
                 type="submit"

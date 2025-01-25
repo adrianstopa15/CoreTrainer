@@ -15,13 +15,16 @@ import UserProfileInfo from "./components/features/loggedSections/UserProfileInf
 import UserProfileFriends from "./components/features/loggedSections/UserProfileFriends";
 import UserProfilePhotos from "./components/features/userProfilePhotos";
 import TrainingSection from "./components/features/loggedSections/loggedMenuSections/TrainingSection/TrainingSection";
-import ProgressSection from "./components/features/loggedSections/loggedMenuSections/ProgressSection";
+import ProgressSection from "./components/features/loggedSections/loggedMenuSections/ProgressSection/ProgressSection";
 import FriendsSection from "./components/features/loggedSections/loggedMenuSections/FriendsSection";
 import WorkoutCreate from "./components/features/loggedSections/loggedMenuSections/TrainingSection/WorkoutCreate";
 import WorkoutsHistory from "./components/features/loggedSections/loggedMenuSections/TrainingSection/WorkoutsHistory";
 import WorkoutsAccept from "./components/features/loggedSections/loggedMenuSections/TrainingSection/WorkoutsAccept";
 import TrainingCreator from "./components/features/loggedSections/loggedMenuSections/TrainingSection/WorkoutCreator";
 import LogWorkout from "./components/features/loggedSections/loggedMenuSections/TrainingSection/LogWorkout";
+import ProgressActivity from "./components/features/loggedSections/loggedMenuSections/ProgressSection/ProgressActivity";
+import ProgressExercises from "./components/features/loggedSections/loggedMenuSections/ProgressSection/ProgressExercises";
+import ProgressMuscles from "./components/features/loggedSections/loggedMenuSections/ProgressSection/ProgressMuscles";
 Modal.setAppElement("#root");
 axios.defaults.withCredentials = true;
 
@@ -53,7 +56,12 @@ function App() {
                 </Route>
                 <Route path="trainingCreator" element={<TrainingCreator />} />
                 <Route path="logWorkout" element={<LogWorkout />} />
-                <Route path="progressSection" element={<ProgressSection />} />
+                <Route path="progressSection" element={<ProgressSection />}>
+                  <Route index element={<Navigate to="activity" replace />} />
+                  <Route path="activity" element={<ProgressActivity />} />
+                  <Route path="exercises" element={<ProgressExercises />} />
+                  <Route path="muscles" element={<ProgressMuscles />} />
+                </Route>
                 <Route path="friendsSection" element={<FriendsSection />} />
               </Route>
 
