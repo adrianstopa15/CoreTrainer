@@ -32,10 +32,10 @@
 }
 .l-selected {
   color: rgb(35, 131, 255);
-  margin-right: 8px;
+  margin-right: 2.5rem;
 }
 .l-unselected {
-  margin-right: 8px;
+  margin-right: 2.5rem;
 }
 .l-unselected:hover {
   text-decoration: none;
