@@ -4,9 +4,10 @@
   gap: 15rem;
 }
 .statsElement {
-  height: 25rem;
-  width: 30rem;
+  height: 35rem;
+  width: 35rem;
 }
+
 .activityContainer {
   margin-top: 8rem;
   display: flex;
