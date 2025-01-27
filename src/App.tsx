@@ -58,10 +58,10 @@ function App() {
                 <Route path="trainingCreator" element={<TrainingCreator />} />
                 <Route path="logWorkout" element={<LogWorkout />} />
                 <Route path="progressSection" element={<ProgressSection />}>
-                  <Route index element={<Navigate to="activity" replace />} />
+                  <Route index element={<Navigate to="muscles" replace />} />
+                  <Route path="muscles" element={<ProgressMuscles />} />
                   <Route path="activity" element={<ProgressActivity />} />
                   <Route path="exercises" element={<ProgressExercises />} />
-                  <Route path="muscles" element={<ProgressMuscles />} />
                 </Route>
                 <Route path="friendsSection" element={<FriendsSection />} />
               </Route>

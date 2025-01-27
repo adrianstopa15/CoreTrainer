@@ -16,6 +16,7 @@ export type Training = {
   userId: string;
   name: string;
   date: string;
+  trainingTime: number;
   exercises: Exercise[];
 };
 

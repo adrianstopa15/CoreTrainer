@@ -163,7 +163,7 @@ export default function ProgressMuscles() {
       <div className={styles.statsElement}>
         <h2 className="text-center lg:text-xl">Ulubiona partia mięsniowa</h2>
         <ResponsiveContainer>
-          <PieChart>
+          <PieChart margin={{ top: 20, right: 20, left: 40 }}>
             <Pie
               data={muscleGroupData}
               dataKey="value"

@@ -6,14 +6,6 @@ export default function ProgressSection() {
     <div className="bgLogged">
       <div className="flex align-center justify-center mb-16 pt-16">
         <NavLink
-          to="activity"
-          className={({ isActive }) =>
-            isActive ? "l-selected" : "l-unselected"
-          }
-        >
-          Aktywność
-        </NavLink>
-        <NavLink
           to="muscles"
           className={({ isActive }) =>
             isActive ? "l-selected" : "l-unselected"
@@ -28,6 +20,14 @@ export default function ProgressSection() {
           }
         >
           Ćwiczenia
+        </NavLink>
+        <NavLink
+          to="activity"
+          className={({ isActive }) =>
+            isActive ? "l-selected" : "l-unselected"
+          }
+        >
+          Aktywność
         </NavLink>
       </div>
       <div className={styles.activityContainer}>

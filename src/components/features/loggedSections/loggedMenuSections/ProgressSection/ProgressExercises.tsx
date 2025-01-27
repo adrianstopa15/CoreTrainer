@@ -154,31 +154,6 @@ export default function ProgressExercises() {
     <>
       <div className={styles.statsElementBig}>
         <h2 className="text-center lg:text-xl mb-4">
-          Średnia ilość serii na daną partie mięśniową
-        </h2>
-        <ResponsiveContainer>
-          <PieChart margin={{ top: 20, right: 100, left: 100, bottom: 50 }}>
-            <Pie
-              data={exerciseGroupData}
-              nameKey="name"
-              dataKey="count"
-              cx="50%"
-              cy="50%"
-              outerRadius={165}
-              isAnimationActive={true}
-              label={renderCustomLabel}
-            >
-              {exerciseGroupData.map((entry, idx) => (
-                <Cell key={`cell-${idx}`} fill={COLORS[idx % COLORS.length]} />
-              ))}
-            </Pie>
-
-            <Tooltip formatter={(count: any) => `${count} treningów`} />
-          </PieChart>
-        </ResponsiveContainer>
-      </div>
-      <div className={styles.statsElementBig}>
-        <h2 className="text-center lg:text-xl mb-4">
           1 Rep max na przestrzeni czasu
         </h2>
         <div className="mb-4 flex justify-center">
@@ -225,6 +200,29 @@ export default function ProgressExercises() {
               activeDot={{ r: 8 }}
             />
           </LineChart>
+        </ResponsiveContainer>
+      </div>
+      <div className={styles.statsElementBig}>
+        <h2 className="text-center lg:text-xl mb-12">Ulubione Ćwiczenie</h2>
+        <ResponsiveContainer>
+          <PieChart margin={{ top: 20, right: 100, left: 100, bottom: 50 }}>
+            <Pie
+              data={exerciseGroupData}
+              nameKey="name"
+              dataKey="count"
+              cx="50%"
+              cy="50%"
+              outerRadius={165}
+              isAnimationActive={true}
+              label={renderCustomLabel}
+            >
+              {exerciseGroupData.map((entry, idx) => (
+                <Cell key={`cell-${idx}`} fill={COLORS[idx % COLORS.length]} />
+              ))}
+            </Pie>
+
+            <Tooltip formatter={(count: any) => `${count} treningów`} />
+          </PieChart>
         </ResponsiveContainer>
       </div>
     </>
