@@ -14,10 +14,8 @@ import styles from "./ProgressSection.module.css";
 export default function ProgressActivity() {
   return (
     <>
-      {/* ilosc treningow w miesiacu/roku
-       średni czas trwania treningu */}
-
-      <div style={{ height: "80rem", width: "50rem" }}></div>
+      {/* ilosc treningow w miesiacu/roku- słupkowy
+       średni czas trwania treningu-simple area chart */}
     </>
   );
 }

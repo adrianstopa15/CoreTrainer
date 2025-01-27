@@ -15,51 +15,6 @@ import {
   CartesianGrid,
 } from "recharts";
 
-const data = [
-  {
-    name: "Page A",
-    uv: 4000,
-    pv: 2400,
-    amt: 2400,
-  },
-  {
-    name: "Page B",
-    uv: 3000,
-    pv: 1398,
-    amt: 2210,
-  },
-  {
-    name: "Page C",
-    uv: 2000,
-    pv: 9800,
-    amt: 2290,
-  },
-  {
-    name: "Page D",
-    uv: 2780,
-    pv: 3908,
-    amt: 2000,
-  },
-  {
-    name: "Page E",
-    uv: 1890,
-    pv: 4800,
-    amt: 2181,
-  },
-  {
-    name: "Page F",
-    uv: 2390,
-    pv: 3800,
-    amt: 2500,
-  },
-  {
-    name: "Page G",
-    uv: 3490,
-    pv: 4300,
-    amt: 2100,
-  },
-];
-
 const COLORS = [
   "#0088FE",
   "#00C49F",
@@ -151,14 +106,14 @@ export default function ProgressMuscles() {
     for (const training of trainings) {
       for (const exercise of training.exercises) {
         const muscle = exercise.bodyPart;
-        const totalReps = exercise.series.length;
+        const totalSeries = exercise.series.length;
         muscleSeriesCounter[muscle] =
-          (muscleSeriesCounter[muscle] || 0) + totalReps;
+          (muscleSeriesCounter[muscle] || 0) + totalSeries;
       }
     }
-    const avgReps = Object.entries(muscleSeriesCounter).map(
-      ([muscleName, reps]) => {
-        const avg = reps / totalTrainings;
+    const avgSeries = Object.entries(muscleSeriesCounter).map(
+      ([muscleName, series]) => {
+        const avg = series / totalTrainings;
 
         return {
           muscleName,
@@ -166,7 +121,7 @@ export default function ProgressMuscles() {
         };
       }
     );
-    setSeriesAvgData(avgReps);
+    setSeriesAvgData(avgSeries);
   }, [trainings]);
 
   if (isLoading) {
@@ -180,61 +135,54 @@ export default function ProgressMuscles() {
   }
 
   return (
-    <div className={styles.activityContainer}>
-      <div className={styles.statsGrid}>
-        <div className={styles.statsElement}>
-          <h2 className="text-center lg:text-xl mb-4">
-            Średnia ilość serii na daną partie mięśniową
-          </h2>
-          <ResponsiveContainer width="100%" height="100%">
-            <BarChart
-              data={seriesAvgData}
-              margin={{ top: 20, right: 20, left: 20, bottom: 50 }}
-            >
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis
-                dataKey="muscleName"
-                tick={{ fontSize: 11, fill: "#FFF" }}
-                dy={15}
-                angle={-20}
-                interval={0}
-              />
-              <YAxis />
-              <Tooltip
-                formatter={(value: any) => `${value} serii na trening`}
-              />
+    <>
+      <div className={styles.statsElement}>
+        <h2 className="text-center lg:text-xl mb-4">
+          Średnia ilość serii na daną partie mięśniową
+        </h2>
+        <ResponsiveContainer width="100%" height="100%">
+          <BarChart
+            data={seriesAvgData}
+            margin={{ top: 20, right: 20, left: 20, bottom: 50 }}
+          >
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis
+              dataKey="muscleName"
+              tick={{ fontSize: 11, fill: "#FFF" }}
+              dy={15}
+              angle={-20}
+              interval={0}
+            />
+            <YAxis />
+            <Tooltip formatter={(value: any) => `${value} serii na trening`} />
 
-              <Bar dataKey="średnia" stackId="a" fill="#8884d8" />
-            </BarChart>
-          </ResponsiveContainer>
-        </div>
-        <div className={styles.statsElement}>
-          <h2 className="text-center lg:text-xl">Ulubiona partia mięsniowa</h2>
-          <ResponsiveContainer>
-            <PieChart>
-              <Pie
-                data={muscleGroupData}
-                dataKey="value"
-                nameKey="name"
-                cx="50%"
-                cy="50%"
-                outerRadius={160}
-                isAnimationActive={true}
-                label={renderCustomLabel}
-              >
-                {muscleGroupData.map((entry, idx) => (
-                  <Cell
-                    key={`cell-${idx}`}
-                    fill={COLORS[idx % COLORS.length]}
-                  />
-                ))}
-              </Pie>
-
-              <Tooltip formatter={(value: any) => `${value} treningów`} />
-            </PieChart>
-          </ResponsiveContainer>
-        </div>
+            <Bar dataKey="średnia" stackId="a" fill="#8884d8" />
+          </BarChart>
+        </ResponsiveContainer>
       </div>
-    </div>
+      <div className={styles.statsElement}>
+        <h2 className="text-center lg:text-xl">Ulubiona partia mięsniowa</h2>
+        <ResponsiveContainer>
+          <PieChart>
+            <Pie
+              data={muscleGroupData}
+              dataKey="value"
+              nameKey="name"
+              cx="50%"
+              cy="50%"
+              outerRadius={160}
+              isAnimationActive={true}
+              label={renderCustomLabel}
+            >
+              {muscleGroupData.map((entry, idx) => (
+                <Cell key={`cell-${idx}`} fill={COLORS[idx % COLORS.length]} />
+              ))}
+            </Pie>
+
+            <Tooltip formatter={(value: any) => `${value} treningów`} />
+          </PieChart>
+        </ResponsiveContainer>
+      </div>
+    </>
   );
 }

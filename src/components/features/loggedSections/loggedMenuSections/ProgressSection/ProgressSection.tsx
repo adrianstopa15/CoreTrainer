@@ -1,6 +1,6 @@
 import React from "react";
 import { NavLink, Outlet } from "react-router-dom";
-
+import styles from "./ProgressSection.module.css";
 export default function ProgressSection() {
   return (
     <div className="bgLogged">
@@ -30,7 +30,11 @@ export default function ProgressSection() {
           Ćwiczenia
         </NavLink>
       </div>
-      <Outlet />
+      <div className={styles.activityContainer}>
+        <div className={styles.statsGrid}>
+          <Outlet />
+        </div>
+      </div>
     </div>
   );
 }

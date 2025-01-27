@@ -25,7 +25,6 @@ import LogWorkout from "./components/features/loggedSections/loggedMenuSections/
 import ProgressActivity from "./components/features/loggedSections/loggedMenuSections/ProgressSection/ProgressActivity";
 import ProgressExercises from "./components/features/loggedSections/loggedMenuSections/ProgressSection/ProgressExercises";
 import ProgressMuscles from "./components/features/loggedSections/loggedMenuSections/ProgressSection/ProgressMuscles";
-import ProgressTest from "./components/features/loggedSections/loggedMenuSections/ProgressSection/ProgressTest";
 Modal.setAppElement("#root");
 axios.defaults.withCredentials = true;
 
