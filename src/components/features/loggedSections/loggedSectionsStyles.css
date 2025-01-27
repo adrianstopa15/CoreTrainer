@@ -209,6 +209,9 @@
 .exerciseImg {
   height: 8rem;
 }
+.exerciseImgBig {
+  height: 12rem;
+}
 .exercises-grid {
   margin-top: 1rem;
   display: grid;
@@ -266,8 +269,8 @@
 }
 .workoutContainer {
 }
-.workoutContainer input,
-.addWorkoutForm input,
+.workoutContainer input:not([type="checkbox"]),
+.addWorkoutForm input:not([type="checkbox"]),
 .addWorkoutForm select {
   text-align: center;
   background-color: rgb(54, 54, 54);
@@ -278,6 +281,7 @@
   margin-bottom: 1.2rem;
   font-size: 16px;
 }
+
 .addWorkoutForm {
   display: flex;
   flex-direction: column;
@@ -307,6 +311,7 @@
 .bs-black {
   box-shadow: rgb(0, 0, 0) 0 0 25px;
 }
+
 .selectedExerciseElementForm label {
 }
 .selectedExerciseElementInfo {

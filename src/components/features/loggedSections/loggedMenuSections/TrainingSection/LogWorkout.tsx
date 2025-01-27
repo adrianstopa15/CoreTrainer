@@ -58,9 +58,13 @@ const modalStyles = {
 export default function TrainingCreator() {
   const [modalIsOpen, setIsOpen] = useState(false);
   const [workoutModalOpen, setWorkoutModalOpen] = useState(false);
+  const [exerciseInfoModalIsOpen, setExerciseInfoModalIsOpen] = useState(false);
+  const [selectedExerciseInfo, setSelectedExerciseInfo] =
+    useState<Exercise | null>(null);
   const [filterBodySection, setFilterBodySection] = useState<string>("");
   const [exercises, setExercises] = useState<Exercise[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>("");
+  const [workoutSetsMode, setWorkoutSetsMode] = useState<boolean>(false);
 
   const [selectedExercises, setSelectedExercises] = useState<
     ISelectedExercise[]
@@ -125,12 +129,18 @@ export default function TrainingCreator() {
     });
   }
 
-  //modal do treningu:
   const openWorkoutModal = () => {
     setWorkoutModalOpen(true);
   };
   const closeWorkoutModal = () => {
     setWorkoutModalOpen(false);
+  };
+  const openExerciseInfoModal = (exercise: Exercise) => {
+    setSelectedExerciseInfo(exercise);
+    setExerciseInfoModalIsOpen(true);
+  };
+  const closeExerciseInfoModal = () => {
+    setExerciseInfoModalIsOpen(false);
   };
 
   const handleDragStart = (e: React.DragEvent, exercise: any) => {
@@ -396,6 +406,7 @@ export default function TrainingCreator() {
                       key={e.name}
                       draggable
                       onDragStart={(event) => handleDragStart(event, e)}
+                      onClick={() => openExerciseInfoModal(e)}
                     >
                       <img
                         src={`http://localhost:5000/${e.img}`}
@@ -406,13 +417,23 @@ export default function TrainingCreator() {
                     </div>
                   ))}
               </div>
-
-              <div className="exercisesButtonsContainer">
-                <button className="button-green mr-8" onClick={openModal}>
-                  dodaj ćwiczenie
-                </button>
-                <button className="button-blue">gotowe zestawy ćwiczeń</button>
-              </div>
+              {!workoutSetsMode ? (
+                <div className="exercisesButtonsContainer">
+                  <button className="button-green mr-8" onClick={openModal}>
+                    dodaj ćwiczenie
+                  </button>
+                  <button className="button-blue">
+                    gotowe zestawy ćwiczeń
+                  </button>
+                </div>
+              ) : (
+                <div className="exercisesButtonsContainer">
+                  <button className="button-green mr-8" onClick={openModal}>
+                    dodaj zestaw ćwiczeń
+                  </button>
+                  <button className="button-blue">ćwiczenia</button>
+                </div>
+              )}
             </div>
           </div>
           <div className="creatorSection-right">
@@ -593,11 +614,9 @@ export default function TrainingCreator() {
                 maxLength={30}
               />
             </div>
-            <div className="mb-3">
-              <h3>Data i godzina:</h3>
-            </div>
+
             <div>
-              <h2>Rozpoczęcia</h2>
+              <h2>Data rozpoczęcia</h2>
 
               <input
                 type="datetime-local"
@@ -605,8 +624,8 @@ export default function TrainingCreator() {
                 onChange={handleStartDateTimeChange}
               />
             </div>
-            <div className="mb-4">
-              <h2>Zakończenia</h2>
+            <div className="mb-2">
+              <h2>Data zakończenia</h2>
 
               <input
                 min={startDateTime}
@@ -616,6 +635,11 @@ export default function TrainingCreator() {
                 onChange={handleEndDateTimeChange}
                 className="styling-none"
               />
+            </div>
+            <div className="flex mb-4">
+              <p>Zapisz zestaw ćwiczeń</p>
+
+              <input type="checkbox" className="ml-2" />
             </div>
 
             <div className="flex">
@@ -635,6 +659,26 @@ export default function TrainingCreator() {
             </div>
           </form>
         </div>
+      </Modal>
+      <Modal
+        isOpen={exerciseInfoModalIsOpen}
+        onRequestClose={closeExerciseInfoModal}
+        contentLabel="Info o ćwiczeniu"
+        style={modalStyles}
+      >
+        {selectedExerciseInfo && (
+          <div className="flex flex-col items-center justify-center">
+            <h2 className="lg:text-3xl mb-12">{selectedExerciseInfo.name}</h2>
+            <img
+              src={`http://localhost:5000/${selectedExerciseInfo.img}`}
+              alt={selectedExerciseInfo.name}
+              className="exerciseImgBig mb-4"
+            />
+            <p className="lg: text-xl">
+              partia mięsniowa: {selectedExerciseInfo.bodyPart}
+            </p>
+          </div>
+        )}
       </Modal>
     </>
   );
