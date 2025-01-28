@@ -6,6 +6,7 @@ export function useWorkouts() {
   return useQuery<Training[]>({
     queryKey: ["workouts"],
     queryFn: fetchWorkouts,
+    initialData: [],
   });
 }
 

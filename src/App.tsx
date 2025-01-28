@@ -25,6 +25,7 @@ import LogWorkout from "./components/features/loggedSections/loggedMenuSections/
 import ProgressActivity from "./components/features/loggedSections/loggedMenuSections/ProgressSection/ProgressActivity";
 import ProgressExercises from "./components/features/loggedSections/loggedMenuSections/ProgressSection/ProgressExercises";
 import ProgressMuscles from "./components/features/loggedSections/loggedMenuSections/ProgressSection/ProgressMuscles";
+import AutoTrainingCreator from "./components/features/loggedSections/loggedMenuSections/TrainingSection/AutoTrainingCreator";
 Modal.setAppElement("#root");
 axios.defaults.withCredentials = true;
 
@@ -56,6 +57,11 @@ function App() {
                 </Route>
 
                 <Route path="trainingCreator" element={<TrainingCreator />} />
+                <Route
+                  path="autoTrainingCreator"
+                  element={<AutoTrainingCreator />}
+                />
+
                 <Route path="logWorkout" element={<LogWorkout />} />
                 <Route path="progressSection" element={<ProgressSection />}>
                   <Route index element={<Navigate to="muscles" replace />} />
