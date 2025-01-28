@@ -160,6 +160,12 @@
   transition: all 0.2s;
   border: 1px solid rgb(180, 180, 180);
 }
+.bgLinearGreen {
+  background: linear-gradient(to bottom right, #1c6d11a4 10%, #001300a8);
+}
+.bgLinearPurple {
+  background: linear-gradient(to bottom right, #192043d2 10%, #210e17f1);
+}
 .workoutSectionContainerElement:hover {
   transform: scale(1.02);
   border: 1px solid rgb(168, 168, 168);
@@ -311,7 +317,29 @@
 .bs-black {
   box-shadow: rgb(0, 0, 0) 0 0 25px;
 }
+.containerCreator {
+  margin: 0 auto;
+}
 
+.workoutCreatorElement {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  background: linear-gradient(to bottom right, #192043 10%, #210e17);
+  width: 25rem;
+  height: auto;
+  border-radius: 5%;
+  transition: all 0.2s;
+  border: 1px solid rgb(180, 180, 180);
+  margin: 0 auto;
+}
+.workoutCreatorElement:hover {
+  transform: scale(1.02);
+  border: 1px solid rgb(168, 168, 168);
+  filter: brightness(105%);
+  box-shadow: 0px 2px 12px 0px #fff;
+}
 .selectedExerciseElementForm label {
 }
 .selectedExerciseElementInfo {

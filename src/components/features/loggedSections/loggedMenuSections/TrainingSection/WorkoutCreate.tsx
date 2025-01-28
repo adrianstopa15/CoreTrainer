@@ -7,7 +7,7 @@ export default function WorkoutCreate() {
   const navigate = useNavigate();
   return (
     <div className="workoutSectionContainer mt-6">
-      <div className="workoutSectionContainerElement mr-16">
+      <div className="workoutSectionContainerElement bgLinearGreen mr-16">
         <img src={StartWorkoutIcon} className="workoutSectionIcon" />
         <div className="workoutButtonContainer">
           <button
@@ -22,7 +22,7 @@ export default function WorkoutCreate() {
           Wprowadź dane z ostatnio wykonanego treningu
         </p>
       </div>
-      <div className="workoutSectionContainerElement">
+      <div className="workoutSectionContainerElement bgLinearPurple">
         <img src={CreateWorkoutIcon} className="workoutSectionIcon" />
         <div className="workoutButtonContainer">
           <button
