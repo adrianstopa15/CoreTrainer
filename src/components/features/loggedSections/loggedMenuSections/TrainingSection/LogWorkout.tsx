@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import lowerPartsIcon from "../../../../../assets/lowerPartsIcon.png";
 import upperPartsIcon from "../../../../../assets/upperPartsIcon.png";
 import barbelRowing from "../../../../../assets/exerciseBarbelRowingPhoto.png";
+import { useSubmitWorkout } from "../../../../../hooks/useWorkouts";
+import { useSubmitWorkoutSet } from "../../../../../hooks/useWorkoutSet";
 import Modal from "react-modal";
 import axios from "axios";
 
@@ -55,7 +57,7 @@ const modalStyles = {
   },
 };
 
-export default function TrainingCreator() {
+export default function LogWorkout() {
   const [modalIsOpen, setIsOpen] = useState(false);
   const [workoutModalOpen, setWorkoutModalOpen] = useState(false);
   const [exerciseInfoModalIsOpen, setExerciseInfoModalIsOpen] = useState(false);
@@ -65,6 +67,9 @@ export default function TrainingCreator() {
   const [exercises, setExercises] = useState<Exercise[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [workoutSetsMode, setWorkoutSetsMode] = useState<boolean>(false);
+  const [setChecked, setSetChecked] = useState<boolean>(false);
+  const submitWorkoutMutation = useSubmitWorkout();
+  const submitWorkoutSetMutation = useSubmitWorkoutSet();
 
   const [selectedExercises, setSelectedExercises] = useState<
     ISelectedExercise[]
@@ -326,18 +331,37 @@ export default function TrainingCreator() {
       const trainingDurationMs = end - start;
       const trainingTime = Math.floor(trainingDurationMs / (1000 * 60));
 
-      await axios.post("http://localhost:5000/api/submitWorkout", {
+      // const workoutPayLoad = {
+      //   name: workoutName,
+      //   date: startDateTime,
+      //   trainingTime,
+      //   exercises: selectedExercises,
+      // };
+
+      await submitWorkoutMutation.mutateAsync({
         name: workoutName,
         date: startDateTime,
-        exercises: selectedExercises,
         trainingTime,
+        exercises: selectedExercises,
       });
-      console.log("trening zapisany");
+
+      if (setChecked) {
+        await submitWorkoutSetMutation.mutateAsync({
+          name: workoutName + " (set)",
+          description: "",
+          exercises: selectedExercises.map((ex) => ({
+            ...ex,
+            series: ex.series.map((s) => ({ ...s, kg: "" })),
+          })),
+        });
+      }
+
       closeWorkoutModal();
     } catch (error) {
       console.error("Nie udało się zapisac treningu", error);
     }
   };
+
   const HideUpper = () => {
     if (filterBodySection === "lower") {
       setFilterBodySection("");
@@ -639,7 +663,12 @@ export default function TrainingCreator() {
             <div className="flex mb-4">
               <p>Zapisz zestaw ćwiczeń</p>
 
-              <input type="checkbox" className="ml-2" />
+              <input
+                type="checkbox"
+                className="ml-2"
+                checked={setChecked}
+                onChange={(e) => setSetChecked(e.target.checked)}
+              />
             </div>
 
             <div className="flex">

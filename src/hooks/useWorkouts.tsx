@@ -1,6 +1,10 @@
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { fetchWorkouts, submitWorkout } from "../api/workouts";
-import type { Training } from "../api/workouts";
+import type {
+  SubmitWorkoutData,
+  SubmitWorkoutResponse,
+  Training,
+} from "../api/workouts";
 
 export function useWorkouts() {
   return useQuery<Training[]>({
@@ -11,7 +15,8 @@ export function useWorkouts() {
 }
 
 export function useSubmitWorkout() {
-  return useMutation(submitWorkout, {
+  return useMutation<SubmitWorkoutResponse, Error, SubmitWorkoutData>({
+    mutationFn: submitWorkout,
     onSuccess: (data) => {
       console.log("trening zapisany", data);
     },

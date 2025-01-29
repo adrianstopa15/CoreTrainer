@@ -2,8 +2,8 @@ import axios from "axios";
 
 const API_URL = "http://localhost:5000/api";
 export type Series = {
-  kg: number;
-  reps: number;
+  kg: number | string;
+  reps: number | string;
 };
 export type Exercise = {
   name: string;
@@ -27,14 +27,20 @@ export const fetchWorkouts = async (): Promise<Training[]> => {
   return response.data.userWorkouts || [];
 };
 
-interface SubmitWorkoutData {
+export interface SubmitWorkoutData {
   name: string;
   date: string;
   trainingTime: number;
   exercises: Exercise[];
 }
+export interface SubmitWorkoutResponse {
+  message: string;
+  newWorkout?: any;
+}
 
-export const submitWorkout = async (workoutData: SubmitWorkoutData) => {
+export const submitWorkout = async (
+  workoutData: SubmitWorkoutData
+): Promise<SubmitWorkoutResponse> => {
   const response = await axios.post(`${API_URL}/submitWorkout`, workoutData, {
     withCredentials: true,
   });

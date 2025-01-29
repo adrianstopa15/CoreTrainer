@@ -1,0 +1,35 @@
+import axios from "axios";
+
+const API_URL = "http://localhost:5000/api";
+
+export interface Series {
+  kg: number | string;
+  reps: number | string;
+}
+
+export interface Exercise {
+  name: string;
+  bodyPart: string;
+  bodySection: string;
+  img: string | null;
+  series: Series[];
+}
+
+export interface WorkoutSetData {
+  name: string;
+  description: string;
+  exercises: Exercise[];
+}
+export interface WorkoutSetResponse {
+  message: string;
+  newSet?: any;
+}
+
+export async function submitWorkoutSet(
+  data: WorkoutSetData
+): Promise<WorkoutSetResponse> {
+  const response = await axios.post(`${API_URL}/submitWorkoutSet`, data, {
+    withCredentials: true,
+  });
+  return response.data;
+}

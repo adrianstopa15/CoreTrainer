@@ -13,6 +13,7 @@ import * as multer from "multer";
 import * as path from "path";
 import Exercise from "./models/Exercise";
 import Workout from "./models/Workout";
+import WorkoutSet from "./models/WorkoutSet";
 dotenv.config();
 
 const app = express();
@@ -318,6 +319,42 @@ app.get("/api/getWorkouts", async (req: Request, res: Response) => {
     return res.status(200).json({ userWorkouts });
   } catch (error) {
     console.error(error);
+  }
+});
+
+app.post("/api/submitWorkoutSet", async (req: Request, res: Response) => {
+  try {
+    const token = req.cookies.token;
+    if (!token) {
+      return res
+        .status(401)
+        .json({ error: "Brak aktywnego tokenu, zaloguj się!" });
+    }
+    let decoded;
+    try {
+      decoded = jwt.verify(token, process.env.JWT_SECRET!);
+    } catch (error) {
+      return res
+        .status(401)
+        .json({ error: "Token jest nieprawidłowy, lub wygasł" });
+    }
+    const userId = decoded.userId;
+    const { name, exercises, description } = req.body;
+    const newSet = new WorkoutSet({
+      userId,
+      name: name || "Mój zestaw",
+      description: description || "",
+      exercises,
+    });
+
+    await newSet.save();
+
+    return res
+      .status(201)
+      .json({ message: "Pomyślnie dodano nowy zestaw treningowy", newSet });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Nie udało się zapisać zestawu" });
   }
 });
 
