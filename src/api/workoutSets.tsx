@@ -33,3 +33,10 @@ export async function submitWorkoutSet(
   });
   return response.data;
 }
+
+export const fetchWorkoutSets = async (): Promise<WorkoutSetData[]> => {
+  const response = await axios.get(`${API_URL}/getWorkoutSets`, {
+    withCredentials: true,
+  });
+  return response.data;
+};

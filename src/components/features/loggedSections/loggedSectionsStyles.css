@@ -212,6 +212,9 @@
 .bodyPartsIconSelected {
   filter: brightness(100%);
 }
+.exerciseImgMini {
+  height: 5rem;
+}
 .exerciseImg {
   height: 8rem;
 }

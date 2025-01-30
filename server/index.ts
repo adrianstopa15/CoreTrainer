@@ -357,6 +357,34 @@ app.post("/api/submitWorkoutSet", async (req: Request, res: Response) => {
     return res.status(500).json({ error: "Nie udało się zapisać zestawu" });
   }
 });
+app.get("/api/getWorkoutSets", async (req: Request, res: Response) => {
+  try {
+    const token = req.cookies.token;
+    if (!token) {
+      return res
+        .status(400)
+        .json({ error: "Sesja użytkownika nie jest aktywna, zaloguj się!" });
+    }
+    let decoded;
+    try {
+      decoded = jwt.verify(token, process.env.JWT_SECRET!);
+    } catch (error) {
+      console.error(error);
+      return res
+        .status(401)
+        .json({ error: "Token nie jest aktywny lu stracil ważność" });
+    }
+    const loggedUserId = decoded.userId;
+    const workoutSets = await WorkoutSet.find({ userId: loggedUserId });
+
+    return res.status(200).json(workoutSets);
+  } catch (error) {
+    console.error(error);
+    return res
+      .status(500)
+      .json({ error: "Nie udało pobrać się zestawów ćwiczeń" });
+  }
+});
 
 app.options("/api/register", cors());
 app.options("/api/login", cors());

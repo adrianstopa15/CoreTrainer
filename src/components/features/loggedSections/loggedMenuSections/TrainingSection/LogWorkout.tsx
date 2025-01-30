@@ -2,8 +2,12 @@ import React, { useEffect, useState } from "react";
 import lowerPartsIcon from "../../../../../assets/lowerPartsIcon.png";
 import upperPartsIcon from "../../../../../assets/upperPartsIcon.png";
 import barbelRowing from "../../../../../assets/exerciseBarbelRowingPhoto.png";
+import workoutSetIcon from "../../../../../assets/workoutSetIcon.png";
 import { useSubmitWorkout } from "../../../../../hooks/useWorkouts";
-import { useSubmitWorkoutSet } from "../../../../../hooks/useWorkoutSet";
+import {
+  useSubmitWorkoutSet,
+  useWorkoutSets,
+} from "../../../../../hooks/useWorkoutSet";
 import Modal from "react-modal";
 import axios from "axios";
 
@@ -68,9 +72,17 @@ export default function LogWorkout() {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [workoutSetsMode, setWorkoutSetsMode] = useState<boolean>(false);
   const [setChecked, setSetChecked] = useState<boolean>(false);
+  const [setModeActive, setSetModeActive] = useState<boolean>(false);
+
   const submitWorkoutMutation = useSubmitWorkout();
   const submitWorkoutSetMutation = useSubmitWorkoutSet();
-
+  const workoutSetMutation = useWorkoutSets();
+  const {
+    data: workoutSets,
+    isLoading: setsLoading,
+    error: setsError,
+    refetch: refetchSets,
+  } = useWorkoutSets();
   const [selectedExercises, setSelectedExercises] = useState<
     ISelectedExercise[]
   >([]);
@@ -153,15 +165,32 @@ export default function LogWorkout() {
   };
   const handleDrop = (e: React.DragEvent) => {
     e.preventDefault();
-    const exerciseData = e.dataTransfer.getData("exercise");
-    const exercise = JSON.parse(exerciseData);
+    const dataString = e.dataTransfer.getData("exercise");
+    const draggedObject = JSON.parse(dataString);
 
-    const exerciseWithSeries: ISelectedExercise = {
-      ...exercise,
-      series: [{ kg: "", reps: "" }],
-    };
+    if (draggedObject.exercises) {
+      const exercisesFromSet: ISelectedExercise[] = draggedObject.exercises.map(
+        (ex: any) => ({
+          name: ex.name,
+          bodySection: ex.bodySection,
+          bodyPart: ex.bodyPart,
+          img: ex.img,
+          series: ex.series.map((s: any) => ({
+            kg: "",
+            reps: s.reps || "",
+          })),
+        })
+      );
 
-    setSelectedExercises((prev) => [...prev, exerciseWithSeries]);
+      setSelectedExercises((prev) => [...prev, ...exercisesFromSet]);
+    } else {
+      // Zwykłe ćwiczenie
+      const exerciseWithSeries: ISelectedExercise = {
+        ...draggedObject,
+        series: [{ kg: "", reps: "" }],
+      };
+      setSelectedExercises((prev) => [...prev, exerciseWithSeries]);
+    }
   };
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault();
@@ -418,35 +447,60 @@ export default function LogWorkout() {
 
             <div className="creatorSection-left--workoutsContainer">
               <div className="exercises-grid ">
-                {exercises
-                  .filter(
-                    (e) =>
-                      e.bodySection !== filterBodySection &&
-                      e.name.toLowerCase().includes(searchQuery)
-                  )
-                  .map((e) => (
-                    <div
-                      className="exercises-grid--card"
-                      key={e.name}
-                      draggable
-                      onDragStart={(event) => handleDragStart(event, e)}
-                      onClick={() => openExerciseInfoModal(e)}
-                    >
-                      <img
-                        src={`http://localhost:5000/${e.img}`}
-                        className="exerciseImg"
-                        alt={e.name}
-                      />
-                      <h3 className="mt-1">{e.name}</h3>
-                    </div>
-                  ))}
+                {!setModeActive ? (
+                  <>
+                    {exercises
+                      .filter(
+                        (e) =>
+                          e.bodySection !== filterBodySection &&
+                          e.name.toLowerCase().includes(searchQuery)
+                      )
+                      .map((e) => (
+                        <div
+                          className="exercises-grid--card"
+                          key={e.name}
+                          draggable
+                          onDragStart={(event) => handleDragStart(event, e)}
+                          onClick={() => openExerciseInfoModal(e)}
+                        >
+                          <img
+                            src={`http://localhost:5000/${e.img}`}
+                            className="exerciseImg"
+                            alt={e.name}
+                          />
+                          <h3 className="mt-1">{e.name}</h3>
+                        </div>
+                      ))}
+                  </>
+                ) : (
+                  <>
+                    {workoutSets?.map((set) => (
+                      <div
+                        className="exercises-grid--card"
+                        key={set.name}
+                        draggable
+                        onDragStart={(event) => handleDragStart(event, set)}
+                      >
+                        <img
+                          src={workoutSetIcon}
+                          className="exerciseImg"
+                          alt={set.name}
+                        />
+                        <h3 className="mt-1">{set.name}</h3>
+                      </div>
+                    ))}
+                  </>
+                )}
               </div>
               {!workoutSetsMode ? (
                 <div className="exercisesButtonsContainer">
                   <button className="button-green mr-8" onClick={openModal}>
                     dodaj ćwiczenie
                   </button>
-                  <button className="button-blue">
+                  <button
+                    className="button-blue"
+                    onClick={() => setSetModeActive(!setModeActive)}
+                  >
                     gotowe zestawy ćwiczeń
                   </button>
                 </div>

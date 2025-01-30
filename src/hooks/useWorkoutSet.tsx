@@ -1,5 +1,6 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import {
+  fetchWorkoutSets,
   submitWorkoutSet,
   WorkoutSetData,
   WorkoutSetResponse,
@@ -14,5 +15,13 @@ export function useSubmitWorkoutSet() {
     onError: (error) => {
       console.error("Nie udało się zapisać zestawu", error);
     },
+  });
+}
+
+export function useWorkoutSets() {
+  return useQuery<WorkoutSetData[]>({
+    queryKey: ["workoutSets"],
+    queryFn: fetchWorkoutSets,
+    initialData: [],
   });
 }
