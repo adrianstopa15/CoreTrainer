@@ -1,6 +1,7 @@
 import axios from "axios";
 
 const API_URL = "http://localhost:5000/api";
+
 export type Series = {
   kg: number | string;
   reps: number | string;

@@ -3,6 +3,18 @@
   color: white;
   padding-bottom: 95vh;
 }
+.bgLoggedBlack {
+  background-color: rgb(10, 10, 10);
+  color: white;
+  padding-bottom: 35vh;
+  background-image: linear-gradient(rgb(24, 24, 24), rgb(5, 5, 5));
+}
+.logHero {
+  display: flex;
+  flex-direction: row;
+  max-width: 150rem;
+  margin: 0 auto;
+}
 ::-webkit-scrollbar {
   width: 6px;
 }
@@ -69,7 +81,10 @@
 .button-red,
 .button-blue,
 .button-green,
-.button-green-whitebg {
+.button-dark-green,
+.button-green-whitebg,
+.button-standard,
+.button-blue-dark {
   display: flex;
   text-align: center;
   justify-content: center;
@@ -77,7 +92,29 @@
   padding: 0.3rem 0.3rem;
   border-radius: 8px;
   text-transform: uppercase;
-  transition: 0.2s;
+  transition: 0.1s;
+}
+.button-dark-green {
+  background-image: linear-gradient(rgb(106, 165, 91), rgb(10, 43, 7));
+  color: white;
+  box-shadow: rgba(255, 255, 255, 0.199) 0 1px 9px;
+}
+.button-dark-green:hover {
+  box-shadow: rgba(255, 255, 255, 0.329) 0 2px 9px;
+  transform: translateY(-2px);
+}
+.button-blue-dark {
+  background-image: linear-gradient(rgb(100, 109, 194), rgb(16, 32, 73));
+  color: white;
+  box-shadow: rgba(255, 255, 255, 0.192) 0 1px 8px;
+}
+.button-blue-dark:hover {
+  box-shadow: rgba(255, 255, 255, 0.219) 0 2px 9px;
+  transform: translateY(-2px);
+}
+.button-standard:hover {
+  box-shadow: rgba(255, 255, 255, 0.219) 0 2px 9px;
+  transform: translateY(-2px);
 }
 .button-red {
   background-color: red;
@@ -106,7 +143,7 @@
 .button-green:hover {
   color: rgb(8, 196, 48);
   background-color: #fff;
-  box-shadow: rgb(255, 255, 255) 0 0 25px;
+  box-shadow: rgba(255, 255, 255, 0.856) 0 2px 25px;
 }
 .button-green-whitebg {
   transition: 0.2s;
@@ -181,18 +218,21 @@
   margin-bottom: 2rem;
 }
 .creatorSection-left {
-  background-color: rgba(224, 35, 35, 0.027);
-  height: 60rem;
-  width: 45rem;
+  min-width: 45rem;
+  max-width: 60rem;
+  max-height: 60rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
 }
 .creatorSection-right {
-  background-color: rgb(167, 165, 165);
-  height: 60rem;
-  width: 88rem;
+  margin-left: 2rem;
+  margin-top: 5rem;
+  min-width: 80rem;
+  max-height: 50rem;
+  min-height: 50rem;
+  max-width: 80rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -226,35 +266,45 @@
   display: grid;
   gap: 30px;
   grid-template-columns: repeat(3, 1fr);
+  /* max-height: 40rem;
+  min-height: 30rem; */
+  max-height: 35rem;
+  overflow-y: auto;
 }
 .exercises-grid--card {
-  background-color: rgba(70, 70, 70, 0.336);
+  background-image: linear-gradient(
+    rgba(255, 255, 255, 0.137),
+    rgba(65, 65, 65, 0.103)
+  );
+
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  border: 1px solid rgba(129, 129, 129, 0.486);
+  /* border: 1px solid rgba(129, 129, 129, 0.486); */
   padding: 0.2rem 0.5rem 0.5rem 0.5rem;
   filter: brightness(80%);
   cursor: pointer;
-  box-shadow: rgb(17, 17, 17) 0 0 15px;
+  box-shadow: rgba(211, 211, 211, 0.212) 0 0 15px;
+  border-radius: 5px;
+  /* max-height: 15rem; */
 }
 .exercises-grid--card:hover {
   filter: brightness(110%);
+  transform: translateY(-1px);
 }
 .exercisesButtonsContainer {
   display: flex;
-  align-items: center;
   justify-content: center;
+
   margin-top: 2rem;
 }
 .exercisesBox {
-  border: 1px solid rgba(255, 255, 255, 0.541);
-  width: 90%;
-  height: 90%;
-  background-color: rgb(197, 195, 195);
-  overflow-y: scroll;
-  box-shadow: rgb(128, 128, 128) 0 0 15px;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  box-shadow: rgba(255, 255, 255, 0.274) 0 0 20px;
+  border-radius: 15px;
 }
 .selectedExerciseElement {
   display: flex;
@@ -264,10 +314,16 @@
 .selectedExerciseBox {
   display: flex;
   flex-direction: row;
-  border: 1px solid rgba(241, 241, 241, 0.76);
   margin: 2rem;
   margin-bottom: 2rem;
-  box-shadow: rgb(128, 128, 128) 0 0 15px;
+  background-color: transparent;
+  background-image: linear-gradient(
+    rgba(255, 255, 255, 0.147),
+    rgba(65, 65, 65, 0.103)
+  );
+  backdrop-filter: blur(50px);
+  border-radius: 15px;
+  box-shadow: rgba(255, 255, 255, 0.045) 0 3px 12px;
 }
 .selectedExerciseElementInfo {
   flex: 1;
@@ -317,9 +373,7 @@
   color: rgba(253, 4, 4, 0.767);
   cursor: pointer;
 }
-.bs-black {
-  box-shadow: rgb(0, 0, 0) 0 0 25px;
-}
+
 .containerCreator {
   margin: 0 auto;
 }

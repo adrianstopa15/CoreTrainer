@@ -4,6 +4,7 @@ import upperPartsIcon from "../../../../../assets/upperPartsIcon.png";
 import barbelRowing from "../../../../../assets/exerciseBarbelRowingPhoto.png";
 import workoutSetIcon from "../../../../../assets/workoutSetIcon.png";
 import { useSubmitWorkout } from "../../../../../hooks/useWorkouts";
+import { Button } from "@headlessui/react";
 import {
   useSubmitWorkoutSet,
   useWorkoutSets,
@@ -54,10 +55,16 @@ const modalStyles = {
     marginRight: "-50%",
     padding: "2rem",
     transform: "translate(-50%, -50%)",
-    backgroundColor: "rgba(255,255,255,0.9)",
+    backdropFilter: "blur(10px)",
+    WebkitBackdropFilter: "blur(10px)",
+    backgroundImage:
+      "linear-gradient(to bottom, rgba(255, 255, 255, 0.3), rgba(220, 220, 220, 0.21))",
+    backgroundColor: "transparent",
+    border: "none",
+    color: "white",
   },
   overlay: {
-    backgroundColor: "rgba(0,0,0,0.75)",
+    backgroundColor: "rgba(0,0,0,0.7)",
   },
 };
 
@@ -408,8 +415,8 @@ export default function LogWorkout() {
 
   return (
     <>
-      <div className="bgLogged">
-        <div className="flex flex-row">
+      <div className="bgLoggedBlack">
+        <div className="logHero">
           <div className="creatorSection-left">
             <input
               placeholder="wyszukaj ćwiczenie"
@@ -417,34 +424,35 @@ export default function LogWorkout() {
               onChange={(e) =>
                 setSearchQuery(e.target.value.toLocaleLowerCase())
               }
-              className="bs-black text-center mt-4 bg-gray-200 text-gray-700"
+              className="text-gray-100 text-center mt-4 bg-gray-500"
             />
-            <div className="flex mt-3">
-              <div className="mr-4" onClick={HideUpper}>
-                <img
-                  src={upperPartsIcon}
-                  alt=""
-                  className={
-                    filterBodySection === "lower"
-                      ? "bodyPartsIconSelected"
-                      : "bodyPartsIcon"
-                  }
-                />
+            {!setModeActive && (
+              <div className="flex mt-3">
+                <div className="mr-4" onClick={HideUpper}>
+                  <img
+                    src={upperPartsIcon}
+                    alt=""
+                    className={
+                      filterBodySection === "lower"
+                        ? "bodyPartsIconSelected"
+                        : "bodyPartsIcon"
+                    }
+                  />
+                </div>
+                <div>
+                  <img
+                    src={lowerPartsIcon}
+                    alt=""
+                    className={
+                      filterBodySection === "upper"
+                        ? "bodyPartsIconSelected"
+                        : "bodyPartsIcon"
+                    }
+                    onClick={HideLower}
+                  />
+                </div>
               </div>
-              <div>
-                <img
-                  src={lowerPartsIcon}
-                  alt=""
-                  className={
-                    filterBodySection === "upper"
-                      ? "bodyPartsIconSelected"
-                      : "bodyPartsIcon"
-                  }
-                  onClick={HideLower}
-                />
-              </div>
-            </div>
-
+            )}
             <div className="creatorSection-left--workoutsContainer">
               <div className="exercises-grid ">
                 {!setModeActive ? (
@@ -492,32 +500,32 @@ export default function LogWorkout() {
                   </>
                 )}
               </div>
-              {!workoutSetsMode ? (
-                <div className="exercisesButtonsContainer">
-                  <button className="button-green mr-8" onClick={openModal}>
-                    dodaj ćwiczenie
-                  </button>
-                  <button
-                    className="button-blue"
-                    onClick={() => setSetModeActive(!setModeActive)}
-                  >
-                    gotowe zestawy ćwiczeń
-                  </button>
-                </div>
-              ) : (
-                <div className="exercisesButtonsContainer">
-                  <button className="button-green mr-8" onClick={openModal}>
-                    dodaj zestaw ćwiczeń
-                  </button>
-                  <button className="button-blue">ćwiczenia</button>
-                </div>
-              )}
             </div>
+            {!workoutSetsMode ? (
+              <div className="exercisesButtonsContainer">
+                <button className="button-dark-green mr-8" onClick={openModal}>
+                  dodaj ćwiczenie
+                </button>
+
+                <button
+                  className="button-blue-dark"
+                  onClick={() => setSetModeActive(!setModeActive)}
+                >
+                  gotowe zestawy ćwiczeń
+                </button>
+              </div>
+            ) : (
+              <div className="exercisesButtonsContainer">
+                <button className="button-green mr-8" onClick={openModal}>
+                  dodaj zestaw ćwiczeń
+                </button>
+                <button className="button-blue">ćwiczenia</button>
+              </div>
+            )}
           </div>
           <div className="creatorSection-right">
-            <p className="mt-8 mb-1">Ćwiczenia</p>
             <div
-              className="exercisesBox"
+              className="exercisesBox mt-8"
               onDrop={handleDrop}
               onDragOver={handleDragOver}
             >
@@ -543,7 +551,7 @@ export default function LogWorkout() {
                     </div>
                     <div className="selectedExerciseElementInfo">
                       <form className="selectedExerciseElementForm">
-                        <div className="flex flex-col">
+                        <div className="flex flex-col mt-1">
                           <p>ilość serii</p>
                           <select
                             className="text-center"
@@ -604,7 +612,10 @@ export default function LogWorkout() {
                 ))
               )}
             </div>
-            <button className="button-green mt-1" onClick={openWorkoutModal}>
+            <button
+              className="button-dark-green mt-8"
+              onClick={openWorkoutModal}
+            >
               Zapisz trening
             </button>
           </div>
@@ -728,13 +739,13 @@ export default function LogWorkout() {
             <div className="flex">
               <button
                 type="submit"
-                className="button-green-whitebg mr-2 lg:text-lg"
+                className="button-standard bg-green-800 hover:bg-green-700 hover:text-white mr-4 lg:text-lg"
               >
                 Zapisz
               </button>
               <button
                 type="button"
-                className="button-blue bg-blue-500 hover:bg-blue-400 lg:text-lg"
+                className="button-standard text-white bg-red-900 hover:bg-red-800 lg:text-lg"
                 onClick={closeWorkoutModal}
               >
                 Anuluj

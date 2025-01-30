@@ -203,7 +203,7 @@ export default function ProgressExercises() {
         </ResponsiveContainer>
       </div>
       <div className={styles.statsElementBig}>
-        <h2 className="text-center lg:text-xl mb-12">Ulubione Ćwiczenie</h2>
+        <h2 className="text-center lg:text-xl mb-12">Ulubione Ćwiczenia</h2>
         <ResponsiveContainer>
           <PieChart margin={{ top: 20, right: 100, left: 100, bottom: 50 }}>
             <Pie
