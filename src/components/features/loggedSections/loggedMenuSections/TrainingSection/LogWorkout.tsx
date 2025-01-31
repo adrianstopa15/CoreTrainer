@@ -426,8 +426,8 @@ export default function LogWorkout() {
               }
               className="text-gray-100 text-center mt-4 bg-gray-500"
             />
-            {!setModeActive && (
-              <div className="flex mt-3">
+            {!setModeActive ? (
+              <div className="flex mt-3 min-h-10">
                 <div className="mr-4" onClick={HideUpper}>
                   <img
                     src={upperPartsIcon}
@@ -452,6 +452,8 @@ export default function LogWorkout() {
                   />
                 </div>
               </div>
+            ) : (
+              <div className="min-h-10 mt-3"></div>
             )}
             <div className="creatorSection-left--workoutsContainer">
               <div className="exercises-grid ">
@@ -536,25 +538,25 @@ export default function LogWorkout() {
               ) : (
                 selectedExercises.map((exercise) => (
                   <div
-                    className="selectedExerciseBox relative"
+                    className="selectedExerciseBox relative "
                     key={exercise.name}
                   >
-                    <div className="selectedExerciseElement m-8">
+                    <div className="selectedExerciseElement m-8 min-w-44">
                       {exercise.img && (
                         <img
                           src={`http://localhost:5000/${exercise.img}`}
                           alt="ex-img"
-                          className="h-36"
+                          className="h-32"
                         />
                       )}
-                      {exercise.name}
+                      <p className="text-center mt-1">{exercise.name}</p>
                     </div>
                     <div className="selectedExerciseElementInfo">
                       <form className="selectedExerciseElementForm">
                         <div className="flex flex-col mt-1">
-                          <p>ilość serii</p>
+                          <p className="mb-1">ilość serii</p>
                           <select
-                            className="text-center"
+                            className="text-center bg-gray-600 rounded-sm"
                             value={exercise.series.length}
                             onChange={(event) =>
                               handleCountSeries(event, exercise.name)
@@ -592,7 +594,7 @@ export default function LogWorkout() {
                                 max={999}
                                 value={serie.reps}
                                 placeholder="liczba powtórzeń"
-                                className="mb-1 p-1"
+                                className=" mb-1 p-1"
                                 onChange={(ev) =>
                                   handleSeriesChange(
                                     exercise.name,
@@ -672,7 +674,7 @@ export default function LogWorkout() {
               <input type="file" onChange={handleChangeFile} accept="image/*" />
               <div className="flex">
                 <button
-                  className="button-green-whitebg mt-4 text-m lg:text-xl"
+                  className="button-dark-green mt-4 text-m lg:text-lg"
                   type="submit"
                 >
                   Zapisz
