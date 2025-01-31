@@ -1,3 +1,5 @@
+@import url("react-calendar/dist/Calendar.css");
+
 .bgLogged {
   background-color: rgb(28, 30, 33);
   color: white;
@@ -402,6 +404,130 @@
   filter: brightness(105%);
   box-shadow: 0px 2px 12px 0px #fff;
 }
+.workoutCallendar {
+  border-radius: 5px;
+  box-shadow: 0px 2px 10px 7px #5e5d5d70;
+}
+
+.react-calendar {
+  width: 26rem;
+  min-height: 18rem;
+  max-width: 100%;
+  background-color: rgba(45, 45, 47, 255);
+  color: white;
+  border-radius: 8px;
+
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.125em;
+}
+.react-calendar-eventBox {
+  display: flex;
+  width: 50rem;
+  min-height: 18rem;
+  background-color: rgba(45, 45, 47, 255);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+  border: 1px solid white;
+  border-radius: 15px;
+}
+.react-calendar__navigation button {
+  color: #ffffff;
+  min-width: 44px;
+  background: none;
+  font-size: 16px;
+  margin-top: 8px;
+}
+.react-calendar__navigation button:enabled:hover,
+.react-calendar__navigation button:enabled:focus {
+  background-color: #707070;
+}
+.react-calendar__navigation button[disabled] {
+  background-color: #616161;
+}
+abbr[title] {
+  text-decoration: none;
+}
+
+.react-calendar__tile:enabled:hover,
+.react-calendar__tile:enabled:focus {
+  background: #5596f780;
+
+  border-radius: 6px;
+}
+.react-calendar__tile--now {
+  background: #318bf385;
+  border-radius: 6px;
+  font-weight: bold;
+}
+.react-calendar__tile--now:enabled:hover,
+.react-calendar__tile--now:enabled:focus {
+  background: #4583e0de;
+  border-radius: 6px;
+  font-weight: bold;
+}
+.react-calendar__tile--hasActive:enabled:hover,
+.react-calendar__tile--hasActive:enabled:focus {
+  background: #4d4d4d;
+}
+.react-calendar__tile--active {
+  background: #1a44ce;
+  border-radius: 6px;
+  font-weight: bold;
+  color: white;
+}
+.react-calendar__tile--active:enabled:hover,
+.react-calendar__tile--active:enabled:focus {
+  background: #2752e0;
+  color: white;
+}
+.react-calendar--selectRange .react-calendar__tile--hover {
+  background-color: #f8f8fa;
+}
+.react-calendar__tile--range {
+  background: #f8f8fa;
+  color: #2b56e4;
+  border-radius: 0;
+}
+.react-calendar__tile--rangeStart {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-top-left-radius: 6px;
+  border-bottom-left-radius: 6px;
+  background: #235fe0;
+  color: white;
+}
+.react-calendar__tile--rangeEnd {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-top-right-radius: 6px;
+  border-bottom-right-radius: 6px;
+  background: #3667ec;
+  color: white;
+}
+.highlight-day {
+  border-radius: 25px;
+
+  background-image: linear-gradient(
+    rgba(11, 218, 56, 0.199),
+    rgba(21, 248, 0, 0.123)
+  );
+
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+.legend-box {
+  width: 14px;
+  height: 14px;
+  display: inline-block;
+  border-radius: 5px;
+}
+.completed {
+  background-color: green;
+}
+.planned {
+  background-color: orange;
+}
+
 .selectedExerciseElementForm label {
 }
 .selectedExerciseElementInfo {
@@ -410,3 +536,4 @@
 }
 .creatorSection-left--workoutsContainer {
 }
+/*  */

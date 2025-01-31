@@ -1,5 +1,10 @@
 import React from "react";
+import WorkoutsCalendar from "../WorkoutsCalendar";
 
 export default function WorkoutsAccept() {
-  return <div>WorkoutsAccept</div>;
+  return (
+    <div>
+      <WorkoutsCalendar />
+    </div>
+  );
 }
