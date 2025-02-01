@@ -4,6 +4,7 @@ import upperPartsIcon from "../../../../../assets/upperPartsIcon.png";
 import barbelRowing from "../../../../../assets/exerciseBarbelRowingPhoto.png";
 import workoutSetIcon from "../../../../../assets/workoutSetIcon.png";
 import { useSubmitWorkout } from "../../../../../hooks/useWorkouts";
+import searchIcon from "../../../../../assets/search.png";
 import { Button } from "@headlessui/react";
 import {
   useSubmitWorkoutSet,
@@ -418,14 +419,17 @@ export default function LogWorkout() {
       <div className="bgLoggedBlack">
         <div className="logHero">
           <div className="creatorSection-left">
-            <input
-              placeholder="wyszukaj ćwiczenie"
-              value={searchQuery}
-              onChange={(e) =>
-                setSearchQuery(e.target.value.toLocaleLowerCase())
-              }
-              className="text-gray-100 text-center mt-4 bg-gray-500"
-            />
+            <div className="relative">
+              <input
+                placeholder="wyszukaj ćwiczenie"
+                value={searchQuery}
+                onChange={(e) =>
+                  setSearchQuery(e.target.value.toLocaleLowerCase())
+                }
+                className="text-gray-100 text-center mt-4 bg-gray-500"
+              />
+              <img src={searchIcon} className="searchIcon" />
+            </div>
             {!setModeActive ? (
               <div className="flex mt-3 min-h-10">
                 <div className="mr-4" onClick={HideUpper}>

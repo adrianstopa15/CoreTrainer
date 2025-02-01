@@ -527,7 +527,27 @@ abbr[title] {
 .planned {
   background-color: orange;
 }
+.workoutCalendar {
+  /* width: 30rem;
+  height: 18rem; */
+  margin-right: 5rem;
+}
 
+.calendarContainer {
+  display: flex;
+
+  min-width: 45rem;
+}
+.calendarContainerDayInfo {
+  border-left: solid rgba(255, 255, 255, 0.205) 1px;
+}
+.searchIcon {
+  height: 13px;
+  position: absolute;
+  top: 61%;
+  left: 2%;
+  filter: invert(52%) sepia(4%) saturate(300%) hue-rotate(180deg);
+}
 .selectedExerciseElementForm label {
 }
 .selectedExerciseElementInfo {

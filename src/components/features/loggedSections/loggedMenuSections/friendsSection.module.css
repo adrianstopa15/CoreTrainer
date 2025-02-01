@@ -1,0 +1,16 @@
+.searchIcon {
+  height: 13px;
+  position: absolute;
+  top: 30%;
+  left: 6%;
+  filter: invert(52%) sepia(4%) saturate(300%) hue-rotate(180deg);
+}
+.mainSection {
+  display: flex;
+}
+.leftBar li {
+  margin-bottom: 1.5rem;
+  margin-left: 4px;
+  max-width: 8rem;
+  cursor: pointer;
+}
