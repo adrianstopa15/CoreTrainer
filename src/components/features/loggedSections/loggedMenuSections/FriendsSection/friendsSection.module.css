@@ -14,10 +14,13 @@
   margin-left: 6px;
 }
 .leftBar li {
-  margin-bottom: 1.5rem;
+  margin-bottom: 0.5rem;
   margin-left: 4px;
   max-width: 8rem;
   cursor: pointer;
+}
+.leftBar li:hover {
+  background-color: rgba(26, 25, 25, 0.199);
 }
 .centerBar {
 }

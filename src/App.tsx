@@ -16,7 +16,7 @@ import UserProfileFriends from "./components/features/loggedSections/UserProfile
 import UserProfilePhotos from "./components/features/userProfilePhotos";
 import TrainingSection from "./components/features/loggedSections/loggedMenuSections/TrainingSection/TrainingSection";
 import ProgressSection from "./components/features/loggedSections/loggedMenuSections/ProgressSection/ProgressSection";
-import FriendsSection from "./components/features/loggedSections/loggedMenuSections/FriendsSection";
+import FriendsSection from "./components/features/loggedSections/loggedMenuSections/FriendsSection/FriendsSection";
 import WorkoutCreate from "./components/features/loggedSections/loggedMenuSections/TrainingSection/WorkoutCreate";
 import WorkoutsHistory from "./components/features/loggedSections/loggedMenuSections/TrainingSection/WorkoutsHistory";
 import WorkoutsAccept from "./components/features/loggedSections/loggedMenuSections/TrainingSection/WorkoutsAccept";
@@ -26,6 +26,10 @@ import ProgressActivity from "./components/features/loggedSections/loggedMenuSec
 import ProgressExercises from "./components/features/loggedSections/loggedMenuSections/ProgressSection/ProgressExercises";
 import ProgressMuscles from "./components/features/loggedSections/loggedMenuSections/ProgressSection/ProgressMuscles";
 import AutoTrainingCreator from "./components/features/loggedSections/loggedMenuSections/TrainingSection/AutoTrainingCreator";
+import SearchFriends from "./components/features/loggedSections/loggedMenuSections/FriendsSection/SearchFriends";
+import FriendsList from "./components/features/loggedSections/loggedMenuSections/FriendsSection/FriendsList";
+import FriendsRequests from "./components/features/loggedSections/loggedMenuSections/FriendsSection/FriendsRequests";
+import SearchTrainer from "./components/features/loggedSections/loggedMenuSections/FriendsSection/searchTrainer";
 Modal.setAppElement("#root");
 axios.defaults.withCredentials = true;
 
@@ -69,7 +73,16 @@ function App() {
                   <Route path="activity" element={<ProgressActivity />} />
                   <Route path="exercises" element={<ProgressExercises />} />
                 </Route>
-                <Route path="friendsSection" element={<FriendsSection />} />
+                <Route path="friendsSection" element={<FriendsSection />}>
+                  <Route
+                    index
+                    element={<Navigate to="searchFriends" replace />}
+                  />
+                  <Route path="searchFriends" element={<SearchFriends />} />
+                  <Route path="friendsList" element={<FriendsList />} />
+                  <Route path="friendsRequests" element={<FriendsRequests />} />
+                  <Route path="searchTrainer" element={<SearchTrainer />} />
+                </Route>
               </Route>
 
               <Route path="/userProfile" element={<UserProfile />}>

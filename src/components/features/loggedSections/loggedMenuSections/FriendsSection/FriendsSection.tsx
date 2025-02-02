@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import searchIcon from "../../../../assets/search.png";
+import searchIcon from "../../../../../assets/search.png";
 import styles from "./friendsSection.module.css";
-import defaultAvatar from "../../../../assets/defaultAvatar.png";
-
-interface User {
-  name: string;
-  surname: string;
-  id_: string;
-  login: string;
-  role: string;
-}
+import defaultAvatar from "../../../../../assets/defaultAvatar.png";
+import Survey from "../../../../user/Survey";
+import { NavLink, Outlet } from "react-router-dom";
 
 export default function FriendsSection() {
+  interface User {
+    name: string;
+    surname: string;
+    id_: string;
+    login: string;
+    role: string;
+  }
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [users, setUsers] = useState<User[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -54,29 +55,42 @@ export default function FriendsSection() {
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
             </div>
-            <li> szukaj znajomych</li>
-            <li> twoi znajomi</li>
-            <li> zaproszenia do grona znajomych</li>
-            <li> szukaj trenera</li>
+            <NavLink
+              to="searchFriends"
+              className={({ isActive }) =>
+                isActive ? "l-selected" : "l-unselected"
+              }
+            >
+              <li>szukaj znajomych</li>
+            </NavLink>
+            <NavLink
+              to="friendsList"
+              className={({ isActive }) =>
+                isActive ? "l-selected" : "l-unselected"
+              }
+            >
+              <li> twoi znajomi</li>
+            </NavLink>
+            <NavLink
+              to="friendsRequests"
+              className={({ isActive }) =>
+                isActive ? "l-selected" : "l-unselected"
+              }
+            >
+              <li> zaproszenia do grona znajomych</li>
+            </NavLink>
+            <NavLink
+              to="searchTrainer"
+              className={({ isActive }) =>
+                isActive ? "l-selected" : "l-unselected"
+              }
+            >
+              <li> szukaj trenera</li>
+            </NavLink>
           </ul>
         </div>
         <div className={`${styles.centerBar}`}>
-          <div className={styles.usersGrid}>
-            {users.map((u) => (
-              <div className={styles.usersGridCard}>
-                <img
-                  src={defaultAvatar}
-                  alt="profileAvatar"
-                  className={styles.profileAvatar}
-                />
-                <p className="text-xs text-gray-300 ml-2 mt-2">{u.login}</p>
-                <p className="text-xs text-gray-300 p-2">
-                  {u.name} {u.surname}
-                </p>
-                <button className={styles.btnBlue}>Dodaj znajomego</button>
-              </div>
-            ))}
-          </div>
+          <Outlet context={{ searchQuery }} />
         </div>
         <div className={styles.rightBar}></div>
       </div>
