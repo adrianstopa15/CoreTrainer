@@ -1,16 +1,54 @@
 .searchIcon {
   height: 13px;
   position: absolute;
-  top: 30%;
+  top: 20%;
   left: 6%;
   filter: invert(52%) sepia(4%) saturate(300%) hue-rotate(180deg);
 }
 .mainSection {
   display: flex;
+  justify-content: space-between;
+  padding-top: 2rem;
+}
+.leftBar {
+  margin-left: 6px;
 }
 .leftBar li {
   margin-bottom: 1.5rem;
   margin-left: 4px;
   max-width: 8rem;
   cursor: pointer;
+}
+.centerBar {
+}
+.rightBar {
+  /* min-width: 10rem; */
+}
+.usersGrid {
+  padding-top: 1rem;
+  margin-right: 10rem;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4rem;
+}
+.usersGridCard {
+  min-width: 12rem;
+  min-height: 12rem;
+  border: 1px solid rgb(126, 126, 126);
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  /* align-items: center; */
+}
+.profileAvatar {
+  height: 60%;
+  width: 100%;
+}
+.btnBlue {
+  color: rgb(210, 236, 253);
+  background-color: rgba(0, 132, 255, 0.781);
+  padding: 5px 8px;
+  margin: 15px 15px;
+  border-radius: 5px;
+  font-size: 13px;
 }

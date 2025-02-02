@@ -190,6 +190,40 @@ app.get("/api/getCurrentUser", async (req: Request, res: Response) => {
   }
 });
 
+app.get("/api/getUsers", async (req: Request, res: Response) => {
+  try {
+    const q = req.query.q as string | undefined;
+    const role = req.query.role as string | undefined;
+    const page = req.query.page ? parseInt(req.query.page as string, 10) : 1;
+    const limit = req.query.limit
+      ? parseInt(req.query.limit as string, 10)
+      : 20;
+    const query: Record<string, any> = {};
+
+    if (q) {
+      query.$or = [
+        { name: { $regex: q, $options: "i" } },
+        { surname: { $regex: q, $options: "i" } },
+        { login: { $regex: q, $options: "i" } },
+      ];
+    }
+    if (role) {
+      query["userFeatures.roles"] = role;
+    }
+
+    const users = await User.find(query)
+      .select("-password")
+      .skip((page - 1) * limit)
+      .limit(Number(limit));
+    res.status(200).json(users);
+  } catch (error) {
+    console.error("Błąd podczas wyszukiwania użytowników", error);
+    res
+      .status(500)
+      .json({ error: "Wystąpił błąd podczas wyszukiwania użytkowników" });
+  }
+});
+
 //multer:
 
 //config dla multera:
