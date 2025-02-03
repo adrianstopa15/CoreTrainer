@@ -14,6 +14,9 @@ import * as path from "path";
 import Exercise from "./models/Exercise";
 import Workout from "./models/Workout";
 import WorkoutSet from "./models/WorkoutSet";
+import FriendRequest from "./models/FriendRequest";
+import FriendRequest from "./models/FriendRequest";
+import FriendRequest from "./models/FriendRequest";
 dotenv.config();
 
 const app = express();
@@ -417,6 +420,127 @@ app.get("/api/getWorkoutSets", async (req: Request, res: Response) => {
     return res
       .status(500)
       .json({ error: "Nie udało pobrać się zestawów ćwiczeń" });
+  }
+});
+
+//Znajomi endpointy:
+
+app.post("/api/friendRequests", async (req: Request, res: Response) => {
+  try {
+    const token = req.cookies.token;
+    if (!token) {
+      return res.status(201).json({ error: "Token nieaktywny, zaloguj się!" });
+    }
+    let decoded;
+    try {
+      decoded = jwt.verify(token, process.env.JWT_SECRET!);
+    } catch (error) {
+      console.error(error);
+      return res
+        .status(401)
+        .json({ error: "Nie udało się zweryfikować użytkownika" });
+    }
+    const senderId = decoded.userId;
+    const { recipientId } = req.body;
+
+    const existingRequest = await FriendRequest.findOne({
+      sender: senderId,
+      recipient: recipientId,
+      status: "pending",
+    });
+    if (existingRequest) {
+      return res
+        .status(400)
+        .json({ error: "Zaproszenie zostało już wysłane!" });
+    }
+    const newRequest = new FriendRequest({
+      sender: senderId,
+      recipient: recipientId,
+    });
+    await newRequest.save();
+    return res.status(201).json({ message: "Zaproszenie wysłane", newRequest });
+  } catch (error) {
+    console.error(error);
+    return res
+      .status(500)
+      .json({ error: "Nie udało się wysłać zaproszenia do znajomych." });
+  }
+});
+app.get("/api/getFriendRequests", async (req: Request, res: Response) => {
+  try {
+    const token = req.cookies.token;
+    if (!token) {
+      return res
+        .status(401)
+        .json({ error: "Brak aktywnego tokenu, zaloguj się!" });
+    }
+    let decoded;
+    try {
+      decoded = jwt.verify(token, process.env.JWT_SECRET!);
+    } catch (error) {
+      return res
+        .status(401)
+        .json({ error: "Nie udało się zweryfikować użytkownika" });
+    }
+    const recipientId = decoded.userId;
+
+    const requests = await FriendRequest.find({
+      recipient: recipientId,
+      status: "pending",
+    }).populate("sender", "login name surname");
+
+    return res.status(200).json(requests);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Nie udało się pobrać zaproszeń" });
+  }
+});
+
+app.post("/api/requestResponse/:id", async (req: Request, res: Response) => {
+  try {
+    const token = req.cookies.token;
+    if (!token) {
+      return res
+        .status(401)
+        .json({ error: "Nie znaleziono tokenu, zaloguj się!" });
+    }
+    let decoded;
+    try {
+      decoded = jwt.verify(token, process.env.JWT_SECRET!);
+    } catch (error) {
+      return res
+        .status(401)
+        .json({ error: "Nie udało się zweryfikować użytkownika" });
+    }
+    const userId = decoded.userId;
+    const { id } = req.params;
+    const { action } = req.body;
+
+    const friendRequest = await FriendRequest.findById(id);
+    if (!friendRequest) {
+      return res.status(404).json({ error: "Zaproszenie nie istnieje" });
+    }
+    if (friendRequest.recipient.toString() !== userId) {
+      return res.status(403).json({ error: "Brak uprawnień" });
+    }
+    if (action === "accept") {
+      friendRequest.status = "accepted";
+    } else if (action === "rejected") {
+      friendRequest.status = "rejected";
+    } else {
+      return res.status(400).json({ error: "Niepoprawna akcja" });
+    }
+    await friendRequest.save();
+
+    return res.status(200).json({
+      message: `Zaproszenie ${action === "accept" ? "zaakceptowane" : "odrzucone"}`,
+      friendRequest,
+    });
+  } catch (error) {
+    console.error("Błąd podczas aktualizowania zaproszenia", error);
+    return res
+      .status(500)
+      .json({ error: "Nie udało się zaktualizować zaproszenia" });
   }
 });
 
