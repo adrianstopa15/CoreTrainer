@@ -52,8 +52,8 @@ export default function SearchFriends() {
               alt="profileAvatar"
               className={styles.profileAvatar}
             />
-            <p className="text-xs text-gray-300 ml-2 mt-2">{u.login}</p>
-            <p className="text-xs text-gray-300 p-2">
+            <p className="text-xs text-gray-100 ml-3 mt-2">{u.login}</p>
+            <p className="text-xs text-gray-300 ml-3 mt-1">
               {u.name} {u.surname}
             </p>
             <button className={styles.btnBlue}>Dodaj znajomego</button>

@@ -46,10 +46,10 @@ export default function WorkoutsHistory() {
       marginRight: "-50%",
       padding: "2rem",
       transform: "translate(-50%, -50%)",
-      backgroundColor: "rgba(0,0,0,0.9)",
+      background: "linear-gradient(to right, #095e97f1, #032e7eef)",
     },
     overlay: {
-      backgroundColor: "rgba(0,0,0,0.75)",
+      backgroundColor: "rgba(0,0,0,0.8)",
     },
   };
 
