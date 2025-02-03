@@ -8,7 +8,7 @@ export default function SearchFriends() {
   interface User {
     name: string;
     surname: string;
-    id_: string;
+    _id: string;
     login: string;
     role: string;
   }
@@ -41,12 +41,28 @@ export default function SearchFriends() {
     fetchUsers();
   }, [searchQuery]);
 
+  const sendRequest = async (id: string) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/friendRequests",
+        { recipientId: id },
+        {
+          withCredentials: true,
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+      console.log("zaproszenie wysłane:", response.data);
+    } catch (error) {
+      console.error("Błąd przy wysyłaniu zaproszenia", error);
+    }
+  };
+
   return (
     <>
-      <h1 className="lg:text-2xl mb-3">Polecani znajomi</h1>
+      <h1 className="lg:text-2xl mb-3">Proponowani znajomi</h1>
       <div className={styles.usersGrid}>
         {users.map((u) => (
-          <div className={styles.usersGridCard}>
+          <div className={styles.usersGridCard} key={u._id}>
             <img
               src={defaultAvatar}
               alt="profileAvatar"
@@ -56,7 +72,12 @@ export default function SearchFriends() {
             <p className="text-xs text-gray-300 ml-3 mt-1">
               {u.name} {u.surname}
             </p>
-            <button className={styles.btnBlue}>Dodaj znajomego</button>
+            <button
+              className={styles.btnBlue}
+              onClick={() => sendRequest(u._id)}
+            >
+              Dodaj znajomego
+            </button>
           </div>
         ))}
       </div>

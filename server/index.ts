@@ -14,8 +14,7 @@ import * as path from "path";
 import Exercise from "./models/Exercise";
 import Workout from "./models/Workout";
 import WorkoutSet from "./models/WorkoutSet";
-import FriendRequest from "./models/FriendRequest";
-import FriendRequest from "./models/FriendRequest";
+
 import FriendRequest from "./models/FriendRequest";
 dotenv.config();
 
