@@ -544,6 +544,44 @@ app.post("/api/requestResponse/:id", async (req: Request, res: Response) => {
   }
 });
 
+app.get("/api/getFriends", async (req: Request, res: Response) => {
+  try {
+    const token = req.cookies.token;
+    if (!token) {
+      return res.status(401).json({ error: "Nieaktywny token, zaloguj się!" });
+    }
+    let decoded;
+    try {
+      decoded = jwt.verify(token, process.env.JWT_SECRET!);
+    } catch (error) {
+      return res
+        .status(401)
+        .json({ error: "Nie udało się zweryfikować użytkownika" });
+    }
+    const userId = decoded.userId;
+
+    const friends = await FriendRequest.find({
+      $or: [{ sender: userId }, { recipient: userId }],
+      status: "accepted",
+    }).populate("sender recipient", "login name surname");
+
+    const friendsList = friends.map((rel) => {
+      if (rel.sender._id.toString() === userId) {
+        return rel.recipient;
+      } else {
+        return rel.sender;
+      }
+    });
+
+    return res.status(200).json({ friendsList });
+  } catch (error) {
+    console.error("Błąd przy pobieraniu listy znajomych", error);
+    return res
+      .status(500)
+      .json({ error: "Nie udało pobrać się listy znajomych." });
+  }
+});
+
 app.options("/api/register", cors());
 app.options("/api/login", cors());
 app.use("/uploads", express.static(path.join(__dirname, "./uploads")));
