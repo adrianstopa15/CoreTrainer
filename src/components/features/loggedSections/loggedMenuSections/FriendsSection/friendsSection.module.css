@@ -36,7 +36,7 @@
 }
 .usersGridCard {
   min-width: 12rem;
-  min-height: 12rem;
+  min-height: 11rem;
   border: 1px solid rgb(126, 126, 126);
   border-radius: 6px;
   display: flex;
@@ -51,10 +51,21 @@
   color: rgb(210, 236, 253);
   background-color: rgba(0, 132, 255, 0.781);
   padding: 5px 8px;
-  margin: 15px 15px;
+  /* margin: 15px 15px; */
   border-radius: 5px;
   font-size: 13px;
 }
 .btnBlue:hover {
+  filter: brightness(120%);
+}
+.btnRed {
+  color: rgb(210, 236, 253);
+  background-color: rgba(192, 42, 16, 0.781);
+  padding: 5px 8px;
+  /* margin: 15px 15px; */
+  border-radius: 5px;
+  font-size: 13px;
+}
+.btnRed:hover {
   filter: brightness(120%);
 }

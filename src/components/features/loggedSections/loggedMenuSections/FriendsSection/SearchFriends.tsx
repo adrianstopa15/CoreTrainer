@@ -3,6 +3,7 @@ import styles from "./friendsSection.module.css";
 import defaultAvatar from "../../../../../assets/defaultAvatar.png";
 import axios from "axios";
 import { useOutletContext } from "react-router-dom";
+import { useSendFriendRequest } from "../../../../../hooks/useFriends";
 
 export default function SearchFriends() {
   interface User {
@@ -19,7 +20,7 @@ export default function SearchFriends() {
   const { searchQuery } = useOutletContext<OutletContextType>();
   const [users, setUsers] = useState<User[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-
+  const sendFriendRequestMutation = useSendFriendRequest();
   const fetchUsers = async () => {
     try {
       setIsLoading(true);
@@ -41,20 +42,8 @@ export default function SearchFriends() {
     fetchUsers();
   }, [searchQuery]);
 
-  const sendRequest = async (id: string) => {
-    try {
-      const response = await axios.post(
-        "http://localhost:5000/api/friendRequests",
-        { recipientId: id },
-        {
-          withCredentials: true,
-          headers: { "Content-Type": "application/json" },
-        }
-      );
-      console.log("zaproszenie wysłane:", response.data);
-    } catch (error) {
-      console.error("Błąd przy wysyłaniu zaproszenia", error);
-    }
+  const handleSendRequest = async (id: string) => {
+    sendFriendRequestMutation.mutate(id);
   };
 
   return (
@@ -73,8 +62,8 @@ export default function SearchFriends() {
               {u.name} {u.surname}
             </p>
             <button
-              className={styles.btnBlue}
-              onClick={() => sendRequest(u._id)}
+              className={`${styles.btnBlue} mx-2 my-2 mt-3`}
+              onClick={() => handleSendRequest(u._id)}
             >
               Dodaj znajomego
             </button>
