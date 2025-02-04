@@ -21,7 +21,6 @@ dotenv.config();
 const app = express();
 const port = process.env.PORT || 5001;
 
-// Middleware - do obsługi JSON-a i CORS
 app.use(
   cors({
     origin: "http://localhost:5173",
@@ -37,12 +36,10 @@ mongoose
   .then(() => console.log("Połączono z MongoDB"))
   .catch((error) => console.error("Błąd połączenia z MongoDB:", error));
 
-// Prosta trasa API
 app.get("/", (req, res) => {
   res.send("Serwer działa!");
 });
 
-// Endpoint rejestracja użytkownika
 app.post("/api/register", async (req: Request, res: Response) => {
   try {
     const { email, login, name, surname, password } = req.body;
@@ -55,10 +52,8 @@ app.post("/api/register", async (req: Request, res: Response) => {
         .json({ error: "Użytkownik z tym emailem już istnieje" });
     }
 
-    //hashowanie przed zapissaniem
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Tworzenie nowego użytkownika
     const newUser = new User({
       email,
       login,
@@ -67,7 +62,6 @@ app.post("/api/register", async (req: Request, res: Response) => {
       password: hashedPassword,
     });
 
-    // Zapisywanie użytkownika w bazie danych
     await newUser.save();
 
     res.status(201).json({ message: "Użytkownik został zarejestrowany" });
@@ -81,19 +75,15 @@ app.post("/api/login", async (req: Request, res: Response) => {
   try {
     const { login, password } = req.body;
 
-    //znajdowannie uzytkownika po loginie
     const user = await User.findOne({ login });
     if (!user) {
       return res.status(400).json({ error: "Nieprawidłowy login lub hasło" });
     }
 
-    //porowaninie hasla:
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
       return res.status(400).json({ error: "Nieprawidłowy login lub hasło" });
     }
-
-    //tworzenie tokenu:
 
     const token = jwt.sign(
       { userId: user._id, login: user.login },
@@ -113,8 +103,6 @@ app.post("/api/login", async (req: Request, res: Response) => {
     res.status(400).json({ error: "Wystapil blad podczas logowania" });
   }
 });
-
-//Wysyłanie danych z Survey
 
 app.post("/api/submitSurvey", async (req: Request, res: Response) => {
   try {
@@ -223,6 +211,29 @@ app.get("/api/getUsers", async (req: Request, res: Response) => {
     res
       .status(500)
       .json({ error: "Wystąpił błąd podczas wyszukiwania użytkowników" });
+  }
+});
+app.get("/api/user:id", async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    if (!id) {
+      return res.status(400).json({ error: "Nie przekazano id użytkownika" });
+    }
+    const user = await User.findById(id).select("-password");
+    if (!user) {
+      return res
+        .status(404)
+        .json({ error: "Nie znaleziono użytkownika o takim id" });
+    }
+    return res.status(200).json(user);
+  } catch (error) {
+    console.error(
+      "Wystąpił błąd podczas odczytywania danych użytkownika",
+      error
+    );
+    return res
+      .status(500)
+      .json({ error: "Nie udało się pobrać danych użytkownika" });
   }
 });
 
