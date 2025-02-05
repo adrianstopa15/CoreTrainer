@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styles from "./friendsSection.module.css";
 import defaultAvatar from "../../../../../assets/defaultAvatar.png";
 import axios from "axios";
-import { useOutletContext } from "react-router-dom";
+import { Link, useOutletContext } from "react-router-dom";
 import { useSendFriendRequest } from "../../../../../hooks/useFriends";
 
 export default function SearchFriends() {
@@ -57,7 +57,12 @@ export default function SearchFriends() {
               alt="profileAvatar"
               className={styles.profileAvatar}
             />
-            <p className="text-xs text-gray-100 ml-3 mt-2">{u.login}</p>
+            <Link
+              to={`../../../userProfile/${u._id}`}
+              className={styles.profileLink}
+            >
+              <p className="text-xs text-gray-100 ml-3 mt-2">{u.login}</p>
+            </Link>
             <p className="text-xs text-gray-300 ml-3 mt-1">
               {u.name} {u.surname}
             </p>

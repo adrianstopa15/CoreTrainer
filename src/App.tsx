@@ -41,7 +41,6 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
           <div className="root">
-            {/* <Survey /> */}
             <Routes>
               <Route path="/" element={<MainMenu />} />
               <Route path="/survey" element={<Survey />} />
@@ -84,8 +83,7 @@ function App() {
                   <Route path="searchTrainer" element={<SearchTrainer />} />
                 </Route>
               </Route>
-
-              <Route path="/userProfile" element={<UserProfile />}>
+              <Route path="userProfile/:id" element={<UserProfile />}>
                 <Route index element={<Navigate to="info" replace />} />
                 <Route path="info" element={<UserProfileInfo />} />
                 <Route path="friends" element={<UserProfileFriends />} />

@@ -10,8 +10,10 @@ import liIconLogout from "../../../assets/logout.png";
 import styles from "./LoggedMenu.module.css";
 import React, { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
+import { useCurrentUserInfo } from "../../../hooks/useUserInfo";
 export default function HeaderLoggedMenu() {
   const [isDropdown, setIsDropdown] = useState(false);
+  const { data: currentUser } = useCurrentUserInfo();
 
   const toggleDropdown = () => {
     setIsDropdown(!isDropdown);
@@ -105,7 +107,7 @@ export default function HeaderLoggedMenu() {
               <div className={styles.profileDropdown}>
                 <ul className={styles.ulDropdown}>
                   <Link
-                    to="/userProfile"
+                    to={`../userProfile/${currentUser?._id}`}
                     style={{ textDecoration: "none", color: "inherit" }}
                   >
                     <li>

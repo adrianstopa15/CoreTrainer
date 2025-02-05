@@ -2,30 +2,40 @@ import React, { useEffect, useState } from "react";
 import HeaderLoggedMenu from "../HeaderLoggedMenu";
 import profileIcon from "../../../../assets/user.png";
 import UserProfileInfo from "./UserProfileInfo";
-import { Link, NavLink, Outlet } from "react-router-dom";
+import { Link, NavLink, Outlet, useParams } from "react-router-dom";
+import { useUserInfo } from "../../../../hooks/useUserInfo";
 export default function UserProfile() {
+  const { id } = useParams();
+  const { data: user, isLoading, error } = useUserInfo(id || "");
   const [currentUser, setCurrentUser] = useState<User | null>(null);
+
   interface User {
     name: string;
     surname: string;
     email: string;
   }
 
-  useEffect(() => {
-    fetch("http://localhost:5000/api/getCurrentUser", {
-      method: "GET",
-      credentials: "include",
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.user) {
-          setCurrentUser(data.user);
-        } else {
-          console.error("nie znaleziono użytkownika");
-        }
-      })
-      .catch((err) => console.error("Błąd pobierania usera", err));
-  }, []);
+  if (isLoading) return <p>Ładowanie użytkowników...</p>;
+
+  if (error) return <p>Error: {String(error)}</p>;
+
+  if (!user) return <p>Brak użytkownika</p>;
+
+  // useEffect(() => {
+  //   fetch("http://localhost:5000/api/getCurrentUser", {
+  //     method: "GET",
+  //     credentials: "include",
+  //   })
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       if (data.user) {
+  //         setCurrentUser(data.user);
+  //       } else {
+  //         console.error("nie znaleziono użytkownika");
+  //       }
+  //     })
+  //     .catch((err) => console.error("Błąd pobierania usera", err));
+  // }, []);
 
   return (
     <>
@@ -42,8 +52,8 @@ export default function UserProfile() {
             />
           </p>
           <p className="lg:text-3xl mb-2">
-            {currentUser ? `${currentUser.name} ` : ""}
-            {currentUser ? `${currentUser.surname}` : ""}
+            {user ? `${user.name} ` : ""}
+            {user ? `${user.surname}` : ""}
           </p>
           <p className="bm-w w-64 my-1"></p>
           <nav className="profileOptionsP mb-16">
@@ -73,7 +83,7 @@ export default function UserProfile() {
             </NavLink>
           </nav>
 
-          <Outlet />
+          <Outlet context={{ user }} />
         </div>
       </div>
     </>
