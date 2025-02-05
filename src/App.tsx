@@ -10,10 +10,10 @@ import { Provider } from "react-redux";
 import store from "./store/store";
 import Survey from "./components/user/Survey";
 import LoggedMenu from "./components/features/loggedSections/LoggedMenu";
-import UserProfile from "./components/features/loggedSections/UserProfile";
-import UserProfileInfo from "./components/features/loggedSections/UserProfileInfo";
-import UserProfileFriends from "./components/features/loggedSections/UserProfileFriends";
-import UserProfilePhotos from "./components/features/userProfilePhotos";
+import UserProfile from "./components/features/loggedSections/userProfile/UserProfile";
+import UserProfileInfo from "./components/features/loggedSections/userProfile/UserProfileInfo";
+import UserProfileFriends from "./components/features/loggedSections/userProfile/UserProfileFriends";
+import UserProfilePhotos from "./components/features/loggedSections/userProfile/UserProfilePhotos";
 import TrainingSection from "./components/features/loggedSections/loggedMenuSections/TrainingSection/TrainingSection";
 import ProgressSection from "./components/features/loggedSections/loggedMenuSections/ProgressSection/ProgressSection";
 import FriendsSection from "./components/features/loggedSections/loggedMenuSections/FriendsSection/FriendsSection";
@@ -29,7 +29,7 @@ import AutoTrainingCreator from "./components/features/loggedSections/loggedMenu
 import SearchFriends from "./components/features/loggedSections/loggedMenuSections/FriendsSection/SearchFriends";
 import FriendsList from "./components/features/loggedSections/loggedMenuSections/FriendsSection/FriendsList";
 import FriendsRequests from "./components/features/loggedSections/loggedMenuSections/FriendsSection/FriendsRequests";
-import SearchTrainer from "./components/features/loggedSections/loggedMenuSections/FriendsSection/searchTrainer";
+import SearchTrainer from "./components/features/loggedSections/loggedMenuSections/FriendsSection/SearchTrainer";
 Modal.setAppElement("#root");
 axios.defaults.withCredentials = true;
 

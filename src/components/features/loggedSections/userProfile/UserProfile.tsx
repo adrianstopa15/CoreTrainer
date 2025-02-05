@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import HeaderLoggedMenu from "./HeaderLoggedMenu";
-import profileIcon from "../../../assets/user.png";
+import HeaderLoggedMenu from "../HeaderLoggedMenu";
+import profileIcon from "../../../../assets/user.png";
 import UserProfileInfo from "./UserProfileInfo";
 import { Link, NavLink, Outlet } from "react-router-dom";
 export default function UserProfile() {

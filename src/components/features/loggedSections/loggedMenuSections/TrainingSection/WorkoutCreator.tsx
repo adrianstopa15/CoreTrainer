@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import CreateWorkoutIcon from "../../../../../assets/createWorkout.png";
-import { useUserInfo } from "../../../../../hooks/useUserInfo";
+import { useCurrentUserInfo } from "../../../../../hooks/useUserInfo";
 import { NavLink } from "react-router-dom";
 export default function WorkoutCreator() {
-  const { data: userInfo, isLoading, error } = useUserInfo();
+  const { data: userInfo, isLoading, error } = useCurrentUserInfo();
   const [step, setStep] = useState<number>(0);
 
   if (isLoading) {

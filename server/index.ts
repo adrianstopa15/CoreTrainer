@@ -213,7 +213,7 @@ app.get("/api/getUsers", async (req: Request, res: Response) => {
       .json({ error: "Wystąpił błąd podczas wyszukiwania użytkowników" });
   }
 });
-app.get("/api/user:id", async (req: Request, res: Response) => {
+app.get("/api/getUser/:id", async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     if (!id) {
@@ -225,7 +225,7 @@ app.get("/api/user:id", async (req: Request, res: Response) => {
         .status(404)
         .json({ error: "Nie znaleziono użytkownika o takim id" });
     }
-    return res.status(200).json(user);
+    return res.status(200).json({ user });
   } catch (error) {
     console.error(
       "Wystąpił błąd podczas odczytywania danych użytkownika",

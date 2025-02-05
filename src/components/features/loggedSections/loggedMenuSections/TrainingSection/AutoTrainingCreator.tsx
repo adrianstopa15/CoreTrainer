@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { useUserInfo } from "../../../../../hooks/useUserInfo";
+import { useCurrentUserInfo } from "../../../../../hooks/useUserInfo";
 import { data } from "react-router-dom";
 import { Switch } from "@headlessui/react";
 export default function AutoTrainingCreator() {
-  const { data: userInfo, isLoading, error } = useUserInfo();
+  const { data: userInfo, isLoading, error } = useCurrentUserInfo();
   const [step, setStep] = useState<number>(0);
   const [enabled, setEnabled] = useState(false);
   return (
