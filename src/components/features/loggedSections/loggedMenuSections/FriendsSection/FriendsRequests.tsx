@@ -2,10 +2,24 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import defaultAvatar from "../../../../../assets/defaultAvatar.png";
 import styles from "./friendsSection.module.css";
-import { useFriends } from "../../../../../hooks/useFriends";
+import { useFriendsRequests } from "../../../../../hooks/useFriends";
 export default function FriendsRequests() {
-  const { data: friends, isLoading, error } = useFriends();
+  const { data: friends, isLoading, error } = useFriendsRequests();
 
+  const handleFriendRequestAction = async (
+    requestId: string,
+    action: "accept" | "rejected"
+  ) => {
+    try {
+      await axios.post(
+        `http://localhost:5000/api/requestResponse/${requestId}`,
+        { action },
+        { withCredentials: true }
+      );
+    } catch (err) {
+      console.error("Błąd przy aktualizowaniu zaproszenia", err);
+    }
+  };
   if (isLoading) {
     return (
       <div>
@@ -49,10 +63,16 @@ export default function FriendsRequests() {
                 {u.sender.name} {u.sender.surname}
               </p>
               <div className="flex items-center justify-center my-4">
-                <button className={`${styles.btnBlue} mr-2 text-base`}>
+                <button
+                  className={`${styles.btnBlue} mr-2 text-base`}
+                  onClick={() => handleFriendRequestAction(u._id, "accept")}
+                >
                   Zaakceptuj
                 </button>
-                <button className={`${styles.btnRed} ml-2 px-3 text-base`}>
+                <button
+                  className={`${styles.btnRed} ml-2 px-3 text-base`}
+                  onClick={() => handleFriendRequestAction(u._id, "rejected")}
+                >
                   Odrzuć
                 </button>
               </div>

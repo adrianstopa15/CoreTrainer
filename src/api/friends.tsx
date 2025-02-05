@@ -17,11 +17,18 @@ export interface FriendRequest {
   createdAt: string;
 }
 
-export const fetchFriends = async (): Promise<FriendRequest[]> => {
+export const fetchFriendsRequests = async (): Promise<FriendRequest[]> => {
   const response = await axios.get(`${API_URL}/getFriendRequests`, {
     withCredentials: true,
   });
   return response.data || [];
+};
+
+export const fetchFriends = async () => {
+  const response = await axios.get(`${API_URL}/getFriends`, {
+    withCredentials: true,
+  });
+  return response.data.friendsList;
 };
 
 export const sendFriendRequest = async (recipientId: string) => {

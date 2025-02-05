@@ -1,8 +1,20 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { fetchFriends, FriendRequest, sendFriendRequest } from "../api/friends";
+import {
+  fetchFriends,
+  fetchFriendsRequests,
+  FriendRequest,
+  sendFriendRequest,
+} from "../api/friends";
 
-export function useFriends() {
+export function useFriendsRequests() {
   return useQuery<FriendRequest[]>({
+    queryKey: ["friendsRequests"],
+    queryFn: fetchFriendsRequests,
+    initialData: [],
+  });
+}
+export function useFriendsList() {
+  return useQuery({
     queryKey: ["friends"],
     queryFn: fetchFriends,
     initialData: [],
