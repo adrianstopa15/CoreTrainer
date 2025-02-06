@@ -108,7 +108,7 @@ export default function WorkoutsHistory() {
         {trainingHistory.length} zarejestrowanych treningów.
       </p>
       <button className="mt-3 p-2 button-smooth">
-        Pokaż wszystkie treningi
+        Pokaż Zestawy Treningowe
       </button>
       <Modal
         isOpen={isModalOpen}

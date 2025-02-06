@@ -598,6 +598,37 @@ app.get("/api/getFriends", async (req: Request, res: Response) => {
       .json({ error: "Nie udało pobrać się listy znajomych." });
   }
 });
+app.get("/api/getUserFriends/:id", async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+
+    if (!id) {
+      return res.status(400).json({ error: "Nie przekazano ID użytkownika!" });
+    }
+
+    const friends = await FriendRequest.find({
+      $or: [{ sender: id }, { recipient: id }],
+      status: "accepted",
+    }).populate("sender recipient", "login name surname");
+
+    const friendsList = friends.map((rel) => {
+      if (rel.sender._id.toString() === id) {
+        return rel.recipient;
+      } else {
+        return rel.sender;
+      }
+    });
+    return res.status(200).json({ friendsList });
+  } catch (error) {
+    console.error(
+      "Nie udało się pobrać informacji o znajomych użytkownika",
+      error
+    );
+    return res.status(500).json({
+      error: "Wystąpił błąd podczas pobierania znajomych użytkownika.",
+    });
+  }
+});
 
 app.options("/api/register", cors());
 app.options("/api/login", cors());

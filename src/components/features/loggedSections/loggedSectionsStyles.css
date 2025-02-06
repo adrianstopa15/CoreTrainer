@@ -548,6 +548,23 @@ abbr[title] {
   left: 2%;
   filter: invert(52%) sepia(4%) saturate(300%) hue-rotate(180deg);
 }
+.profileGrid {
+  padding-top: 1rem;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4rem;
+}
+.profileGridCard {
+  /* min-width: 10rem;
+  min-height: 11rem; */
+  border: 1px solid rgb(126, 126, 126);
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+}
+.profileAvatar {
+  height: 8rem;
+}
 .selectedExerciseElementForm label {
 }
 .selectedExerciseElementInfo {

@@ -670,10 +670,7 @@ export default function LogWorkout() {
                 <option value="Przedramię">Przedramię</option>
                 <option value="Triceps">Triceps</option>
               </select>
-              {/* <label>
-                Grupa mięśniowa
-                <input type="text" value={newExercise.bodySection} readOnly />
-              </label> */}
+
               <h3>Zdjęcie</h3>
               <input type="file" onChange={handleChangeFile} accept="image/*" />
               <div className="flex">

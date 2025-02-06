@@ -1,3 +1,4 @@
+import { QueryFunctionContext } from "@tanstack/react-query";
 import axios from "axios";
 
 const API_URL = "http://localhost:5000/api";
@@ -28,6 +29,14 @@ export const fetchFriends = async () => {
   const response = await axios.get(`${API_URL}/getFriends`, {
     withCredentials: true,
   });
+  return response.data.friendsList;
+};
+
+export const fetchUserFriends = async (
+  context: QueryFunctionContext<readonly [string, string]>
+) => {
+  const [, userId] = context.queryKey;
+  const response = await axios.get(`${API_URL}/getUserFriends/${userId}`);
   return response.data.friendsList;
 };
 
