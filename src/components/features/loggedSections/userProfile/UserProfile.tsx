@@ -7,7 +7,6 @@ import { useUserInfo } from "../../../../hooks/useUserInfo";
 export default function UserProfile() {
   const { id } = useParams();
   const { data: user, isLoading, error } = useUserInfo(id || "");
-  const [currentUser, setCurrentUser] = useState<User | null>(null);
 
   interface User {
     name: string;
@@ -20,22 +19,6 @@ export default function UserProfile() {
   if (error) return <p>Error: {String(error)}</p>;
 
   if (!user) return <p>Brak użytkownika</p>;
-
-  // useEffect(() => {
-  //   fetch("http://localhost:5000/api/getCurrentUser", {
-  //     method: "GET",
-  //     credentials: "include",
-  //   })
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       if (data.user) {
-  //         setCurrentUser(data.user);
-  //       } else {
-  //         console.error("nie znaleziono użytkownika");
-  //       }
-  //     })
-  //     .catch((err) => console.error("Błąd pobierania usera", err));
-  // }, []);
 
   return (
     <>

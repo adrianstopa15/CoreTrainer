@@ -103,6 +103,13 @@ app.post("/api/login", async (req: Request, res: Response) => {
     res.status(400).json({ error: "Wystapil blad podczas logowania" });
   }
 });
+app.post("/api/logout", async (req: Request, res: Response) => {
+  res.clearCookie("token", {
+    httpOnly: true,
+    sameSite: "strict",
+  });
+  return res.status(200).json({ message: "Wylogowano pomyślnie" });
+});
 
 app.post("/api/submitSurvey", async (req: Request, res: Response) => {
   try {

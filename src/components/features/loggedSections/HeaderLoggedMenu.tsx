@@ -11,9 +11,21 @@ import styles from "./LoggedMenu.module.css";
 import React, { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { useCurrentUserInfo } from "../../../hooks/useUserInfo";
+import axios from "axios";
 export default function HeaderLoggedMenu() {
   const [isDropdown, setIsDropdown] = useState(false);
   const { data: currentUser } = useCurrentUserInfo();
+
+  const handleLogout = async () => {
+    try {
+      const response = await axios.post("http://localhost:5000/api/logout", {
+        withCredentials: true,
+      });
+      window.location.href = "/";
+    } catch (error) {
+      console.error("Nie udało się wylogować użytkownika", error);
+    }
+  };
 
   const toggleDropdown = () => {
     setIsDropdown(!isDropdown);
@@ -124,7 +136,7 @@ export default function HeaderLoggedMenu() {
                       Ustawienia
                     </li>
                   </Link>
-                  <li>
+                  <li onClick={() => handleLogout()}>
                     <img src={liIconLogout} className={styles.liIcons} />
                     Wyloguj się
                   </li>
