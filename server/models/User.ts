@@ -13,6 +13,7 @@ const userSchema = new mongoose.Schema({
     height: { type: Number, default: 0 },
     goal: { type: String, default: "" },
     age: { type: Number, default: 0 },
+    gender: { type: String, enum: ["man", "woman"], default: "man" },
     experience: { type: String, default: "" },
     subroles: { type: [String], default: [] },
   },

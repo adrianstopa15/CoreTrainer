@@ -15,8 +15,9 @@ export interface UserDetails {
     height: number;
     goal: string;
     age: number;
+    gender: string;
     experience: string;
-    subroles: string;
+    subroles: string[];
   };
 }
 

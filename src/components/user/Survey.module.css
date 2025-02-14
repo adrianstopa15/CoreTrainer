@@ -88,6 +88,18 @@ select {
 .rolePickerContainerSelected p {
   color: rgb(52, 131, 250);
 }
+.genderIcon {
+  height: 6rem;
+  filter: brightness(75%);
+}
+.genderIconSelected {
+  filter: brightness(110%);
+  height: 6rem;
+}
+.genderIcon:hover {
+  filter: brightness(95%);
+  cursor: pointer;
+}
 
 .rolePickerContainer:hover img {
   filter: brightness(0) saturate(100%) invert(20%) sepia(50%) saturate(2000%)

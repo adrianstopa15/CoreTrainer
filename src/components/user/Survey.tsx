@@ -5,6 +5,8 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import menteeIcon from "../../assets/mentee.png";
 import trainerIcon from "../../assets/trainer.png";
+import manIcon from "../../assets/manIcon.png";
+import womanIcon from "../../assets/womanIcon.png";
 
 function Survey() {
   const [currentUser, setCurrentUser] = useState(null);
@@ -48,6 +50,7 @@ function Survey() {
     height: number;
     goal: string;
     age: number;
+    gender: string;
     experience: string;
     subroles: string[];
   }
@@ -57,6 +60,7 @@ function Survey() {
     height: 0,
     goal: "",
     age: 0,
+    gender: "",
     experience: "",
     subroles: [],
   });
@@ -67,6 +71,19 @@ function Survey() {
       roles: ["Podopieczny"],
     }));
   };
+  const setGenderMan = () => {
+    setSurveyForm((prev) => ({
+      ...prev,
+      gender: "man",
+    }));
+  };
+  const setGenderWoman = () => {
+    setSurveyForm((prev) => ({
+      ...prev,
+      gender: "woman",
+    }));
+  };
+
   const setRoleTrainer = () => {
     Swal.fire({
       title: "Czy jako trener chcesz również korzystać z opcji podopiecznego?",
@@ -192,6 +209,21 @@ function Survey() {
                 Jako, że widzimy się pierwszy raz poświęć nam chwilę, aby
                 dowiedzieć się więcej o Tobie.
               </p>
+              <p className="mt-36 text-3xl">Na początek, wybierz swoją płeć:</p>
+              <div className="flex mt-24 justify-center">
+                <img
+                  src={manIcon}
+                  alt=""
+                  className={`${surveyForm.gender === "man" ? styles.genderIconSelected : styles.genderIcon} mr-16`}
+                  onClick={setGenderMan}
+                />
+                <img
+                  src={womanIcon}
+                  alt=""
+                  className={`${surveyForm.gender === "woman" ? styles.genderIconSelected : styles.genderIcon}`}
+                  onClick={setGenderWoman}
+                />
+              </div>
             </div>
           )}
           {currentStep === 1 && (
@@ -242,7 +274,7 @@ function Survey() {
               </p>
               <form className={`${styles.formMain} lg:text-3xl`}>
                 <label>
-                  <span> Wzrost</span>{" "}
+                  <span> Wzrost</span>
                   <input
                     type="text"
                     name="height"
@@ -301,6 +333,19 @@ function Survey() {
                       Masa
                     </option>
                   </select>
+                </label>
+                <p className="mb-12">Płeć:</p>
+                <label>
+                  <img
+                    src={manIcon}
+                    alt=""
+                    className={`${styles.genderIcon} h-20 mr-16`}
+                  />
+                  <img
+                    src={womanIcon}
+                    alt=""
+                    className={`${styles.genderIcon} h-20`}
+                  />
                 </label>
               </form>
 

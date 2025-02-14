@@ -134,7 +134,8 @@ app.post("/api/submitSurvey", async (req: Request, res: Response) => {
       return res.status(404).json({ error: "Uzytkownik nie istnieje." });
     }
 
-    const { roles, weight, height, goal, age, experience, subroles } = req.body;
+    const { roles, weight, height, goal, age, experience, subroles, gender } =
+      req.body;
 
     user.userFeatures = {
       roles: roles || [],
@@ -144,6 +145,7 @@ app.post("/api/submitSurvey", async (req: Request, res: Response) => {
       age: age || 0,
       experience: experience || "",
       subroles: subroles || [],
+      gender,
     };
     user.firstLogin = false;
 
