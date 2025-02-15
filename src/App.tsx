@@ -31,6 +31,8 @@ import FriendsList from "./components/features/loggedSections/loggedMenuSections
 import FriendsRequests from "./components/features/loggedSections/loggedMenuSections/FriendsSection/FriendsRequests";
 import SearchTrainer from "./components/features/loggedSections/loggedMenuSections/FriendsSection/SearchTrainer";
 import TrainerPanel from "./components/features/loggedSections/loggedMenuSections/TrainerSections/TrainerPanel";
+import ManageWorkout from "./components/features/loggedSections/loggedMenuSections/TrainerSections/ManageWorkout";
+import ManageMentees from "./components/features/loggedSections/loggedMenuSections/TrainerSections/manageMentees";
 Modal.setAppElement("#root");
 axios.defaults.withCredentials = true;
 
@@ -83,7 +85,14 @@ function App() {
                   <Route path="friendsRequests" element={<FriendsRequests />} />
                   <Route path="searchTrainer" element={<SearchTrainer />} />
                 </Route>
-                <Route path="trainerPanel" element={<TrainerPanel />} />
+                <Route path="trainerPanel" element={<TrainerPanel />}>
+                  <Route
+                    index
+                    element={<Navigate to="manageWorkout" replace />}
+                  />
+                  <Route path="manageWorkout" element={<ManageWorkout />} />
+                  <Route path="manageMentees" element={<ManageMentees />} />
+                </Route>
               </Route>
               <Route path="userProfile/:id" element={<UserProfile />}>
                 <Route index element={<Navigate to="info" replace />} />

@@ -11,7 +11,7 @@ export default function TrainingSection() {
   let currentHeader = "Historia Treningów";
   if (location.pathname.includes("workoutCreate")) {
     currentHeader = "Zarządzaj treningiem";
-  } else if (location.pathname.includes("workoutsToAccept")) {
+  } else if (location.pathname.includes("manageWorkout")) {
     currentHeader = "Zarządzaj zaplanowanymi treningami";
   } else if (location.pathname.includes("workoutsHistory")) {
     currentHeader = "Historia treningów";
