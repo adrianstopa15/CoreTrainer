@@ -3,7 +3,7 @@ import axios from "axios";
 import searchIcon from "../../../../../assets/search.png";
 import styles from "./friendsSection.module.css";
 import defaultAvatar from "../../../../../assets/defaultAvatar.png";
-import Survey from "../../../../user/Survey";
+import Survey from "../../../firstLoginSurvey/Survey";
 import { NavLink, Outlet } from "react-router-dom";
 
 export default function FriendsSection() {

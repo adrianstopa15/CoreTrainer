@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import HeaderLoggedMenu from "../HeaderLoggedMenu";
-import profileIcon from "../../../../assets/user.png";
+import HeaderLoggedMenu from "../LoggedMenu/HeaderLoggedMenu";
+import profileIcon from "../../../../../assets/user.png";
 import UserProfileInfo from "./UserProfileInfo";
 import { Link, NavLink, Outlet, useParams } from "react-router-dom";
-import { useUserInfo } from "../../../../hooks/useUserInfo";
+import { useUserInfo } from "../../../../../hooks/useUserInfo";
 export default function UserProfile() {
   const { id } = useParams();
   const { data: user, isLoading, error } = useUserInfo(id || "");

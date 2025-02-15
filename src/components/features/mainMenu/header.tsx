@@ -1,63 +1,25 @@
 import React, { useState } from "react";
-import PortalModal from "../modals/PortalModal";
-import padLock from "../../assets/Padlock.png";
-import loginAvatar from "../../assets/loginAvatar.png";
+import PortalModal from "../../modals/PortalModal";
+import padLock from "../../../assets/Padlock.png";
+import loginAvatar from "../../../assets/loginAvatar.png";
 import axios from "axios";
+import { data, useNavigate } from "react-router-dom";
+import { useLogin, useRegister } from "../../../hooks/useAuth";
 // import SweetAlert2 from "react-sweetalert2";
 import Swal from "sweetalert2";
-import { useMutation } from "@tanstack/react-query";
 
 export default function Header() {
   // const [swalProps, setSwalProps] = useState({});
+  const navigate = useNavigate();
+  const loginMutation = useLogin();
+  const registerMutation = useRegister();
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [createMode, setCreateMode] = useState(false);
   const [loginData, setLoginData] = useState({
     login: "",
     password: "",
   });
-  const mutate = useMutation({});
-
-  const handleLoginChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setLoginData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
-
-  const handleLoginSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    try {
-      const response = await axios.post(
-        "http://localhost:5000/api/login",
-        {
-          login: loginData.login,
-          password: loginData.password,
-        },
-        { withCredentials: true }
-      );
-      Swal.fire({
-        title: "Sukces",
-        text: "Zalogowano pomyślnie",
-        icon: "success",
-        showConfirmButton: false,
-        timer: 2500,
-        position: "top",
-      });
-      console.log("Użytkownik został zalogowany", response.data);
-    } catch (error) {
-      console.error("Bladz podzcas logowania", error);
-      Swal.fire({
-        title: "Błąd!",
-        text: "Nieprawidlowy login lub haslo",
-        icon: "error",
-        showConfirmButton: false,
-        timer: 2000,
-        position: "top",
-      });
-    }
-  };
 
   const [formData, setFormData] = useState({
     email: "",
@@ -67,7 +29,15 @@ export default function Header() {
     password: "",
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleLoginChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setLoginData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleRegisterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
@@ -75,32 +45,25 @@ export default function Header() {
     }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleRegisterSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    try {
-      const response = await axios.post("http://localhost:5000/api/register", {
-        email: formData.email,
-        login: formData.login,
-        name: formData.name,
-        surname: formData.surname,
-        password: formData.password,
-      });
-      Swal.fire({
-        title: "Sukces!",
-        text: "Konto zostało zarejestrowane, zostaniesz przeniesiony do Logowania.",
-        icon: "success",
-        showConfirmButton: false,
-        timer: 2500,
-        position: "top",
-      });
-      console.log("Uzytkownik zostal zarejestrowany:", response.data);
+    registerMutation.mutate(formData);
+  };
 
-      setTimeout(() => {
-        changeMode();
-      }, 2500);
-    } catch (error) {
-      console.error("Błą podczas rejestracji:", error);
-    }
+  const handleLoginSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    loginMutation.mutate(loginData, {
+      onSuccess: (dataFromServer) => {
+        if (dataFromServer.user.firstLogin) {
+          navigate("/survey");
+        } else {
+          navigate("loggedMenu");
+        }
+      },
+      onError: (error) => {
+        console.error("Problem z logowaniem", error);
+      },
+    });
   };
 
   const openModal = () => setIsModalOpen(true);
@@ -199,7 +162,10 @@ export default function Header() {
         ) : (
           <div className="modal-login flex flex-col ">
             <h1 className="mb-6 text-center xl:text-3xl"> Register </h1>
-            <form className="flex flex-col mx-16" onSubmit={handleSubmit}>
+            <form
+              className="flex flex-col mx-16"
+              onSubmit={handleRegisterSubmit}
+            >
               <span className="flex items-center border-b-2 mb-4">
                 <img src={loginAvatar} className="max-w-6 mr-2 " />
                 <input
@@ -210,7 +176,7 @@ export default function Header() {
                   className="py-4 size-full"
                   required
                   value={formData.email}
-                  onChange={handleChange}
+                  onChange={handleRegisterChange}
                 />
               </span>
 
@@ -224,7 +190,7 @@ export default function Header() {
                   className="py-4 size-full"
                   required
                   value={formData.login}
-                  onChange={handleChange}
+                  onChange={handleRegisterChange}
                 />
               </span>
 
@@ -238,7 +204,7 @@ export default function Header() {
                   className="py-4 size-full"
                   required
                   value={formData.name}
-                  onChange={handleChange}
+                  onChange={handleRegisterChange}
                 />
               </span>
 
@@ -252,7 +218,7 @@ export default function Header() {
                   className="py-4 size-full"
                   required
                   value={formData.surname}
-                  onChange={handleChange}
+                  onChange={handleRegisterChange}
                 />
               </span>
 
@@ -267,7 +233,7 @@ export default function Header() {
                   className="py-4 size-full"
                   required
                   value={formData.password}
-                  onChange={handleChange}
+                  onChange={handleRegisterChange}
                 />
               </span>
 

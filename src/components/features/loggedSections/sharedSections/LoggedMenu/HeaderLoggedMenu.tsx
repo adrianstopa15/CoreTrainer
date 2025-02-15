@@ -1,17 +1,17 @@
-import notificationIcon from "../../../assets/bell.png";
-import messageIcon from "../../../assets/message.png";
-import profileIcon from "../../../assets/user.png";
-import trainingIcon from "../../../assets/training.png";
-import progressIcon from "../../../assets/progress.png";
-import trainerIcon from "../../../assets/trainer.png";
-import friendsIcon from "../../../assets/friends.png";
-import liIconProfil from "../../../assets/userLogin.png";
-import liIconSettings from "../../../assets/settings.png";
-import liIconLogout from "../../../assets/logout.png";
+import notificationIcon from "../../../../../assets/bell.png";
+import messageIcon from "../../../../../assets/message.png";
+import profileIcon from "../../../../../assets/user.png";
+import trainingIcon from "../../../../../assets/training.png";
+import progressIcon from "../../../../../assets/progress.png";
+import trainerIcon from "../../../../../assets/trainer.png";
+import friendsIcon from "../../../../../assets/friends.png";
+import liIconProfil from "../../../../../assets/userLogin.png";
+import liIconSettings from "../../../../../assets/settings.png";
+import liIconLogout from "../../../../../assets/logout.png";
 import styles from "./LoggedMenu.module.css";
 import React, { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
-import { useCurrentUserInfo } from "../../../hooks/useUserInfo";
+import { useCurrentUserInfo } from "../../../../../hooks/useUserInfo";
 import axios from "axios";
 export default function HeaderLoggedMenu() {
   const [isDropdown, setIsDropdown] = useState(false);

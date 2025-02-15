@@ -1,7 +1,7 @@
 import React from "react";
-import { useUserFriendsList } from "../../../../hooks/useFriends";
+import { useUserFriendsList } from "../../../../../hooks/useFriends";
 import { useParams } from "react-router-dom";
-import defaultAvatar from "../../../../assets/defaultAvatar.png";
+import defaultAvatar from "../../../../../assets/defaultAvatar.png";
 export default function UserProfileFriends() {
   const { id } = useParams();
   const { data: friendsList, isLoading, error } = useUserFriendsList(id || "");

@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useCurrentUserInfo, useUserInfo } from "../../../../hooks/useUserInfo";
+import {
+  useCurrentUserInfo,
+  useUserInfo,
+} from "../../../../../hooks/useUserInfo";
 import { useOutletContext } from "react-router-dom";
-import { UserDetails } from "../../../../api/user";
-import womanIcon from "../../../../assets/womanIcon.png";
-import manIcon from "../../../../assets/manIcon.png";
+import { UserDetails } from "../../../../../api/user";
+import womanIcon from "../../../../../assets/womanIcon.png";
+import manIcon from "../../../../../assets/manIcon.png";
 export default function UserProfileInfo() {
   const { user } = useOutletContext<{ user: UserDetails }>();
 

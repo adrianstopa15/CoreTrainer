@@ -3,10 +3,10 @@ import styles from "./Survey.module.css";
 import Swal from "sweetalert2";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import menteeIcon from "../../assets/mentee.png";
-import trainerIcon from "../../assets/trainer.png";
-import manIcon from "../../assets/manIcon.png";
-import womanIcon from "../../assets/womanIcon.png";
+import menteeIcon from "../../../assets/mentee.png";
+import trainerIcon from "../../../assets/trainer.png";
+import manIcon from "../../../assets/manIcon.png";
+import womanIcon from "../../../assets/womanIcon.png";
 
 function Survey() {
   const [currentUser, setCurrentUser] = useState(null);
