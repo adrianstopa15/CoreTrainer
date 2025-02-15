@@ -30,6 +30,7 @@ import SearchFriends from "./components/features/loggedSections/loggedMenuSectio
 import FriendsList from "./components/features/loggedSections/loggedMenuSections/FriendsSection/FriendsList";
 import FriendsRequests from "./components/features/loggedSections/loggedMenuSections/FriendsSection/FriendsRequests";
 import SearchTrainer from "./components/features/loggedSections/loggedMenuSections/FriendsSection/SearchTrainer";
+import TrainerPanel from "./components/features/loggedSections/loggedMenuSections/TrainerSections/TrainerPanel";
 Modal.setAppElement("#root");
 axios.defaults.withCredentials = true;
 
@@ -82,6 +83,7 @@ function App() {
                   <Route path="friendsRequests" element={<FriendsRequests />} />
                   <Route path="searchTrainer" element={<SearchTrainer />} />
                 </Route>
+                <Route path="trainerPanel" element={<TrainerPanel />} />
               </Route>
               <Route path="userProfile/:id" element={<UserProfile />}>
                 <Route index element={<Navigate to="info" replace />} />

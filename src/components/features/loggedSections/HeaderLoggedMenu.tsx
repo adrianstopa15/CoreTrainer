@@ -3,6 +3,7 @@ import messageIcon from "../../../assets/message.png";
 import profileIcon from "../../../assets/user.png";
 import trainingIcon from "../../../assets/training.png";
 import progressIcon from "../../../assets/progress.png";
+import trainerIcon from "../../../assets/trainer.png";
 import friendsIcon from "../../../assets/friends.png";
 import liIconProfil from "../../../assets/userLogin.png";
 import liIconSettings from "../../../assets/settings.png";
@@ -43,39 +44,43 @@ export default function HeaderLoggedMenu() {
           </NavLink>
         </nav>
         <nav className={`${styles.navbar} flex flex-col xl:flex-row`}>
-          <NavLink to="/loggedMenu/trainingSection">
-            {({ isActive }) => (
-              <div
-                className={`${styles.midIconContainer} xl:my-0 mx-6 py-3 px-8`}
-              >
-                <img
-                  src={trainingIcon}
-                  className={
-                    isActive
-                      ? styles.midIconsHeaderSelected
-                      : styles.midIconsHeader
-                  }
-                />
-              </div>
-            )}
-          </NavLink>
+          {currentUser?.userFeatures.roles.includes("Podopieczny") && (
+            <>
+              <NavLink to="/loggedMenu/trainingSection">
+                {({ isActive }) => (
+                  <div
+                    className={`${styles.midIconContainer} xl:my-0 mx-6 py-3 px-8`}
+                  >
+                    <img
+                      src={trainingIcon}
+                      className={
+                        isActive
+                          ? styles.midIconsHeaderSelected
+                          : styles.midIconsHeader
+                      }
+                    />
+                  </div>
+                )}
+              </NavLink>
 
-          <NavLink to="/loggedMenu/progressSection">
-            {({ isActive }) => (
-              <div
-                className={`${styles.midIconContainer} xl:my-0 mx-6 py-3 px-8`}
-              >
-                <img
-                  src={progressIcon}
-                  className={
-                    isActive
-                      ? styles.midIconsHeaderSelected
-                      : styles.midIconsHeader
-                  }
-                />
-              </div>
-            )}
-          </NavLink>
+              <NavLink to="/loggedMenu/progressSection">
+                {({ isActive }) => (
+                  <div
+                    className={`${styles.midIconContainer} xl:my-0 mx-6 py-3 px-8`}
+                  >
+                    <img
+                      src={progressIcon}
+                      className={
+                        isActive
+                          ? styles.midIconsHeaderSelected
+                          : styles.midIconsHeader
+                      }
+                    />
+                  </div>
+                )}
+              </NavLink>
+            </>
+          )}
           <NavLink to="/loggedMenu/friendsSection">
             {({ isActive }) => (
               <div
@@ -92,6 +97,24 @@ export default function HeaderLoggedMenu() {
               </div>
             )}
           </NavLink>
+          {currentUser?.userFeatures.roles.includes("Trener") && (
+            <NavLink to="/loggedMenu/trainerPanel">
+              {({ isActive }) => (
+                <div
+                  className={`${styles.midIconContainer} xl:my-0 mx-6 py-3 px-8`}
+                >
+                  <img
+                    src={trainerIcon}
+                    className={
+                      isActive
+                        ? styles.midIconsHeaderSelected
+                        : styles.midIconsHeader
+                    }
+                  />
+                </div>
+              )}
+            </NavLink>
+          )}
         </nav>
         <nav className={`${styles.navbar} flex flex-col xl:flex-row`}>
           <a
