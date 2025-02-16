@@ -21,7 +21,7 @@ import WorkoutCreate from "./components/features/loggedSections/userSections/Tra
 import WorkoutsHistory from "./components/features/loggedSections/userSections/TrainingSection/WorkoutsHistory";
 import WorkoutsAccept from "./components/features/loggedSections/userSections/TrainingSection/WorkoutsAccept";
 import TrainingCreator from "./components/features/loggedSections/userSections/TrainingSection/WorkoutCreator";
-import LogWorkout from "./components/features/loggedSections/userSections/TrainingSection/LogWorkout";
+import LogWorkout from "./components/features/loggedSections/sharedSections/LogWorkout/LogWorkoutBase";
 import ProgressActivity from "./components/features/loggedSections/userSections/ProgressSection/ProgressActivity";
 import ProgressExercises from "./components/features/loggedSections/userSections/ProgressSection/ProgressExercises";
 import ProgressMuscles from "./components/features/loggedSections/userSections/ProgressSection/ProgressMuscles";

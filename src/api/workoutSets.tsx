@@ -8,6 +8,7 @@ export interface Series {
 }
 
 export interface Exercise {
+  _id?: string;
   name: string;
   bodyPart: string;
   bodySection: string;
