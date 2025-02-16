@@ -17,9 +17,14 @@ interface SaveWorkoutModalProps {
 
   setChecked: (val: boolean) => void;
   handleSubmitWorkout: (e: React.FormEvent) => void;
+  hideDates?: boolean;
+  alwaysSaveAsSet?: boolean;
+  mode: "user" | "trainer";
 }
 
 export default function SaveWorkoutModal({
+  hideDates,
+  alwaysSaveAsSet,
   workoutModalOpen,
   closeWorkoutModal,
   modalStyles,
@@ -34,6 +39,7 @@ export default function SaveWorkoutModal({
 
   setChecked,
   handleSubmitWorkout,
+  mode,
 }: SaveWorkoutModalProps) {
   return (
     <Modal
@@ -44,7 +50,7 @@ export default function SaveWorkoutModal({
     >
       <div>
         <h2 className="mb-10 text-center text-m lg:text-2xl xl:text-3xl">
-          Zapisz swój trening
+          {mode === "user" ? "Zapisz swój trening" : "Zapisz set treningowy"}
         </h2>
         <form onSubmit={handleSubmitWorkout} className="addWorkoutForm">
           <div className="mb-2">
@@ -57,35 +63,39 @@ export default function SaveWorkoutModal({
               maxLength={30}
             />
           </div>
-
-          <div>
-            <h2>Data rozpoczęcia</h2>
-            <input
-              type="datetime-local"
-              value={startDateTime}
-              onChange={handleStartDateTimeChange}
-            />
-          </div>
-          <div className="mb-2">
-            <h2>Data zakończenia</h2>
-            <input
-              min={startDateTime}
-              max={getMaxEndTime(startDateTime)}
-              type="datetime-local"
-              value={endDateTime}
-              onChange={handleEndDateTimeChange}
-              className="styling-none"
-            />
-          </div>
-
-          <div className="flex mb-4">
-            <p>Zapisz zestaw ćwiczeń</p>
-            <input
-              type="checkbox"
-              className="ml-2"
-              onChange={(e) => setChecked(e.target.checked)}
-            />
-          </div>
+          {!hideDates && (
+            <>
+              <div>
+                <h2>Data rozpoczęcia</h2>
+                <input
+                  type="datetime-local"
+                  value={startDateTime}
+                  onChange={handleStartDateTimeChange}
+                />
+              </div>
+              <div className="mb-2">
+                <h2>Data zakończenia</h2>
+                <input
+                  min={startDateTime}
+                  max={getMaxEndTime(startDateTime)}
+                  type="datetime-local"
+                  value={endDateTime}
+                  onChange={handleEndDateTimeChange}
+                  className="styling-none"
+                />
+              </div>
+            </>
+          )}
+          {!alwaysSaveAsSet && (
+            <div className="flex mb-4">
+              <p>Zapisz zestaw ćwiczeń</p>
+              <input
+                type="checkbox"
+                className="ml-2"
+                onChange={(e) => setChecked(e.target.checked)}
+              />
+            </div>
+          )}
 
           <div className="flex">
             <button

@@ -18,10 +18,12 @@ interface RightPanelProps {
   ) => void;
 
   openWorkoutModal: () => void;
+  hideKg?: boolean;
 }
 
 export default function RightPanel({
   selectedExercises,
+  hideKg,
   handleDrop,
   handleDragOver,
   handleCountSeries,
@@ -76,20 +78,22 @@ export default function RightPanel({
                     {exercise.series.map((serie, idx) => (
                       <div key={idx} className="flex items-center mt-2">
                         <p className="mr-2 w-14">seria {idx + 1}</p>
-                        <input
-                          type="number"
-                          value={serie.kg}
-                          placeholder="ilość kilogramów"
-                          className="mr-2 mb-1 p-1"
-                          onChange={(ev) =>
-                            handleSeriesChange(
-                              exercise.name,
-                              idx,
-                              "kg",
-                              ev.target.value
-                            )
-                          }
-                        />
+                        {!hideKg && (
+                          <input
+                            type="number"
+                            value={serie.kg}
+                            placeholder="ilość kilogramów"
+                            className="mr-2 mb-1 p-1"
+                            onChange={(ev) =>
+                              handleSeriesChange(
+                                exercise.name,
+                                idx,
+                                "kg",
+                                ev.target.value
+                              )
+                            }
+                          />
+                        )}
                         <input
                           type="number"
                           min={0}

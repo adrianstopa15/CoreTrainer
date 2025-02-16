@@ -11,13 +11,21 @@ import {
 import { ISelectedExercise, Exercise, muscleGroupMap } from "./types";
 import { modalStyles } from "./modalStyles";
 
-import LeftPanel from "./leftPanel";
+import LeftPanel from "./LeftPanel";
 import RightPanel from "./RightPanel";
 import AddExerciseModal from "./AddExerciseModal";
 import SaveWorkoutModal from "./SaveWorkoutModal";
 import ExerciseInfoModal from "./ExerciseInfoModal";
 
-export default function LogWorkoutBase() {
+interface LogWorkoutBaseProps {
+  mode: "user" | "trainer";
+}
+
+export default function LogWorkoutBase({ mode }: LogWorkoutBaseProps) {
+  const hidenKgInput = mode === "trainer";
+  const hideDates = mode === "trainer";
+  const alwaysSaveAsSet = mode === "trainer";
+
   const [filterBodySection, setFilterBodySection] = useState<string>("");
   const [exercises, setExercises] = useState<Exercise[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -262,22 +270,35 @@ export default function LogWorkoutBase() {
       const trainingDurationMs = end - start;
       const trainingTime = Math.floor(trainingDurationMs / (1000 * 60));
 
-      await submitWorkoutMutation.mutateAsync({
-        name: workoutName,
-        date: startDateTime,
-        trainingTime,
-        exercises: selectedExercises,
-      });
-
-      if (setChecked) {
+      if (mode === "trainer") {
         await submitWorkoutSetMutation.mutateAsync({
           name: workoutName + " (set)",
-          description: "",
+          description: "Zestaw od trenera",
           exercises: selectedExercises.map((ex) => ({
             ...ex,
             series: ex.series.map((s) => ({ ...s, kg: "" })),
           })),
         });
+        closeWorkoutModal();
+        return;
+      } else {
+        await submitWorkoutMutation.mutateAsync({
+          name: workoutName,
+          date: startDateTime,
+          trainingTime,
+          exercises: selectedExercises,
+        });
+
+        if (setChecked) {
+          await submitWorkoutSetMutation.mutateAsync({
+            name: workoutName + " (set)",
+            description: "",
+            exercises: selectedExercises.map((ex) => ({
+              ...ex,
+              series: ex.series.map((s) => ({ ...s, kg: "" })),
+            })),
+          });
+        }
       }
       closeWorkoutModal();
     } catch (error) {
@@ -339,6 +360,7 @@ export default function LogWorkoutBase() {
             openExerciseInfoModal={openExerciseInfoModal}
             openModal={openModal}
             setModeActiveValue={setModeActive}
+            mode={mode}
           />
 
           <RightPanel
@@ -348,6 +370,7 @@ export default function LogWorkoutBase() {
             handleCountSeries={handleCountSeries}
             handleSeriesChange={handleSeriesChange}
             openWorkoutModal={openWorkoutModal}
+            hideKg={hidenKgInput}
           />
         </div>
       </div>
@@ -376,6 +399,9 @@ export default function LogWorkoutBase() {
         getMaxEndTime={getMaxEndTime}
         setChecked={setSetChecked}
         handleSubmitWorkout={handleSubmitWorkout}
+        hideDates={hideDates}
+        alwaysSaveAsSet={alwaysSaveAsSet}
+        mode={mode}
       />
 
       <ExerciseInfoModal

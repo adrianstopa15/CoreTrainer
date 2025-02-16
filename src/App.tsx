@@ -30,9 +30,11 @@ import SearchFriends from "./components/features/loggedSections/sharedSections/F
 import FriendsList from "./components/features/loggedSections/sharedSections/FriendsSection/FriendsList";
 import FriendsRequests from "./components/features/loggedSections/sharedSections/FriendsSection/FriendsRequests";
 import SearchTrainer from "./components/features/loggedSections/sharedSections/FriendsSection/SearchTrainer";
-import TrainerPanel from "./components/features/loggedSections/TrainerSections/ManageMentees/TrainerPanel";
-import ManageWorkout from "./components/features/loggedSections/TrainerSections/ManageMentees/ManageWorkout";
+import TrainerPanel from "./components/features/loggedSections/TrainerSections/TrainerPanel";
+import ManageWorkout from "./components/features/loggedSections/TrainerSections/ManageWorkouts/ManageWorkout";
 import ManageMentees from "./components/features/loggedSections/TrainerSections/ManageMentees/ManageMentees";
+import LogWorkoutTrainer from "./components/features/loggedSections/TrainerSections/ManageWorkouts/LogWorkoutTrainer";
+import LogWorkoutUser from "./components/features/loggedSections/userSections/TrainingSection/LogWorkoutUser";
 Modal.setAppElement("#root");
 axios.defaults.withCredentials = true;
 
@@ -68,7 +70,7 @@ function App() {
                   element={<AutoTrainingCreator />}
                 />
 
-                <Route path="logWorkout" element={<LogWorkout />} />
+                <Route path="logWorkout" element={<LogWorkoutUser />} />
                 <Route path="progressSection" element={<ProgressSection />}>
                   <Route index element={<Navigate to="muscles" replace />} />
                   <Route path="muscles" element={<ProgressMuscles />} />
@@ -93,6 +95,10 @@ function App() {
                   <Route path="manageWorkout" element={<ManageWorkout />} />
                   <Route path="manageMentees" element={<ManageMentees />} />
                 </Route>
+                <Route
+                  path="logWorkoutTrainer"
+                  element={<LogWorkoutTrainer />}
+                />
               </Route>
               <Route path="userProfile/:id" element={<UserProfile />}>
                 <Route index element={<Navigate to="info" replace />} />
