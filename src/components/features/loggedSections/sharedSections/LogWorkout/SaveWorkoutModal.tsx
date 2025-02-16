@@ -20,6 +20,8 @@ interface SaveWorkoutModalProps {
   hideDates?: boolean;
   alwaysSaveAsSet?: boolean;
   mode: "user" | "trainer";
+  setDescription: string;
+  setSetDescription: (val: string) => void;
 }
 
 export default function SaveWorkoutModal({
@@ -40,6 +42,8 @@ export default function SaveWorkoutModal({
   setChecked,
   handleSubmitWorkout,
   mode,
+  setDescription,
+  setSetDescription,
 }: SaveWorkoutModalProps) {
   return (
     <Modal
@@ -63,7 +67,7 @@ export default function SaveWorkoutModal({
               maxLength={30}
             />
           </div>
-          {!hideDates && (
+          {mode === "user" ? (
             <>
               <div>
                 <h2>Data rozpoczęcia</h2>
@@ -84,15 +88,24 @@ export default function SaveWorkoutModal({
                   className="styling-none"
                 />
               </div>
+
+              <div className="flex mb-4">
+                <p>Zapisz zestaw ćwiczeń</p>
+                <input
+                  type="checkbox"
+                  className="ml-2"
+                  onChange={(e) => setChecked(e.target.checked)}
+                />
+              </div>
             </>
-          )}
-          {!alwaysSaveAsSet && (
-            <div className="flex mb-4">
-              <p>Zapisz zestaw ćwiczeń</p>
-              <input
-                type="checkbox"
-                className="ml-2"
-                onChange={(e) => setChecked(e.target.checked)}
+          ) : (
+            <div className="mb-2">
+              <h2>Opis Treningu</h2>
+              <textarea
+                placeholder="Opis treningu wraz ze wskazówkami dla podopiecznego"
+                className="bg-black min-h-20 min-w-64 text-sm p-1"
+                onChange={(e) => setSetDescription(e.target.value)}
+                maxLength={500}
               />
             </div>
           )}

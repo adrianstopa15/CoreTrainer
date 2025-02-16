@@ -43,6 +43,7 @@ export default function LogWorkoutBase({ mode }: LogWorkoutBaseProps) {
   const [modalIsOpen, setIsOpen] = useState(false);
   const [workoutModalOpen, setWorkoutModalOpen] = useState(false);
   const [exerciseInfoModalIsOpen, setExerciseInfoModalIsOpen] = useState(false);
+  const [setDescription, setSetDescription] = useState("");
 
   const [selectedExerciseInfo, setSelectedExerciseInfo] =
     useState<Exercise | null>(null);
@@ -273,7 +274,7 @@ export default function LogWorkoutBase({ mode }: LogWorkoutBaseProps) {
       if (mode === "trainer") {
         await submitWorkoutSetMutation.mutateAsync({
           name: workoutName + " (set)",
-          description: "Zestaw od trenera",
+          description: setDescription,
           exercises: selectedExercises.map((ex) => ({
             ...ex,
             series: ex.series.map((s) => ({ ...s, kg: "" })),
@@ -402,6 +403,8 @@ export default function LogWorkoutBase({ mode }: LogWorkoutBaseProps) {
         hideDates={hideDates}
         alwaysSaveAsSet={alwaysSaveAsSet}
         mode={mode}
+        setDescritpion={setDescription}
+        setSetDescription={setSetDescription}
       />
 
       <ExerciseInfoModal
