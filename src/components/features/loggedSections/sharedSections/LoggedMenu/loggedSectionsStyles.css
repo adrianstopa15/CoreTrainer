@@ -1,5 +1,13 @@
 @import url("react-calendar/dist/Calendar.css");
 
+.navlink,
+.navlink:visited,
+.navlink:hover,
+.navlink:active {
+  text-decoration: none !important;
+  color: inherit;
+}
+
 .bgLogged {
   background-color: rgb(28, 30, 33);
   color: white;
@@ -110,15 +118,13 @@
   transform: translateY(-2px);
 }
 .button-green-dark {
-  background-image: linear-gradient(rgb(87, 158, 70), rgb(16, 59, 12));
+  background-image: linear-gradient(rgb(96, 189, 73), rgb(19, 73, 14));
+  box-shadow: 0px 5px 15px 0px #0000002f;
 }
-.button-green-dark:hover {
-  color: green;
-  background: white;
-  box-shadow: rgba(255, 255, 255, 0.781) 0 1px 8px;
-}
+
 .button-purple-dark {
   background-image: linear-gradient(rgb(138, 70, 158), rgb(40, 12, 59));
+  box-shadow: 0px 5px 15px 0px #0000002f;
 }
 .button-purple-dark:hover {
   color: purple;
@@ -126,29 +132,24 @@
   box-shadow: rgba(255, 255, 255, 0.781) 0 1px 8px;
 }
 .button-aqua-dark {
-  background-image: linear-gradient(rgb(81, 93, 207), rgb(22, 32, 116));
+  background-image: linear-gradient(rgb(84, 97, 214), rgb(21, 29, 102));
+  box-shadow: 0px 5px 15px 0px #0000002f;
 }
-.button-aqua-dark:hover {
-  color: blue;
-  background: white;
-  box-shadow: rgba(255, 255, 255, 0.781) 0 1px 8px;
-}
-.navlink,
-.navlink:visited,
-.navlink:hover,
-.navlink:active {
-  text-decoration: none !important;
-  color: inherit;
-}
+
 .button-orange-dark {
   background-image: linear-gradient(rgb(219, 169, 32), rgb(105, 74, 19));
+  box-shadow: 0px 5px 15px 0px #0000002f;
 }
 .button-orange-dark:hover {
   color: orange;
   background: white;
   box-shadow: rgba(255, 255, 255, 0.781) 0 1px 8px;
 }
-
+.button-green-dark:hover {
+  color: green;
+  background: white;
+  box-shadow: rgba(255, 255, 255, 0.781) 0 1px 8px;
+}
 .button-blue-dark {
   background-image: linear-gradient(rgb(100, 109, 194), rgb(16, 32, 73));
   color: white;
@@ -196,6 +197,11 @@
   background-color: rgb(8, 196, 48);
   /* box-shadow: rgb(13, 219, 92) 0 0 25px; */
 }
+.button-aqua-dark:hover {
+  color: rgb(43, 43, 247);
+  background: white;
+  box-shadow: rgba(255, 255, 255, 0.781) 0 1px 8px;
+}
 .button-green-whitebg:hover {
   box-shadow: rgb(6, 230, 36) 0 0 25px;
 }
@@ -206,6 +212,7 @@
 .button-smooth:hover {
   background-color: rgb(46, 47, 51);
 }
+
 .trainingElement {
   display: flex;
   border: 1px solid rgb(116, 108, 108);
@@ -217,6 +224,7 @@
   overflow: hidden;
   border-radius: 5px;
   filter: brightness(95%);
+  box-shadow: 0px 5px 10px 0px #00000071;
 }
 .trainingElement:hover {
   cursor: pointer;
@@ -242,6 +250,7 @@
   border-radius: 5%;
   transition: all 0.2s;
   border: 1px solid rgb(180, 180, 180);
+  box-shadow: 0px 5px 15px 0px #000000a6;
 }
 .bgLinearGreen {
   background: linear-gradient(to bottom right, #1c6d11a4 10%, #001300a8);
@@ -363,6 +372,7 @@
   margin-bottom: 10px;
 }
 .selectedExerciseBox {
+  box-shadow: 0px 5px 15px 0px #00000063;
   display: flex;
   flex-direction: row;
   margin: 2rem;
@@ -374,7 +384,7 @@
   );
   backdrop-filter: blur(50px);
   border-radius: 15px;
-  box-shadow: rgba(255, 255, 255, 0.045) 0 3px 12px;
+  /* box-shadow: rgba(255, 255, 255, 0.045) 0 3px 12px; */
 }
 .selectedExerciseElementInfo {
   flex: 1;
@@ -451,6 +461,7 @@
   border-radius: 5%;
   transition: all 0.2s;
   border: 1px solid rgb(180, 180, 180);
+  box-shadow: 0px 5px 15px 0px #000000a6;
 }
 .bgLinearPurple {
   background: linear-gradient(to bottom right, #192043 10%, #210e17);
@@ -469,10 +480,12 @@
 }
 .workoutCallendar {
   border-radius: 5px;
+
   box-shadow: 0px 2px 10px 7px #5e5d5d70;
 }
 
 .react-calendar {
+  box-shadow: 0px 5px 15px 0px #000000a6;
   width: 26rem;
   min-height: 18rem;
   max-width: 100%;
@@ -639,6 +652,7 @@ abbr[title] {
 }
 .creatorSection-left--workoutsContainer {
 }
+
 @media (max-width: 1200px) {
   .workoutCreatorElement {
     width: 20rem;

@@ -35,6 +35,8 @@ import ManageWorkout from "./components/features/loggedSections/TrainerSections/
 import ManageMentees from "./components/features/loggedSections/TrainerSections/ManageMentees/ManageMentees";
 import LogWorkoutTrainer from "./components/features/loggedSections/TrainerSections/ManageWorkouts/LogWorkoutTrainer";
 import LogWorkoutUser from "./components/features/loggedSections/userSections/TrainingSection/LogWorkoutUser";
+import TrainingSets from "./components/features/loggedSections/sharedSections/WorkoutCreate/TrainingSets";
+import DefaultTrainingSets from "./components/features/loggedSections/sharedSections/WorkoutCreate/DefaultTrainingSets";
 Modal.setAppElement("#root");
 axios.defaults.withCredentials = true;
 
@@ -65,6 +67,11 @@ function App() {
                 </Route>
 
                 <Route path="trainingCreator" element={<TrainingCreator />} />
+                <Route path="trainingSets" element={<TrainingSets />} />
+                <Route
+                  path="DefaultTrainingSets"
+                  element={<DefaultTrainingSets />}
+                />
                 <Route
                   path="autoTrainingCreator"
                   element={<AutoTrainingCreator />}

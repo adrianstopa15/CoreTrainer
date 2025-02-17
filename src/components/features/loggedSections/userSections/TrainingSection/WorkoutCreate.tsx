@@ -11,7 +11,7 @@ export default function WorkoutCreate() {
         <img src={StartWorkoutIcon} className="workoutSectionIcon" />
         <div className="workoutButtonContainer">
           <button
-            className="button-green lg:text-lg"
+            className="button-green-dark lg:text-lg"
             onClick={() => navigate("../../logWorkout")}
           >
             Rozpocznij Trening
@@ -22,11 +22,11 @@ export default function WorkoutCreate() {
           Wprowadź dane z ostatnio wykonanego treningu
         </p>
       </div>
-      <div className="workoutSectionContainerElement bgLinearPurple">
+      <div className="workoutSectionContainerElement bgLinearBlue">
         <img src={CreateWorkoutIcon} className="workoutSectionIcon" />
         <div className="workoutButtonContainer">
           <button
-            className="button-blue lg:text-lg"
+            className="button-aqua-dark lg:text-lg"
             onClick={() => navigate("../../trainingCreator")}
           >
             Kreator treningów

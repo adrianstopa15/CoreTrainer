@@ -22,10 +22,11 @@ export default function WorkoutCreator() {
             Przeglądaj swoje zestawy treningowe
           </h2>
 
-          <NavLink className="navlink mt-8" to="../autoTrainingCreator">
-            <button className="button-green-dark lg:text-lg  mb-8">
-              Rozpocznij
-            </button>
+          <NavLink
+            className="navlink mt-8 button-green-dark lg:text-lg  mb-8"
+            to="../trainingSets"
+          >
+            Rozpocznij
           </NavLink>
         </div>
         <div className="workoutCreatorElement bgLinearBlue">
@@ -36,24 +37,26 @@ export default function WorkoutCreator() {
             następnym treningu
           </h2>
 
-          <NavLink className="navlink mt-8" to="../autoTrainingCreator">
-            <button className="button-aqua-dark lg:text-lg   mb-8">
-              Rozpocznij
-            </button>
+          <NavLink
+            className="navlink mt-8 button-aqua-dark lg:text-lg mb-8 "
+            to="../autoTrainingCreator"
+          >
+            Rozpocznij
           </NavLink>
         </div>
         <div className="workoutCreatorElement bgLinearOrange">
           <h1 className="lg:text-2xl mb-10 mt-6">Brak pomysłu na trening?</h1>
           <img src={CreateWorkoutIcon} className="workoutIcon mb-8" />
           <h2 className="text-md max-h-6 p-1">
-            Dzięki naszym inteligentnym algorytmom, ułożymy trening biorąc pod
-            uwagę Twoje predyspozycje oraz preferencję
+            Ułóż plan treningowy dopasowany do Twoich potrzeb przy pomocy
+            inteligentnych algorytmów
           </h2>
 
-          <NavLink className="navlink mt-8" to="../autoTrainingCreator">
-            <button className="button-orange-dark lg:text-lg  mb-8">
-              Rozpocznij
-            </button>
+          <NavLink
+            className="navlink mt-8 button-orange-dark lg:text-lg  mb-8"
+            to="../autoTrainingCreator"
+          >
+            Rozpocznij
           </NavLink>
         </div>
         <div className="workoutCreatorElement bgLinearPurple">
@@ -63,10 +66,11 @@ export default function WorkoutCreator() {
             Przeglądaj gotowe plany treningowe i dodaj je do swojej kolekcji.
           </h2>
 
-          <NavLink className="navlink mt-8" to="../autoTrainingCreator">
-            <button className="button-purple-dark lg:text-lg  mb-8">
-              Rozpocznij
-            </button>
+          <NavLink
+            className="navlink mt-8 button-purple-dark lg:text-lg  mb-8"
+            to="../DefaultTrainingSets"
+          >
+            Rozpocznij
           </NavLink>
         </div>
       </div>
