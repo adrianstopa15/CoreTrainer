@@ -86,6 +86,10 @@
 .button-dark-green,
 .button-green-whitebg,
 .button-standard,
+.button-green-dark,
+.button-orange-dark,
+.button-purple-dark,
+.button-aqua-dark,
 .button-blue-dark {
   display: flex;
   text-align: center;
@@ -105,6 +109,46 @@
   box-shadow: rgba(255, 255, 255, 0.329) 0 2px 9px;
   transform: translateY(-2px);
 }
+.button-green-dark {
+  background-image: linear-gradient(rgb(87, 158, 70), rgb(16, 59, 12));
+}
+.button-green-dark:hover {
+  color: green;
+  background: white;
+  box-shadow: rgba(255, 255, 255, 0.781) 0 1px 8px;
+}
+.button-purple-dark {
+  background-image: linear-gradient(rgb(138, 70, 158), rgb(40, 12, 59));
+}
+.button-purple-dark:hover {
+  color: purple;
+  background: white;
+  box-shadow: rgba(255, 255, 255, 0.781) 0 1px 8px;
+}
+.button-aqua-dark {
+  background-image: linear-gradient(rgb(81, 93, 207), rgb(22, 32, 116));
+}
+.button-aqua-dark:hover {
+  color: blue;
+  background: white;
+  box-shadow: rgba(255, 255, 255, 0.781) 0 1px 8px;
+}
+.navlink,
+.navlink:visited,
+.navlink:hover,
+.navlink:active {
+  text-decoration: none !important;
+  color: inherit;
+}
+.button-orange-dark {
+  background-image: linear-gradient(rgb(219, 169, 32), rgb(105, 74, 19));
+}
+.button-orange-dark:hover {
+  color: orange;
+  background: white;
+  box-shadow: rgba(255, 255, 255, 0.781) 0 1px 8px;
+}
+
 .button-blue-dark {
   background-image: linear-gradient(rgb(100, 109, 194), rgb(16, 32, 73));
   color: white;
@@ -383,6 +427,16 @@
 
 .containerCreator {
   margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px;
+  /* display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; */
+  padding-top: 5rem;
+  justify-items: center;
+  max-width: 65rem;
 }
 
 .workoutCreatorElement {
@@ -390,13 +444,22 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  background: linear-gradient(to bottom right, #192043 10%, #210e17);
-  width: 25rem;
-  height: auto;
+  /* background: linear-gradient(to bottom right, #192043 10%, #210e17); */
+  width: 30rem;
+  min-height: 15rem;
+  max-height: 20rem;
   border-radius: 5%;
   transition: all 0.2s;
   border: 1px solid rgb(180, 180, 180);
-  margin: 0 auto;
+}
+.bgLinearPurple {
+  background: linear-gradient(to bottom right, #192043 10%, #210e17);
+}
+.bgLinearBlue {
+  background: linear-gradient(to bottom right, #293994 10%, #05071f);
+}
+.bgLinearOrange {
+  background: linear-gradient(to bottom right, #8a5b16 10%, #221702);
 }
 .workoutCreatorElement:hover {
   transform: scale(1.02);
@@ -565,6 +628,9 @@ abbr[title] {
 .profileAvatar {
   height: 8rem;
 }
+.workoutIcon {
+  height: 5rem;
+}
 .selectedExerciseElementForm label {
 }
 .selectedExerciseElementInfo {
@@ -573,4 +639,31 @@ abbr[title] {
 }
 .creatorSection-left--workoutsContainer {
 }
+@media (max-width: 1200px) {
+  .workoutCreatorElement {
+    width: 20rem;
+    font-size: 12px;
+  }
+  .workoutIcon {
+    height: 4rem;
+  }
+}
+@media (max-width: 800px) {
+  .containerCreator {
+    grid-template-columns: repeat(1, 1fr);
+  }
+  .workoutCreatorElement {
+    width: 15rem;
+
+    font-size: 8px;
+    max-height: fit-content;
+  }
+  .workoutIcon {
+    height: 3rem;
+  }
+  .button-blue {
+    font-size: 6px;
+  }
+}
+
 /*  */
