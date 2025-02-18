@@ -14,10 +14,9 @@ import * as path from "path";
 import Exercise from "./models/Exercise";
 import Workout from "./models/Workout";
 import WorkoutSet from "./models/WorkoutSet";
-import cron from "node-cron";
+import * as cron from "node-cron";
 
 import FriendRequest from "./models/FriendRequest";
-import trainerTraineeRelations from "./models/TrainerTraineeRelations";
 import TrainerTraineeRelations from "./models/TrainerTraineeRelations";
 dotenv.config();
 
@@ -740,10 +739,10 @@ cron.schedule("0 * * * *", async () => {
       { status: "expired" }
     );
     console.log(
-      `Cron zaktualizowano ${result.modifiedCount} relacji na expired`
+      `Cron zaktualizował: ${result.modifiedCount} relacji na expired`
     );
   } catch (error) {
-    console.error("Błąd podczas aktualizacji relacji (cron): ", error);
+    console.error("Błąd podczas aktualizacji relacji (cron):", error);
   }
 });
 
