@@ -14,8 +14,11 @@ import * as path from "path";
 import Exercise from "./models/Exercise";
 import Workout from "./models/Workout";
 import WorkoutSet from "./models/WorkoutSet";
+import cron from "node-cron";
 
 import FriendRequest from "./models/FriendRequest";
+import trainerTraineeRelations from "./models/TrainerTraineeRelations";
+import TrainerTraineeRelations from "./models/TrainerTraineeRelations";
 dotenv.config();
 
 const app = express();
@@ -661,6 +664,86 @@ app.get("/api/getUserFriends/:id", async (req: Request, res: Response) => {
     return res.status(500).json({
       error: "Wystąpił błąd podczas pobierania znajomych użytkownika.",
     });
+  }
+});
+
+//relacje trener podopieczny
+
+app.post("/api/trainerRelations", async (req: Request, res: Response) => {
+  try {
+    const { trainerId, traineeId, months } = req.body;
+
+    const now = new Date();
+    let endDate = null;
+    if (months) {
+      endDate = new Date(now.getTime() + months * 30 * 24 * 60 * 60 * 1000);
+    }
+
+    const newRelation = new TrainerTraineeRelations({
+      trainerId,
+      traineeId,
+      startDate: now,
+      endDate,
+      status: "pending",
+    });
+
+    await newRelation.save();
+
+    return res
+      .status(201)
+      .json({ message: "Zaproszenie wysłane", newRelation });
+  } catch (error) {
+    res.status(500).json({ error: "Błąd serwera" });
+    console.error("Wystąpił problem podczas wysyłania zaproszenia", error);
+  }
+});
+
+app.patch(
+  "/api/trainerRelationsResponse/:id",
+  async (req: Request, res: Response) => {
+    try {
+      const { id } = req.params;
+      const { action } = req.body;
+      const relation = await TrainerTraineeRelations.findById(id);
+      if (!relation)
+        return res.status(404).json({ error: "Nie znaleziono relacji" });
+      if (relation.status === "pending") {
+        if (action === "accept") {
+          relation.status = "active";
+        } else if (action === "reject") {
+          relation.status = "rejected";
+        }
+        await relation.save();
+        return res.json({
+          message: `Relacja zaktualizowana ${relation.status}`,
+          relation,
+        });
+      }
+      if (relation.status === "active" && action === "cancel") {
+        relation.status = "canceled";
+        await relation.save();
+        return res.json({ message: "Relacja anulowana", relation });
+      }
+      res.json({ message: "Brak akcji do wykonania" });
+    } catch (error) {
+      res.status(500).json({ error: "Błąd Serwera" });
+      console.error("Wystąpił błąd podczas wykonywania akcji", error);
+    }
+  }
+);
+
+cron.schedule("0 * * * *", async () => {
+  try {
+    const now = new Date();
+    const result = await TrainerTraineeRelations.updateMany(
+      { status: "active", endDate: { $ne: null, $lte: now } },
+      { status: "expired" }
+    );
+    console.log(
+      `Cron zaktualizowano ${result.modifiedCount} relacji na expired`
+    );
+  } catch (error) {
+    console.error("Błąd podczas aktualizacji relacji (cron): ", error);
   }
 });
 
