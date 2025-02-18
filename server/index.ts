@@ -268,6 +268,20 @@ app.post(
   upload.single("image"),
   async (req: Request, res: Response) => {
     try {
+      const token = req.cookies.token;
+      if (!token) {
+        return res
+          .status(401)
+          .json({ error: "Użytkownik niezalogowany, lub jego sesja wygasła!" });
+      }
+      let decoded;
+      try {
+        decoded = jwt.verify(token, process.env.JWT_SECRET!);
+      } catch (error) {
+        console.error("Nie udało się zweryfikować użytkownika", error);
+      }
+      const userId = decoded.userId;
+
       const { name, bodySection, bodyPart } = req.body;
       if (!name || !bodySection || !bodyPart) {
         return res
@@ -280,6 +294,7 @@ app.post(
         filePath = "uploads/" + req.file.filename;
       }
       const newExercise = new Exercise({
+        userId,
         name,
         bodySection,
         bodyPart,
@@ -297,7 +312,22 @@ app.post(
 );
 app.get("/api/getExercises", async (req: Request, res: Response) => {
   try {
-    const exercises = await Exercise.find();
+    const token = req.cookies.token;
+    if (!token) {
+      return res
+        .status(401)
+        .json({ error: "Użytkownik niezalogowany, lub sesja wygasła." });
+    }
+    let decoded;
+    try {
+      decoded = jwt.verify(token, process.env.JWT_SECRET!);
+    } catch (error) {
+      console.error("Nie udało się zweryfikować użytkownika", error);
+    }
+    const userId = decoded.userId;
+    const exercises = await Exercise.find({
+      $or: [{ usersWithAccess: userId }, { isGlobal: true }],
+    });
     if (!exercises) {
       console.error("Nie znaleziono ćwiczeń");
       return res
@@ -431,7 +461,9 @@ app.get("/api/getWorkoutSets", async (req: Request, res: Response) => {
         .json({ error: "Token nie jest aktywny lu stracil ważność" });
     }
     const loggedUserId = decoded.userId;
-    const workoutSets = await WorkoutSet.find({ userId: loggedUserId });
+    const workoutSets = await WorkoutSet.find({
+      $or: [{ usersWithAccess: loggedUserId }, { isGlobal: true }],
+    });
 
     return res.status(200).json(workoutSets);
   } catch (error) {

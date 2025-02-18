@@ -71,7 +71,10 @@ export default function LogWorkoutBase({ mode }: LogWorkoutBaseProps) {
   const fetchExercises = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:5000/api/getExercises"
+        "http://localhost:5000/api/getExercises",
+        {
+          withCredentials: true,
+        }
       );
       setExercises(response.data);
     } catch (error) {
@@ -192,6 +195,7 @@ export default function LogWorkoutBase({ mode }: LogWorkoutBaseProps) {
         "http://localhost:5000/api/addExercise",
         formData,
         {
+          withCredentials: true,
           headers: { "Content-Type": "multipart/form-data" },
         }
       );

@@ -652,6 +652,16 @@ abbr[title] {
 }
 .creatorSection-left--workoutsContainer {
 }
+.setContainerGrid {
+  padding-top: 5rem;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  width: 50%;
+  gap: 2rem;
+}
+.setContainerGridCard {
+}
 
 @media (max-width: 1200px) {
   .workoutCreatorElement {

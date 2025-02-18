@@ -9,6 +9,9 @@ export interface Series {
 
 export interface Exercise {
   _id?: string;
+  userId: string;
+  usersWithAccess: string[];
+  isGlobal: boolean;
   name: string;
   bodyPart: string;
   bodySection: string;
@@ -17,6 +20,10 @@ export interface Exercise {
 }
 
 export interface WorkoutSetData {
+  _id?: string;
+  userId: string;
+  isGlobal: boolean;
+  usersWithAccess: string[];
   name: string;
   description: string;
   exercises: Exercise[];
