@@ -36,8 +36,8 @@
 }
 .usersGridCard {
   box-shadow: 0px 5px 15px 0px #131313e0;
-  min-width: 12rem;
-  min-height: 11rem;
+  width: 12rem;
+  height: 20rem;
   border: 1px solid rgb(126, 126, 126);
   border-radius: 6px;
   display: flex;

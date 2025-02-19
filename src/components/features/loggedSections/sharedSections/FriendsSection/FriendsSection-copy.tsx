@@ -1,9 +1,44 @@
-import { useState } from "react";
-import { NavLink, Outlet } from "react-router-dom";
-import styles from "./friendsSection.module.css";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import searchIcon from "../../../../../assets/search.png";
+import styles from "./friendsSection.module.css";
+import defaultAvatar from "../../../../../assets/defaultAvatar.png";
+import Survey from "../../../firstLoginSurvey/Survey";
+import { NavLink, Outlet } from "react-router-dom";
+
 export default function FriendsSection() {
-  const [searchQuery, setSearchQuery] = useState("");
+  interface User {
+    name: string;
+    surname: string;
+    id_: string;
+    login: string;
+    role: string;
+  }
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [users, setUsers] = useState<User[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const fetchUsers = async () => {
+    try {
+      setIsLoading(true);
+      const params = {
+        q: searchQuery,
+      };
+      const response = await axios.get("http://localhost:5000/api/getUsers", {
+        params,
+      });
+
+      setUsers(response.data);
+    } catch (error) {
+      console.error("Błąd podczas pobierania użytkowników.", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchUsers();
+  }, [searchQuery]);
 
   return (
     <div className="bgLogged">
@@ -14,7 +49,7 @@ export default function FriendsSection() {
               <img src={searchIcon} className={styles.searchIcon} />
               <input
                 type="text"
-                placeholder="szukaj..."
+                placeholder="szukaj znajomych"
                 className="bg-slate-600 text-center rounded-lg p-1 mb-4"
                 name="searchFriends"
                 onChange={(e) => setSearchQuery(e.target.value)}

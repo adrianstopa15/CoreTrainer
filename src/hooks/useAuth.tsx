@@ -1,4 +1,4 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useDispatch } from "react-redux";
 import Swal from "sweetalert2";
 import {
@@ -10,6 +10,14 @@ import {
   RegisterResponse,
 } from "../api/auth";
 import { loginSuccess } from "../store/AuthSlice";
+import axios from "axios";
+
+interface CurrentUser {
+  _id: string;
+  login: string;
+  name: string;
+  surname: string;
+}
 
 export const useLogin = () => {
   const dispatch = useDispatch();
@@ -69,3 +77,18 @@ export const useRegister = () => {
     },
   });
 };
+
+async function fetchCurrentUser() {
+  const res = await axios.get("http:localhost:5000/api/getCurrentUser", {
+    withCredentials: true,
+  });
+  return res.data.user as CurrentUser;
+}
+
+export function useAuth() {
+  return useQuery<CurrentUser>({
+    queryKey: ["currentUser"],
+    queryFn: fetchCurrentUser,
+    initialData: undefined,
+  });
+}

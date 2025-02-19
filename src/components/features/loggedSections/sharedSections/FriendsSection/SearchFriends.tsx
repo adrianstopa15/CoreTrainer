@@ -1,79 +1,122 @@
 import React, { useEffect, useState } from "react";
-import styles from "./friendsSection.module.css";
-import defaultAvatar from "../../../../../assets/defaultAvatar.png";
 import axios from "axios";
 import { Link, useOutletContext } from "react-router-dom";
-import { useSendFriendRequest } from "../../../../../hooks/useFriends";
+import defaultAvatar from "../../../../../assets/defaultAvatar.png";
+import styles from "./friendsSection.module.css";
+
+import {
+  useFriendsList,
+  useMyRequests,
+  useSendFriendRequest,
+} from "../../../../../hooks/useFriends";
+import { useAuth } from "../../../../../hooks/useAuth";
+import UserCard from "./UserCard";
+
+interface User {
+  _id: string;
+  login: string;
+  name: string;
+  surname: string;
+}
+interface OutletContextType {
+  searchQuery: string;
+}
 
 export default function SearchFriends() {
-  interface User {
-    name: string;
-    surname: string;
-    _id: string;
-    login: string;
-    role: string;
-  }
-  interface OutletContextType {
-    searchQuery: string;
-  }
-
   const { searchQuery } = useOutletContext<OutletContextType>();
   const [users, setUsers] = useState<User[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const { data: currentUser } = useAuth();
+  const { data: friendsList } = useFriendsList();
+  const { data: myRequests } = useMyRequests("pending");
   const sendFriendRequestMutation = useSendFriendRequest();
-  const fetchUsers = async () => {
-    try {
-      setIsLoading(true);
-      const params = {
-        q: searchQuery,
-      };
-      const response = await axios.get("http://localhost:5000/api/getUsers", {
-        params,
-      });
-      setUsers(response.data);
-    } catch (error) {
-      console.error("Błąd podczas pobierania użytkowników.", error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   useEffect(() => {
     fetchUsers();
   }, [searchQuery]);
 
-  const handleSendRequest = async (id: string) => {
-    sendFriendRequestMutation.mutate(id);
+  const fetchUsers = async () => {
+    try {
+      setIsLoading(true);
+      const response = await axios.get("http://localhost:5000/api/getUsers", {
+        params: { q: searchQuery },
+        withCredentials: true,
+      });
+      setUsers(response.data);
+    } catch (error) {
+      console.error("Błąd podczas pobierania użytkowników:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const isMyFriend = (userId: string) => {
+    return friendsList.some((fr) => fr._id === userId);
+  };
+
+  const findRequest = (userId: string) => {
+    if (!myRequests || !currentUser) return undefined;
+    return myRequests.find((req) => {
+      if (req.sender._id === currentUser._id && req.recipient._id === userId) {
+        return true;
+      }
+      if (req.sender._id === userId && req.recipient._id === currentUser._id) {
+        return true;
+      }
+      return false;
+    });
+  };
+
+  const getButtonLabel = (u: User) => {
+    if (isMyFriend(u._id)) {
+      return "Usuń znajomego";
+    }
+    const found = findRequest(u._id);
+    if (found) {
+      if (found.sender._id === currentUser?._id) {
+        return "Wysłano zaproszenie";
+      } else {
+        return "Zaakceptuj zaproszenie";
+      }
+    } else {
+      return "Dodaj znajomego";
+    }
+  };
+
+  const handleClick = (u: User) => {
+    const label = getButtonLabel(u);
+    if (label === "Dodaj znajomego") {
+      sendFriendRequestMutation.mutate(u._id);
+    } else if (label === "Wysłano zaproszenie") {
+      console.log("TODO: Wysłano zaproszenie do", u._id);
+    } else if (label === "Zaakceptuj zaproszenie") {
+      console.log("TODO: Zaakceptuj zaproszenie od", u._id);
+    } else if (label === "Usuń znajomego") {
+      console.log("TODO: Usuń znajomego", u._id);
+    }
   };
 
   return (
     <>
       <h1 className="lg:text-2xl mb-3">Proponowani znajomi</h1>
+      {/* {isLoading && <p>Ładowanie listy użytkowników...</p>} */}
+
       <div className={styles.usersGrid}>
-        {users.map((u) => (
-          <div className={styles.usersGridCard} key={u._id}>
-            <img
-              src={defaultAvatar}
-              alt="profileAvatar"
-              className={styles.profileAvatar}
+        {users.map((u) => {
+          const label = getButtonLabel(u);
+          return (
+            <UserCard
+              key={u._id}
+              userId={u._id}
+              userLogin={u.login}
+              userName={u.name}
+              userSurname={u.surname}
+              buttonLabel={label}
+              onButtonClick={() => handleClick(u)}
             />
-            <Link
-              to={`../../../userProfile/${u._id}`}
-              className={styles.profileLink}
-            >
-              <p className="text-xs text-gray-100 ml-3 mt-2">{u.login}</p>
-            </Link>
-            <p className="text-xs text-gray-300 ml-3 mt-1">
-              {u.name} {u.surname}
-            </p>
-            <button
-              className={`${styles.btnBlue} mx-2 my-2 mt-3`}
-              onClick={() => handleSendRequest(u._id)}
-            >
-              Dodaj znajomego
-            </button>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </>
   );

@@ -1,10 +1,26 @@
+import React from "react";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
-import defaultAvatar from "../../../../../assets/defaultAvatar.png";
 import styles from "./friendsSection.module.css";
 import { useFriendsRequests } from "../../../../../hooks/useFriends";
+import UserCard from "./UserCard";
+import { useOutletContext } from "react-router-dom";
+
+interface OutletContextType {
+  searchQuery: string;
+}
+
 export default function FriendsRequests() {
-  const { data: friends, isLoading, error } = useFriendsRequests();
+  const { data: requests, isLoading, error } = useFriendsRequests();
+  const { searchQuery } = useOutletContext<OutletContextType>();
+
+  const filteredRequests = requests.filter(
+    (req) =>
+      req.sender.login
+        .toLowerCase()
+        .includes(searchQuery.toLocaleLowerCase()) ||
+      req.sender.name.toLowerCase().includes(searchQuery.toLocaleLowerCase()) ||
+      req.sender.surname.toLowerCase().includes(searchQuery.toLocaleLowerCase())
+  );
 
   const handleFriendRequestAction = async (
     requestId: string,
@@ -20,6 +36,7 @@ export default function FriendsRequests() {
       console.error("Błąd przy aktualizowaniu zaproszenia", err);
     }
   };
+
   if (isLoading) {
     return (
       <div>
@@ -34,14 +51,14 @@ export default function FriendsRequests() {
       <div>
         <h1 className="lg:text-2xl mb-3">Zaproszenia do grona znajomych</h1>
         <p>
-          Wystąpił błąd:
+          Wystąpił błąd:{" "}
           {error instanceof Error ? error.message : "Nieznany błąd"}
         </p>
       </div>
     );
   }
-  const noRequest = friends.length === 0;
 
+  const noRequest = requests.length === 0;
   return (
     <>
       <h1 className="lg:text-2xl mb-3">Zaproszenia do grona znajomych</h1>
@@ -49,35 +66,26 @@ export default function FriendsRequests() {
         "Brak zaproszeń"
       ) : (
         <div className={styles.usersGrid}>
-          {friends.map((u) => (
-            <div className={styles.usersGridCard} key={u._id}>
-              <img
-                src={defaultAvatar}
-                alt="profileAvatar"
-                className={styles.profileAvatar}
+          {filteredRequests.map((req) => {
+            const handleAccept = () =>
+              handleFriendRequestAction(req._id, "accept");
+            const handleReject = () =>
+              handleFriendRequestAction(req._id, "rejected");
+
+            return (
+              <UserCard
+                key={req._id}
+                userId={req.sender._id}
+                userLogin={req.sender.login}
+                userName={req.sender.name}
+                userSurname={req.sender.surname}
+                buttonLabel="Zaakceptuj"
+                onButtonClick={handleAccept}
+                secondaryButtonLabel="Odrzuć"
+                onSecondaryClick={handleReject}
               />
-              <p className="text-sm text-gray-100 ml-3 mt-2">
-                {u.sender.login}
-              </p>
-              <p className="text-sm text-gray-300 ml-3 mt-1">
-                {u.sender.name} {u.sender.surname}
-              </p>
-              <div className="flex items-center justify-center my-4">
-                <button
-                  className={`${styles.btnBlue} mr-2 text-base`}
-                  onClick={() => handleFriendRequestAction(u._id, "accept")}
-                >
-                  Zaakceptuj
-                </button>
-                <button
-                  className={`${styles.btnRed} ml-2 px-3 text-base`}
-                  onClick={() => handleFriendRequestAction(u._id, "rejected")}
-                >
-                  Odrzuć
-                </button>
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       )}
     </>

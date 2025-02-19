@@ -519,6 +519,41 @@ app.post("/api/friendRequests", async (req: Request, res: Response) => {
       .json({ error: "Nie udało się wysłać zaproszenia do znajomych." });
   }
 });
+
+app.get("/api/myRequests", async (req: Request, res: Response) => {
+  try {
+    const token = req.cookies.token;
+    if (!token) {
+      return res
+        .status(401)
+        .json({ error: "Brak aktywnego tokenu, zaloguj się!" });
+    }
+    let decoded;
+    try {
+      decoded = jwt.verify(token, process.env.JWT_SECRET!);
+    } catch (error) {
+      return res
+        .status(401)
+        .json({ error: "Nie udało się zweryfikować użytkownika" });
+    }
+    const myId = decoded.userId;
+
+    const { status = "pending" } = req.query;
+
+    const requests = await FriendRequest.find({
+      status: status,
+      $or: [{ sender: myId }, { recipient: myId }],
+    })
+      .populate("sender", "login name surname")
+      .populate("recipient", "login name surname");
+
+    return res.status(200).json(requests);
+  } catch (error) {
+    console.error("Błąd przy pobieraniu zaproszeń użytkownika", error);
+    return res.status(500).json({ error: "Nie udało się pobrać zaproszeń" });
+  }
+});
+
 app.get("/api/getFriendRequests", async (req: Request, res: Response) => {
   try {
     const token = req.cookies.token;

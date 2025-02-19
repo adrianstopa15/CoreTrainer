@@ -1,32 +1,50 @@
 import React from "react";
 import { useFriendsList } from "../../../../../hooks/useFriends";
-import defaultAvatar from "../../../../../assets/defaultAvatar.png";
+import UserCard from "./UserCard";
 import styles from "./friendsSection.module.css";
+import { useOutletContext } from "react-router-dom";
+
+interface OutletContextType {
+  searchQuery: string;
+}
+
 export default function FriendsList() {
+  const space = " ";
   const { data: friendsList } = useFriendsList();
-  console.log(friendsList);
+  const { searchQuery } = useOutletContext<OutletContextType>();
+  const filteredFriends = friendsList.filter(
+    (friend) =>
+      friend.login.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      friend.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      friend.surname.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   const noFriends = friendsList.length === 0;
+
+  const handleRemove = (id: string) => {
+    //TODOO: obslluzyc to:
+    console.log("usun znajomego", id);
+  };
 
   return (
     <>
       <h1 className="lg:text-2xl mb-3">Twoi znajomi</h1>
       {noFriends ? (
-        "Brak zaproszeń"
+        "Brak znajomych"
       ) : (
         <div className={styles.usersGrid}>
-          {friendsList.map((friend) => (
-            <div className={styles.usersGridCard} key={friend._id}>
-              <img
-                src={defaultAvatar}
-                alt="profileAvatar"
-                className={styles.profileAvatar}
-              />
-              <p className="text-sm text-gray-100 ml-3 mt-3">{friend.login}</p>
-              <p className="text-sm text-gray-300 ml-3 mt-1">
-                {friend.name} {friend.surname}
-              </p>
-            </div>
+          {filteredFriends.map((friend) => (
+            <UserCard
+              key={friend._id}
+              userId={friend._id}
+              userLogin={friend.login}
+              userName={friend.name}
+              userSurname={friend.surname}
+              buttonLabel=""
+              onButtonClick={() => {}}
+              secondaryButtonLabel="Usuń znajomego"
+              onSecondaryClick={() => handleRemove(friend._id)}
+            />
           ))}
         </div>
       )}
