@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link, useOutletContext } from "react-router-dom";
 import defaultAvatar from "../../../../../assets/defaultAvatar.png";
+import { useCurrentUserInfo } from "../../../../../hooks/useUserInfo";
 import styles from "./friendsSection.module.css";
 
 import {
@@ -27,7 +28,7 @@ export default function SearchFriends() {
   const [users, setUsers] = useState<User[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const { data: currentUser } = useAuth();
+  const { data: currentUser } = useCurrentUserInfo();
   const { data: friendsList } = useFriendsList();
   const { data: myRequests } = useMyRequests("pending");
   const sendFriendRequestMutation = useSendFriendRequest();

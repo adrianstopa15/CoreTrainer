@@ -34,3 +34,10 @@ export const createTrainerRelation = async (trainerId: string) => {
   );
   return response.data;
 };
+
+export const fetchTrainerRelations = async () => {
+  const response = await axios.get(`${API_URL}/getTrainerRelations`, {
+    withCredentials: true,
+  });
+  return response.data;
+};

@@ -1,6 +1,9 @@
 import { useQuery, useMutation } from "@tanstack/react-query";
 import axios from "axios";
-import { createTrainerRelation } from "../api/trainerRelations";
+import {
+  createTrainerRelation,
+  fetchTrainerRelations,
+} from "../api/trainerRelations";
 
 const API_URL = "http://localhost:5000/api";
 
@@ -24,15 +27,22 @@ export interface TrainerRelationDoc {
   createdAt: string;
 }
 
-export function useMyTrainerRelations() {
+// export function useMyTrainerRelations() {
+//   return useQuery<TrainerRelationDoc[]>({
+//     queryKey: ["myTrainerRelations", "pending"],
+//     queryFn: async () => {
+//       const res = await axios.get(`${API_URL}/myTrainerRelations`, {
+//         withCredentials: true,
+//       });
+//       return res.data;
+//     },
+//     initialData: [],
+//   });
+// }
+export function useFetchTrainerPendingRelations() {
   return useQuery<TrainerRelationDoc[]>({
-    queryKey: ["myTrainerRelations", "pending"],
-    queryFn: async () => {
-      const res = await axios.get(`${API_URL}/myTrainerRelations`, {
-        withCredentials: true,
-      });
-      return res.data;
-    },
+    queryKey: ["relations", "pending"],
+    queryFn: fetchTrainerRelations,
     initialData: [],
   });
 }

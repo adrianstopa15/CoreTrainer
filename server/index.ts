@@ -782,7 +782,7 @@ app.patch(
     }
   }
 );
-app.get("/api/myTrainerRelations", async (req: Request, res: Response) => {
+app.get("/api/getTrainerRelations", async (req: Request, res: Response) => {
   try {
     const token = req.cookies.token;
     if (!token) return res.status(401).json({ error: "Brak aktywnego tokenu" });

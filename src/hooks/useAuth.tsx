@@ -77,18 +77,3 @@ export const useRegister = () => {
     },
   });
 };
-
-async function fetchCurrentUser() {
-  const res = await axios.get("http:localhost:5000/api/getCurrentUser", {
-    withCredentials: true,
-  });
-  return res.data.user as CurrentUser;
-}
-
-export function useAuth() {
-  return useQuery<CurrentUser>({
-    queryKey: ["currentUser"],
-    queryFn: fetchCurrentUser,
-    initialData: undefined,
-  });
-}

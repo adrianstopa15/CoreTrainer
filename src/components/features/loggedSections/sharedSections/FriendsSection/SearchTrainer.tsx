@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useOutletContext } from "react-router-dom";
-import { useAuth } from "../../../../../hooks/useAuth";
+
 import defaultAvatar from "../../../../../assets/defaultAvatar.png";
 import styles from "./friendsSection.module.css";
 
 import {
   useCreateTrainerRelation,
-  useMyTrainerRelations,
+  useFetchTrainerPendingRelations,
   TrainerRelationDoc,
 } from "../../../../../hooks/useTrainerRelations";
+import { useCurrentUserInfo } from "../../../../../hooks/useUserInfo";
 
 interface User {
   _id: string;
@@ -28,9 +29,9 @@ export default function SearchTrainer() {
 
   const [users, setUsers] = useState<User[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const { data: myRelations, refetch } = useMyTrainerRelations();
+  const { data: myRelations, refetch } = useFetchTrainerPendingRelations();
   const createTrainerRelationMutation = useCreateTrainerRelation();
-  const { data: currentUser } = useAuth();
+  const { data: currentUser } = useCurrentUserInfo();
 
   useEffect(() => {
     fetchTrainerUsers();
@@ -87,7 +88,6 @@ export default function SearchTrainer() {
   return (
     <>
       <h1 className="lg:text-2xl mb-3">Szukaj trenera</h1>
-      {isLoading && <p>Ładowanie listy trenerów...</p>}
 
       <div className={styles.usersGrid}>
         {users.map((u) => {
