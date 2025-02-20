@@ -41,3 +41,17 @@ export const fetchTrainerRelations = async () => {
   });
   return response.data;
 };
+
+export const fetchTrainerRequests = async () => {
+  const response = await axios.get(`${API_URL}/trainerRelationsRequests`, {
+    withCredentials: true,
+  });
+  return response.data;
+};
+
+export const fetchTrainerList = async () => {
+  const response = await axios.get(`${API_URL}/getTrainers`, {
+    withCredentials: true,
+  });
+  return response.data;
+};

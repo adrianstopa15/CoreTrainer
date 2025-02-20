@@ -43,7 +43,7 @@ export default function SearchTrainer() {
       const response = await axios.get("http://localhost:5000/api/getUsers", {
         params: {
           q: searchQuery,
-          role: "trener",
+          role: "Trener",
         },
         withCredentials: true,
       });
@@ -99,6 +99,7 @@ export default function SearchTrainer() {
                 alt="profileAvatar"
                 className={styles.profileAvatar}
               />
+
               <p className="text-xs text-gray-100 ml-3 mt-2">{u.login}</p>
               <p className="text-xs text-gray-300 ml-3 mt-1">
                 {u.name} {u.surname}

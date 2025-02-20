@@ -193,6 +193,21 @@ app.get("/api/getCurrentUser", async (req: Request, res: Response) => {
 
 app.get("/api/getUsers", async (req: Request, res: Response) => {
   try {
+    const token = req.cookies.token;
+    if (!token) {
+      return res
+        .status(401)
+        .json("Użytkownik niezalogowany, lub sesja wygasła!");
+    }
+    let decoded;
+    try {
+      decoded = jwt.verify(token, process.env.JWT_SECRET!);
+    } catch (error) {
+      console.error(error);
+    }
+
+    const userId = decoded.userId;
+
     const q = req.query.q as string | undefined;
     const role = req.query.role as string | undefined;
     const page = req.query.page ? parseInt(req.query.page as string, 10) : 1;
@@ -211,6 +226,8 @@ app.get("/api/getUsers", async (req: Request, res: Response) => {
     if (role) {
       query["userFeatures.roles"] = role;
     }
+
+    query._id = { $ne: userId };
 
     const users = await User.find(query)
       .select("-password")
@@ -809,6 +826,68 @@ app.get("/api/getTrainerRelations", async (req: Request, res: Response) => {
     res.status(500).json({ error: "Błąd serwera" });
   }
 });
+app.get("/api/getTrainers", async (req: Request, res: Response) => {
+  try {
+    const token = req.cookies.token;
+    if (!token) {
+      return res.status(401).json({ error: "Nieaktywny token, zaloguj się!" });
+    }
+    let decoded;
+    try {
+      decoded = jwt.verify(token, process.env.JWT_SECRET!);
+    } catch (error) {
+      return res
+        .status(401)
+        .json({ error: "Nie udało się zweryfikować użytkownika" });
+    }
+    const userId = decoded.userId;
+
+    const trainers = await TrainerTraineeRelations.find({
+      traineeId: userId,
+      status: "active",
+    })
+      .populate("trainerId", "login name surname roles")
+      .populate("traineeId", "login name surname roles");
+
+    return res.status(200).json(trainers);
+  } catch (error) {
+    console.error("Błąd przy pobieraniu listy trenerów", error);
+    return res
+      .status(500)
+      .json({ error: "Nie udało pobrać się listy trenerów." });
+  }
+});
+app.get(
+  "/api/trainerRelationsRequests",
+  async (req: Request, res: Response) => {
+    try {
+      const token = req.cookies.token;
+      if (!token)
+        return res.status(401).json({ error: "Brak aktywnego tokenu" });
+
+      let decoded;
+      try {
+        decoded = jwt.verify(token, process.env.JWT_SECRET!);
+      } catch (error) {
+        return res.status(401).json({ error: "Token nieprawidłowy" });
+      }
+
+      const myId = decoded.userId;
+
+      const trainerRequests = await TrainerTraineeRelations.find({
+        status: "pending",
+        trainerId: myId,
+      })
+        .populate("trainerId", "login name surname roles")
+        .populate("traineeId", "login name surname roles");
+
+      res.status(200).json(trainerRequests);
+    } catch (error) {
+      console.error("Błąd przy pobieraniu relacji trenerskich:", error);
+      res.status(500).json({ error: "Błąd serwera" });
+    }
+  }
+);
 
 cron.schedule("0 * * * *", async () => {
   try {

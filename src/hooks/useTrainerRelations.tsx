@@ -2,7 +2,9 @@ import { useQuery, useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import {
   createTrainerRelation,
+  fetchTrainerList,
   fetchTrainerRelations,
+  fetchTrainerRequests,
 } from "../api/trainerRelations";
 
 const API_URL = "http://localhost:5000/api";
@@ -43,6 +45,21 @@ export function useFetchTrainerPendingRelations() {
   return useQuery<TrainerRelationDoc[]>({
     queryKey: ["relations", "pending"],
     queryFn: fetchTrainerRelations,
+    initialData: [],
+  });
+}
+
+export function useFetchTrainerRequests() {
+  return useQuery<TrainerRelationDoc[]>({
+    queryKey: ["trainerRequests", "pending"],
+    queryFn: fetchTrainerRequests,
+    initialData: [],
+  });
+}
+export function useFetchTrainerList() {
+  return useQuery({
+    queryKey: ["trainerList"],
+    queryFn: fetchTrainerList,
     initialData: [],
   });
 }
