@@ -705,7 +705,24 @@ app.get("/api/getUserFriends/:id", async (req: Request, res: Response) => {
 
 app.post("/api/trainerRelations", async (req: Request, res: Response) => {
   try {
-    const { trainerId, traineeId, months } = req.body;
+    const token = req.cookies.token;
+    if (!token) {
+      return res
+        .status(401)
+        .json({ error: "Nie udało się zweryfikować użytkownika" });
+    }
+    let decoded;
+    try {
+      decoded = jwt.verify(token, process.env.JWT_SECRET!);
+    } catch (error) {
+      return res
+        .status(401)
+        .json({ error: "Użytkownik niezalogowany, lub jego sesja wygasła" });
+    }
+
+    const traineeId = decoded.userId;
+
+    const { trainerId, months } = req.body;
 
     const now = new Date();
     let endDate = null;
@@ -765,6 +782,33 @@ app.patch(
     }
   }
 );
+app.get("/api/myTrainerRelations", async (req: Request, res: Response) => {
+  try {
+    const token = req.cookies.token;
+    if (!token) return res.status(401).json({ error: "Brak aktywnego tokenu" });
+
+    let decoded;
+    try {
+      decoded = jwt.verify(token, process.env.JWT_SECRET!);
+    } catch (error) {
+      return res.status(401).json({ error: "Token nieprawidłowy" });
+    }
+
+    const myId = decoded.userId;
+
+    const trainerRelations = await TrainerTraineeRelations.find({
+      status: "pending",
+      $or: [{ trainerId: myId }, { traineeId: myId }],
+    })
+      .populate("trainerId", "login name surname roles")
+      .populate("traineeId", "login name surname roles");
+
+    res.status(200).json(trainerRelations);
+  } catch (error) {
+    console.error("Błąd przy pobieraniu relacji trenerskich:", error);
+    res.status(500).json({ error: "Błąd serwera" });
+  }
+});
 
 cron.schedule("0 * * * *", async () => {
   try {
