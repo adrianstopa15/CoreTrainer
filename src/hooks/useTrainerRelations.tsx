@@ -2,6 +2,7 @@ import { useQuery, useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import {
   createTrainerRelation,
+  fetchTraineeList,
   fetchTrainerList,
   fetchTrainerRelations,
   fetchTrainerRequests,
@@ -64,6 +65,13 @@ export function useFetchTrainerList() {
   });
 }
 
+export function useFetchTraineeList() {
+  return useQuery({
+    queryKey: ["traineeList"],
+    queryFn: fetchTraineeList,
+    initialData: [],
+  });
+}
 // interface CreateTrainerRelationPayload {
 //   trainerId: string;
 //   traineeId: string;

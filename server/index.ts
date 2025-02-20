@@ -857,6 +857,37 @@ app.get("/api/getTrainers", async (req: Request, res: Response) => {
       .json({ error: "Nie udało pobrać się listy trenerów." });
   }
 });
+app.get("/api/getTrainees", async (req: Request, res: Response) => {
+  try {
+    const token = req.cookies.token;
+    if (!token) {
+      return res.status(401).json({ error: "Nieaktywny token, zaloguj się!" });
+    }
+    let decoded;
+    try {
+      decoded = jwt.verify(token, process.env.JWT_SECRET!);
+    } catch (error) {
+      return res
+        .status(401)
+        .json({ error: "Nie udało się zweryfikować użytkownika" });
+    }
+    const userId = decoded.userId;
+
+    const trainees = await TrainerTraineeRelations.find({
+      trainerId: userId,
+      status: "active",
+    })
+      .populate("trainerId", "login name surname roles")
+      .populate("traineeId", "login name surname roles");
+
+    return res.status(200).json(trainees);
+  } catch (error) {
+    console.error("Błąd przy pobieraniu listy podopiecznych", error);
+    return res
+      .status(500)
+      .json({ error: "Nie udało pobrać się listy podopiecznych." });
+  }
+});
 app.get(
   "/api/trainerRelationsRequests",
   async (req: Request, res: Response) => {

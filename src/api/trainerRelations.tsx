@@ -55,3 +55,9 @@ export const fetchTrainerList = async () => {
   });
   return response.data;
 };
+export const fetchTraineeList = async () => {
+  const response = await axios.get(`${API_URL}/getTrainees`, {
+    withCredentials: true,
+  });
+  return response.data;
+};
