@@ -37,6 +37,8 @@ import LogWorkoutTrainer from "./components/features/loggedSections/TrainerSecti
 import LogWorkoutUser from "./components/features/loggedSections/userSections/TrainingSection/LogWorkoutUser";
 import TrainingSets from "./components/features/loggedSections/sharedSections/WorkoutCreate/TrainingSets";
 import DefaultTrainingSets from "./components/features/loggedSections/sharedSections/WorkoutCreate/DefaultTrainingSets";
+import TrainersList from "./components/features/loggedSections/sharedSections/FriendsSection/userOptions/TrainersList";
+import TraineeRequests from "./components/features/loggedSections/sharedSections/FriendsSection/trainerOptions/traineeRequests";
 Modal.setAppElement("#root");
 axios.defaults.withCredentials = true;
 
@@ -93,6 +95,8 @@ function App() {
                   <Route path="friendsList" element={<FriendsList />} />
                   <Route path="friendsRequests" element={<FriendsRequests />} />
                   <Route path="searchTrainer" element={<SearchTrainer />} />
+                  <Route path="trainersList" element={<TrainersList />} />
+                  <Route path="traineeRequests" element={<TraineeRequests />} />
                 </Route>
                 <Route path="trainerPanel" element={<TrainerPanel />}>
                   <Route

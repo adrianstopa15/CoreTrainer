@@ -64,7 +64,3 @@ export function useCreateTrainerRelation() {
     },
   });
 }
-
-// export function useSendTrainerRelation() {
-//   return useMutation(createTrainerRelation);
-// }

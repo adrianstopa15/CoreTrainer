@@ -2,9 +2,10 @@ import { useState } from "react";
 import { NavLink, Outlet } from "react-router-dom";
 import styles from "./friendsSection.module.css";
 import searchIcon from "../../../../../assets/search.png";
+import { useCurrentUserInfo } from "../../../../../hooks/useUserInfo";
 export default function FriendsSection() {
   const [searchQuery, setSearchQuery] = useState("");
-
+  const { data: currentUser } = useCurrentUserInfo();
   return (
     <div className="bgLogged">
       <div className={styles.mainSection}>
@@ -44,6 +45,26 @@ export default function FriendsSection() {
             >
               <li> zaproszenia do grona znajomych</li>
             </NavLink>
+            {currentUser?.userFeatures.roles.includes("Trener") && (
+              <NavLink
+                to="traineeRequests"
+                className={({ isActive }) =>
+                  isActive ? "l-selected" : "l-unselected"
+                }
+              >
+                <li> Prośby o prowadzenie</li>
+              </NavLink>
+            )}
+            {currentUser?.userFeatures.roles.includes("Podopieczny") && (
+              <NavLink
+                to="trainersList"
+                className={({ isActive }) =>
+                  isActive ? "l-selected" : "l-unselected"
+                }
+              >
+                <li> twoi trenerzy</li>
+              </NavLink>
+            )}
             <NavLink
               to="searchTrainer"
               className={({ isActive }) =>
