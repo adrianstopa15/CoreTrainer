@@ -1,0 +1,53 @@
+.menteeGridBox {
+  border: 1px solid rgba(228, 228, 228, 0.13);
+  border-radius: 10px;
+  width: 36rem;
+  height: 25rem;
+  display: flex;
+  align-items: center;
+  background-color: rgba(22, 22, 22, 0.116);
+  flex-direction: column;
+  overflow-y: scroll;
+  padding-top: 0.5rem;
+}
+.menteeGridElement {
+  position: relative;
+  display: flex;
+  align-items: center;
+  border-radius: 1.6rem;
+  background: linear-gradient(to right, #095e97f1, #032e7eda);
+  box-shadow: 0px 5px 10px 0px #00000071;
+  width: 32rem;
+  transition: all 0.2s;
+  filter: brightness(95%);
+  height: fit-content;
+  margin: 1rem 0;
+}
+.menteeGridElement:hover {
+  cursor: pointer;
+  filter: brightness(105%);
+  transform: translateY(-1.5px);
+  box-shadow: 0px 9px 10px 0px #00000071;
+}
+.menteeGridElementIcons {
+  display: flex;
+  position: absolute;
+  right: 5%;
+}
+.menteeGridElementIcons button {
+  padding: 0.8rem;
+  background: rgba(202, 202, 202, 0.075);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.089);
+  border-radius: 1.5rem;
+  transition: all 0.2s;
+  backdrop-filter: blur(5.3px);
+  -webkit-backdrop-filter: blur(5.3px);
+}
+.menteeGridElementIcons button:hover {
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.219);
+  filter: brightness(110%);
+  transform: scale(1.1);
+}
+.menteeGridElementIcons button:not(:last-child) {
+  margin-right: 2rem;
+}
