@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
 import { useFetchTraineeList } from "../../../../../hooks/useTrainerRelations";
 import defaultAvatar from "../../../../../assets/defaultAvatar.png";
@@ -6,15 +6,53 @@ import messageIcon from "../../../../../assets/message.png";
 import dumbellIcon from "../../../../../assets/dumbell.png";
 import workoutSetIcon from "../../../../../assets/createWorkout.png";
 import style from "./menteesSection.module.css";
+import axios from "axios";
 export default function ManageMentees() {
   const { data: traineeList } = useFetchTraineeList();
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [selectedMentee, setSelectedMentee] = useState(null);
+  const [newWorkouts, setNewWorkouts] = useState([]);
+  const [isSubModalOpen, setIsSubModalOpen] = useState(false);
+  const [selectedWorkout, setSelectedWorkout] = useState(null);
+
+  const fetchNewWorkouts = async (menteeId: string) => {
+    if (!menteeId) return;
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/api/getNewWorkoutSetsForMentee/${menteeId}`,
+        {
+          withCredentials: true,
+        }
+      );
+      setNewWorkouts(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    if (selectedMentee) {
+      fetchNewWorkouts(selectedMentee._id);
+    }
+  }, [selectedMentee]);
 
   const closeModal = () => {
     setModalIsOpen(false);
+    setSelectedMentee(null);
+    setNewWorkouts([]);
   };
-  const openModal = () => {
+  const openModal = (id) => {
+    setSelectedMentee(id);
     setModalIsOpen(true);
+  };
+
+  const openSubModal = (workout) => {
+    setSelectedWorkout(workout);
+    setIsSubModalOpen(true);
+  };
+  const closeSubModal = () => {
+    setIsSubModalOpen(false);
+    setSelectedWorkout(null);
   };
 
   const modalStyles = {
@@ -35,13 +73,15 @@ export default function ManageMentees() {
       color: "white",
     },
     overlay: {
-      backgroundColor: "rgba(0,0,0,0.7)",
+      backgroundColor: "rgba(0,0,0,0.75)",
     },
   };
 
   return (
     <>
-      <h1 className="text-center lg:text-2xl mb-8">Twoi podopieczni</h1>
+      <h1 className="text-center lg:text-2xl mb-8 text-gray-200">
+        Twoi podopieczni
+      </h1>
       <div className={style.menteeGridBox}>
         {traineeList.map((t) => (
           <div className={style.menteeGridElement}>
@@ -62,7 +102,12 @@ export default function ManageMentees() {
                 />
               </button>
               <button>
-                <img src={dumbellIcon} alt="dumbell" className="h-[1.7rem]" />
+                <img
+                  src={dumbellIcon}
+                  alt="dumbell"
+                  className="h-[1.7rem]"
+                  onClick={() => openModal(t.traineeId)}
+                />
               </button>
               <button>
                 <img
@@ -74,53 +119,84 @@ export default function ManageMentees() {
             </div>
           </div>
         ))}
-        <div className={style.menteeGridElement}>
-          <img
-            src={defaultAvatar}
-            alt="Avatar"
-            className="h-16 mr-3 rounded-[1.6rem]"
-          />
-          <p className="lg:text-lg">Adrian Stopa</p>
-        </div>
-        <div className={style.menteeGridElement}>
-          <img
-            src={defaultAvatar}
-            alt="Avatar"
-            className="h-16 mr-3 rounded-[1.6rem]"
-          />
-          <p className="lg:text-lg">Adrian Stopa</p>
-        </div>
-        <div className={style.menteeGridElement}>
-          <img
-            src={defaultAvatar}
-            alt="Avatar"
-            className="h-16 mr-3 rounded-[1.6rem]"
-          />
-          <p className="lg:text-lg">Adrian Stopa</p>
-        </div>
-        <div className={style.menteeGridElement}>
-          <img
-            src={defaultAvatar}
-            alt="Avatar"
-            className="h-16 mr-3 rounded-[1.6rem]"
-          />
-          <p className="lg:text-lg">Adrian Stopa</p>
-        </div>
-        <div className={style.menteeGridElement}>
-          <img
-            src={defaultAvatar}
-            alt="Avatar"
-            className="h-16 mr-3 rounded-[1.6rem]"
-          />
-          <p className="lg:text-lg">Adrian Stopa</p>
-        </div>
+
         <Modal
           isOpen={modalIsOpen}
           onRequestClose={closeModal}
           contentLabel="Info o ćwiczeniu"
           style={modalStyles}
         >
-          <div>Zawartosc modala</div>
+          {selectedMentee && (
+            <div className="flex flex-col">
+              {" "}
+              <h3 className="text-center mb-4 text-xl">
+                {selectedMentee.name} {selectedMentee.surname}
+              </h3>
+              <p className="text-center mb-4 text-gray-300">
+                Kliknij na zestaw aby przekazać go podopiecznemu
+              </p>
+              <div className={style.trainingSetElementBox}>
+                {newWorkouts && newWorkouts.length > 0 ? (
+                  newWorkouts.map((w) => (
+                    <div
+                      className={style.trainingSetElement}
+                      onClick={() => openSubModal(w)}
+                    >
+                      <img
+                        src={dumbellIcon}
+                        alt="dumbel"
+                        className="absolute left-4 top-1/2 transform -translate-y-1/2 h-10"
+                      />
+
+                      <h2 className="text-center text-xl">{w.name}</h2>
+                    </div>
+                  ))
+                ) : (
+                  <h2 className="text-center mt-4">
+                    {selectedMentee.name} posiada już wszystkie Twoje zestawy...
+                  </h2>
+                )}
+              </div>
+            </div>
+          )}
+        </Modal>
+        <Modal
+          isOpen={isSubModalOpen}
+          onRequestClose={closeSubModal}
+          contentLabel="Zestaw treningowy"
+          style={modalStyles}
+        >
+          {selectedWorkout && (
+            <div className="flex flex-col">
+              <h2 className="text-center text-xl mb-4">
+                {selectedWorkout.name}
+              </h2>
+              {selectedWorkout.exercises &&
+              selectedWorkout.exercises.length > 0 ? (
+                <div className="mb-4">
+                  {selectedWorkout.exercises.map((exercise: any) => (
+                    <p key={exercise._id} className="my-2">
+                      {exercise.name}
+                    </p>
+                  ))}
+                </div>
+              ) : (
+                <p className="mb-4">Brak ćwiczeń w tym zestawie.</p>
+              )}
+
+              <div className="flex justify-center space-x-4 mt-4">
+                <button className="px-4 py-2 bg-green-600 hover:bg-green-700 rounded text-white">
+                  Wyślij zestaw
+                </button>
+                <button
+                  onClick={closeSubModal}
+                  className="px-4 py-2 bg-gray-500 hover:bg-gray-600 rounded text-white"
+                >
+                  Anuluj
+                </button>
+              </div>
+            </div>
+          )}
         </Modal>
       </div>
     </>
