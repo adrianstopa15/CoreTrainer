@@ -531,6 +531,61 @@ app.get(
   }
 );
 
+app.patch(
+  "/api/sendWorkoutSet/:workoutSetId",
+  async (req: Request, res: Response) => {
+    try {
+      const { workoutSetId } = req.params;
+      const { menteeId } = req.body;
+
+      if (!workoutSetId || !menteeId) {
+        return res.status(400).json({ error: "Nie przekazano id użytkownika" });
+      }
+      const token = req.cookies.token;
+      if (!token) {
+        return res.status(401).json({ error: "Brak aktywnego tokenu" });
+      }
+      let decoded;
+      try {
+        decoded = jwt.verify(token, process.env.JWT_SECRET!);
+      } catch (error) {
+        return res.status(401).json({ error: "Token nieprawidłowy" });
+      }
+      const loggedUserId = decoded.userId;
+
+      const workoutSet = await WorkoutSet.findById(workoutSetId);
+      if (!workoutSet) {
+        return res
+          .status(404)
+          .json({ error: "Nie znaleziono takiego zestawu" });
+      }
+      if (!workoutSet.usersWithAccess.includes(loggedUserId)) {
+        return res
+          .status(403)
+          .json({ error: "Nie masz uprawnień do wysłania tego zestawu" });
+      }
+      if (!workoutSet.usersWithAccess.includes(menteeId)) {
+        workoutSet.usersWithAccess.push(menteeId);
+      }
+      workoutSet.exercises.forEach((exercise: any) => {
+        if (!exercise.usersWithAccess.includes(menteeId)) {
+          exercise.usersWithAccess.push(menteeId);
+        }
+      });
+
+      await workoutSet.save();
+
+      return res.status(200).json({
+        message: "Zestaw został wysłany użytkownikowi",
+        workoutSet,
+      });
+    } catch (error) {
+      console.error("Błąd podczas wysyłania zestawu", error);
+      return res.status(500).json({ error: "Wystąpił błąd serwera" });
+    }
+  }
+);
+
 //Znajomi endpointy:
 
 app.post("/api/friendRequests", async (req: Request, res: Response) => {

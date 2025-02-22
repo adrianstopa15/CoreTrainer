@@ -30,6 +30,23 @@ export default function ManageMentees() {
     }
   };
 
+  const handleSendWorkout = async () => {
+    try {
+      const res = await axios.patch(
+        `http://localhost:5000/api/sendWorkoutSet/${selectedWorkout._id}`,
+        {
+          menteeId: selectedMentee._id,
+        },
+        {
+          withCredentials: true,
+        }
+      );
+      console.log("Odpowiedz:", res.data);
+    } catch (error) {
+      console.error("Błąd podczas wysyłania zestawu", error);
+    }
+  };
+
   useEffect(() => {
     if (selectedMentee) {
       fetchNewWorkouts(selectedMentee._id);
@@ -185,7 +202,10 @@ export default function ManageMentees() {
               )}
 
               <div className="flex justify-center space-x-4 mt-4">
-                <button className="px-4 py-2 bg-green-600 hover:bg-green-700 rounded text-white">
+                <button
+                  className="px-4 py-2 bg-green-600 hover:bg-green-700 rounded text-white"
+                  onClick={handleSendWorkout}
+                >
                   Wyślij zestaw
                 </button>
                 <button
