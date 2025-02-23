@@ -40,7 +40,7 @@
 }
 .rightIconsContainer {
   background-color: rgba(73, 73, 73, 0.774);
-  border-radius: 40%;
+  border-radius: 40px;
 }
 .rightIconsContainer:hover {
   background-color: rgba(95, 95, 95, 0.623);

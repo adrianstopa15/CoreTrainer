@@ -82,7 +82,7 @@
 .trainingHistoryContainer {
   position: relative;
   height: 300px;
-  width: 800px;
+  /* width: 800px; */
   border: 2px solid rgba(204, 201, 201, 0.479);
   overflow-y: auto;
   border-radius: 8px;

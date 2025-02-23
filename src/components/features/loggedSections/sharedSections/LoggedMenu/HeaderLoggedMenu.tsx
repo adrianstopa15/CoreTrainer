@@ -33,7 +33,7 @@ export default function HeaderLoggedMenu() {
   };
 
   return (
-    <div>
+    <>
       <header className={`${styles.header}  lg:flex text-center`}>
         <nav className={`${styles.navbar} flex flex-col lg:flex-row`}>
           <NavLink
@@ -169,6 +169,6 @@ export default function HeaderLoggedMenu() {
           </a>
         </nav>
       </header>
-    </div>
+    </>
   );
 }
