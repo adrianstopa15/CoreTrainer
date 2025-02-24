@@ -87,7 +87,7 @@ export default function SearchTrainer() {
 
   return (
     <>
-      <h1 className="lg:text-2xl mb-3">Szukaj trenera</h1>
+      <h1 className="lg:text-2xl mb-3 ml-2">Szukaj trenera</h1>
 
       <div className={styles.usersGrid}>
         {users.map((u) => {

@@ -52,7 +52,7 @@ const renderCustomLabel = (props: any) => {
         x={ex}
         y={ey}
         fill="#fff"
-        fontSize={14}
+        fontSize="clamp(0.625rem, 0.536rem + 0.238vw, 0.75rem)"
         dominantBaseline="central"
         textAnchor={ex > cx ? "start" : "end"}
       >
@@ -148,7 +148,10 @@ export default function ProgressMuscles() {
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis
               dataKey="muscleName"
-              tick={{ fontSize: 11, fill: "#FFF" }}
+              tick={{
+                fontSize: "clamp(0.625rem, 0.536rem + 0.238vw, 0.75rem)",
+                fill: "#FFF",
+              }}
               dy={15}
               angle={-20}
               interval={0}
@@ -170,7 +173,7 @@ export default function ProgressMuscles() {
               nameKey="name"
               cx="50%"
               cy="50%"
-              outerRadius={160}
+              outerRadius="50%"
               isAnimationActive={true}
               label={renderCustomLabel}
             >

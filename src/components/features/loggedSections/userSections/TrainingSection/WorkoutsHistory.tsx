@@ -96,7 +96,7 @@ export default function WorkoutsHistory() {
           });
           return (
             <div className="trainingElement" onClick={() => openModal(t)}>
-              <p>Data: {formattedDate}</p>
+              <p className="ml-4">Data: {formattedDate}</p>
               <p>Godzina: {formattedTime}</p>
               <p>Nazwa treningu: {t.name}</p>
             </div>
@@ -104,12 +104,12 @@ export default function WorkoutsHistory() {
         })}
       </div>
 
-      <p className="pt-2">
+      <p className="pt-4 text-gray-200">
         {trainingHistory.length} zarejestrowanych treningów.
       </p>
-      <button className="mt-3 p-2 button-smooth">
+      {/* <button className="mt-3 p-2 button-smooth">
         Pokaż Zestawy Treningowe
-      </button>
+      </button> */}
       <Modal
         isOpen={isModalOpen}
         contentLabel="Przejrzyj trening"

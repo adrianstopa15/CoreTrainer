@@ -6,7 +6,7 @@ export default function TrainersList() {
   const { data: trainerList } = useFetchTrainerList();
   return (
     <>
-      <h1 className="lg:text-2xl mb-3">Twoi trenerzy</h1>
+      <h1 className="lg:text-2xl mb-3 ml-2">Twoi trenerzy</h1>
 
       <div className={styles.usersGrid}>
         {trainerList.map((t) => {

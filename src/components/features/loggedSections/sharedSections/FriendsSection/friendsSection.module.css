@@ -6,8 +6,6 @@
   filter: invert(52%) sepia(4%) saturate(300%) hue-rotate(180deg);
 }
 .mainSection {
-  display: flex;
-  justify-content: space-between;
   padding-top: 2rem;
 }
 .leftBar {
@@ -33,11 +31,12 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 4rem;
+  margin-left: 4px;
 }
 .usersGridCard {
   box-shadow: 0px 5px 15px 0px #131313e0;
-  width: 12rem;
-  height: 20rem;
+  width: clamp(8rem, 5.143rem + 7.619vw, 12rem);
+
   border: 1px solid rgb(126, 126, 126);
   border-radius: 6px;
   display: flex;
@@ -47,6 +46,7 @@
 .profileAvatar {
   height: 60%;
   width: 100%;
+  border-radius: 4px;
 }
 .btnBlue {
   color: rgb(210, 236, 253);
@@ -69,4 +69,16 @@
 }
 .btnRed:hover {
   filter: brightness(120%);
+}
+
+@media (min-width: 1100px) {
+  .mainSection {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+@media (max-width: 950px) {
+  .usersGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }

@@ -23,8 +23,10 @@ export default function UserProfileFriends() {
                 alt="profileAvatar"
                 className="profileAvatar"
               />
-              <p className="text-sm text-gray-100 ml-3 mt-3">{friend.login}</p>
-              <p className="text-sm text-gray-300 ml-3 mt-1">
+              <p className=" text-gray-100 text-center mt-3 p-1">
+                {friend.login}
+              </p>
+              <p className=" text-gray-300 text-center mt-1 p-2">
                 {friend.name} {friend.surname}
               </p>
             </div>

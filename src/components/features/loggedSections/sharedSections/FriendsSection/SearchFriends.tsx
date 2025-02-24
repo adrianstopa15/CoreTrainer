@@ -100,7 +100,7 @@ export default function SearchFriends() {
 
   return (
     <>
-      <h1 className="lg:text-2xl mb-3">Proponowani znajomi</h1>
+      <h1 className="lg:text-2xl mb-3 ml-2">Proponowani znajomi</h1>
       {/* {isLoading && <p>Ładowanie listy użytkowników...</p>} */}
 
       <div className={styles.usersGrid}>

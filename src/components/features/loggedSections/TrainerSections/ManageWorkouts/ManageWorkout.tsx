@@ -5,7 +5,7 @@ export default function ManageWorkout() {
   const navigate = useNavigate();
   return (
     <div className="workoutSectionContainer mt-6">
-      <div className="workoutSectionContainerElement bgLinearGreen mr-16">
+      <div className="workoutSectionContainerElement bgLinearGreen">
         <img src={StartWorkoutIcon} className="workoutSectionIcon" />
         <div className="workoutButtonContainer">
           <button
@@ -16,7 +16,7 @@ export default function ManageWorkout() {
           </button>
         </div>
 
-        <p className="mx-4 lg:text-xl">
+        <p className="lg:text-xl mb-8">
           Stwórz gotowy trening dla podopiecznych
         </p>
       </div>

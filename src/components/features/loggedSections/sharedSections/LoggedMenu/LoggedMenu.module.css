@@ -10,6 +10,7 @@
   background-color: rgb(43, 45, 49);
   /* backdrop-filter: blur(455px); */
   border-bottom: 1px solid rgb(70, 70, 70);
+  text-align: center;
 }
 .iconsHeader {
   height: 22px;
@@ -18,7 +19,8 @@
 .iconsHeader:hover {
 }
 .navbar {
-  min-width: 220px;
+  display: flex;
+  flex-direction: row;
 }
 .midIconsHeader {
   height: 24px;
@@ -26,7 +28,7 @@
   /* padding-right: 3rem; */
 }
 .midIconContainer {
-  border-radius: 30%;
+  border-radius: 20px;
 }
 
 .midIconContainer:hover {

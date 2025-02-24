@@ -63,7 +63,7 @@ export default function ProgressExercises() {
           x={ex}
           y={ey}
           fill="#fff"
-          fontSize={14}
+          fontSize="clamp(0.313rem, 0rem + 0.833vw, 0.75rem)"
           dominantBaseline="central"
           textAnchor={ex > cx ? "start" : "end"}
         >
@@ -74,7 +74,7 @@ export default function ProgressExercises() {
           x={xMid}
           y={yMid}
           fill="#fff"
-          fontSize={14}
+          fontSize="clamp(0.188rem, -0.214rem + 1.071vw, 0.75rem)"
           fontWeight="bold"
           textAnchor="middle"
           dominantBaseline="central"
@@ -175,7 +175,7 @@ export default function ProgressExercises() {
         </div>
         <ResponsiveContainer width="100%" height="100%">
           <LineChart
-            width={500}
+            width={400}
             height={300}
             data={chartData}
             margin={{
@@ -203,7 +203,7 @@ export default function ProgressExercises() {
         </ResponsiveContainer>
       </div>
       <div className={styles.statsElementBig}>
-        <h2 className="text-center lg:text-xl mb-12">Ulubione Ćwiczenia</h2>
+        <h2 className="text-center lg:text-xl lg:mb-16">Ulubione Ćwiczenia</h2>
         <ResponsiveContainer>
           <PieChart margin={{ top: 20, right: 100, left: 100, bottom: 50 }}>
             <Pie
@@ -212,7 +212,7 @@ export default function ProgressExercises() {
               dataKey="count"
               cx="50%"
               cy="50%"
-              outerRadius={165}
+              outerRadius="70%"
               isAnimationActive={true}
               label={renderCustomLabel}
             >

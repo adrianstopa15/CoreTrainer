@@ -94,7 +94,7 @@ export default function WorkoutsCalendar() {
   }
 
   return (
-    <div className="p-4">
+    <div className="pt-4">
       <div className="calendarContainer">
         <div>
           <Calendar
