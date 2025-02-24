@@ -82,7 +82,8 @@
 .trainingHistoryContainer {
   position: relative;
   height: 300px;
-  width: 800px;
+  /* width: 800px; */
+  width: clamp(20rem, 60%, 800px);
   border: 2px solid rgba(204, 201, 201, 0.479);
   overflow-y: auto;
   border-radius: 8px;
@@ -246,7 +247,7 @@
   text-align: center;
   background-color: rgba(52, 53, 54, 0.863);
   width: 25rem;
-  height: 24rem;
+
   border-radius: 5%;
   transition: all 0.2s;
   border: 1px solid rgb(180, 180, 180);
@@ -604,15 +605,12 @@ abbr[title] {
   background-color: orange;
 }
 .workoutCalendar {
-  /* width: 30rem;
-  height: 18rem; */
+  width: 30rem;
   margin-right: 5rem;
 }
 
 .calendarContainer {
   display: flex;
-
-  min-width: 45rem;
 }
 .calendarContainerDayInfo {
   border-left: solid rgba(255, 255, 255, 0.205) 1px;
@@ -684,6 +682,14 @@ abbr[title] {
   }
   .workoutIcon {
     height: 4rem;
+  }
+  .calendarContainer {
+    flex-direction: column;
+    align-items: center;
+  }
+  .workoutCalendar {
+    width: 20rem;
+    margin: 0 0 1rem 0;
   }
 }
 @media (max-width: 800px) {

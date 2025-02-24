@@ -104,12 +104,12 @@ export default function WorkoutsHistory() {
         })}
       </div>
 
-      <p className="pt-2">
+      <p className="pt-4 text-gray-200">
         {trainingHistory.length} zarejestrowanych treningów.
       </p>
-      <button className="mt-3 p-2 button-smooth">
+      {/* <button className="mt-3 p-2 button-smooth">
         Pokaż Zestawy Treningowe
-      </button>
+      </button> */}
       <Modal
         isOpen={isModalOpen}
         contentLabel="Przejrzyj trening"
