@@ -24,7 +24,7 @@ export default function ProgressSection() {
         <NavLink
           to="activity"
           className={({ isActive }) =>
-            isActive ? "l-selected" : "l-unselected"
+            isActive ? "l-selected mr-0" : "l-unselected mr-0"
           }
         >
           Aktywność

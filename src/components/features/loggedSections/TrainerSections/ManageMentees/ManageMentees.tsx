@@ -105,9 +105,9 @@ export default function ManageMentees() {
             <img
               src={defaultAvatar}
               alt="Avatar"
-              className="h-16 mr-3 rounded-[1.6rem]"
+              className={`${style.avatarIcon} mr-3 rounded-[1.6rem]`}
             />
-            <p className="lg:text-lg">
+            <p className={`${style.pName}`}>
               {t.traineeId.name} {t.traineeId.surname}
             </p>
             <div className={style.menteeGridElementIcons}>
@@ -115,14 +115,14 @@ export default function ManageMentees() {
                 <img
                   src={messageIcon}
                   alt="message"
-                  className="h-[1.4rem] invert"
+                  className={`${style.imageSmall} invert`}
                 />
               </button>
               <button>
                 <img
                   src={dumbellIcon}
                   alt="dumbell"
-                  className="h-[1.7rem]"
+                  className={style.imageMedium}
                   onClick={() => openModal(t.traineeId)}
                 />
               </button>
@@ -130,7 +130,7 @@ export default function ManageMentees() {
                 <img
                   src={workoutSetIcon}
                   alt="workoutset"
-                  className="h-[1.7rem]"
+                  className={style.imageMedium}
                 />{" "}
               </button>
             </div>

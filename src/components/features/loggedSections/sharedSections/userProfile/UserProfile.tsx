@@ -25,7 +25,7 @@ export default function UserProfile() {
       <HeaderLoggedMenu />
       <div className="flex justify-center flex-col items-center bgLoggedSub">
         <div
-          className={`bgLogged flex justify-center flex-col items-center pt-16 px-96`}
+          className={`bgLogged flex justify-center flex-col items-center pt-16 px-[15%]`}
         >
           <p>
             <img
@@ -59,7 +59,7 @@ export default function UserProfile() {
             <NavLink
               to="photos"
               className={({ isActive }) =>
-                isActive ? "l-selected" : "l-unselected"
+                isActive ? "l-selected mr-0" : "l-unselected mr-0"
               }
             >
               Zdjęcia

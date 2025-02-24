@@ -28,7 +28,7 @@ export default function FriendsList() {
 
   return (
     <>
-      <h1 className="lg:text-2xl mb-3">Twoi znajomi</h1>
+      <h1 className="lg:text-2xl mb-3 ml-2">Twoi znajomi</h1>
       {noFriends ? (
         "Brak znajomych"
       ) : (

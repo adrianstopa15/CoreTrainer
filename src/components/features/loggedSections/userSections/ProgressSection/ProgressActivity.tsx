@@ -117,10 +117,14 @@ export default function ProgressActivity() {
           >
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis
+              interval={0}
               dataKey="month"
-              tick={{ fontSize: 10, fill: "#FFF" }}
-              dy={20}
-              angle={-45}
+              tick={{
+                fontSize: "clamp(0.313rem, 0.089rem + 0.595vw, 0.625rem)",
+                fill: "#FFF",
+              }}
+              dy={15}
+              angle={-25}
             />
             <YAxis />
             <Tooltip formatter={(value: any) => `${value} treningów`} />
@@ -139,8 +143,12 @@ export default function ProgressActivity() {
           >
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis
+              interval={0}
               dataKey="month"
-              tick={{ fontSize: 11, fill: "#FFF" }}
+              tick={{
+                fontSize: "clamp(0.313rem, 0rem + 0.833vw, 0.75rem)",
+                fill: "#FFF",
+              }}
               dy={15}
               angle={-20}
             />

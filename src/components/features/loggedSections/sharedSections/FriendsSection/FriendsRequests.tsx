@@ -40,7 +40,9 @@ export default function FriendsRequests() {
   if (isLoading) {
     return (
       <div>
-        <h1 className="lg:text-2xl mb-3">Zaproszenia do grona znajomych</h1>
+        <h1 className="lg:text-2xl mb-3 ml-2">
+          Zaproszenia do grona znajomych
+        </h1>
         <p>Ładowanie...</p>
       </div>
     );
@@ -49,7 +51,9 @@ export default function FriendsRequests() {
   if (error) {
     return (
       <div>
-        <h1 className="lg:text-2xl mb-3">Zaproszenia do grona znajomych</h1>
+        <h1 className="lg:text-2xl mb-3 ml-2">
+          Zaproszenia do grona znajomych
+        </h1>
         <p>
           Wystąpił błąd:{" "}
           {error instanceof Error ? error.message : "Nieznany błąd"}
@@ -61,7 +65,7 @@ export default function FriendsRequests() {
   const noRequest = requests.length === 0;
   return (
     <>
-      <h1 className="lg:text-2xl mb-3">Zaproszenia do grona znajomych</h1>
+      <h1 className="lg:text-2xl mb-3 ml-2">Zaproszenia do grona znajomych</h1>
       {noRequest ? (
         "Brak zaproszeń"
       ) : (

@@ -96,7 +96,7 @@ export default function WorkoutsHistory() {
           });
           return (
             <div className="trainingElement" onClick={() => openModal(t)}>
-              <p>Data: {formattedDate}</p>
+              <p className="ml-4">Data: {formattedDate}</p>
               <p>Godzina: {formattedTime}</p>
               <p>Nazwa treningu: {t.name}</p>
             </div>

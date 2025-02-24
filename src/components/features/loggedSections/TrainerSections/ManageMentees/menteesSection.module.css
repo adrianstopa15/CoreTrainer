@@ -1,7 +1,7 @@
 .menteeGridBox {
   border: 1px solid rgba(228, 228, 228, 0.13);
   border-radius: 10px;
-  width: 36rem;
+  width: clamp(15rem, 0rem + 40vw, 36rem);
   min-height: 20rem;
   max-height: 25rem;
   display: flex;
@@ -18,7 +18,7 @@
   border-radius: 1.6rem;
   background: linear-gradient(to right, #095e97f1, #032e7eda);
   box-shadow: 0px 5px 10px 0px #00000071;
-  width: 32rem;
+  width: clamp(12rem, -2.286rem + 38.095vw, 32rem);
   transition: all 0.2s;
   filter: brightness(95%);
   height: fit-content;
@@ -36,7 +36,7 @@
   right: 5%;
 }
 .menteeGridElementIcons button {
-  padding: 0.8rem;
+  padding: clamp(0.3rem, -0.343rem + 1.714vw, 1.2rem);
   background: rgba(202, 202, 202, 0.075);
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.089);
   border-radius: 1.5rem;
@@ -80,4 +80,21 @@
   filter: brightness(110%);
   transform: translateY(-2px);
   box-shadow: 0px 6px 15px 0px #0000007e;
+}
+.imageMedium {
+  height: clamp(0.5rem, 0rem + 1.333vw, 1.2rem);
+}
+.imageSmall {
+  height: clamp(0.5rem, -0.071rem + 1.524vw, 1.3rem);
+}
+.pName {
+  font-size: clamp(0.688rem, 0.375rem + 0.833vw, 1.125rem);
+}
+.avatarIcon {
+  height: clamp(3.8rem, 2.943rem + 2.286vw, 5rem);
+}
+@media (max-width: 1400px) {
+  .pName {
+    margin-bottom: 3rem;
+  }
 }

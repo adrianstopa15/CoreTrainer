@@ -27,7 +27,7 @@ export default function TrainerPanel() {
           <NavLink
             to="manageMentees"
             className={({ isActive }) =>
-              isActive ? "l-selected" : "l-unselected"
+              isActive ? "l-selected mr-0" : "l-unselected mr-0"
             }
           >
             podopieczni

@@ -24,7 +24,7 @@ export default function TrainingSection() {
           <NavLink
             to="workoutsToAccept"
             className={({ isActive }) =>
-              isActive ? "l-selected" : "l-unselected"
+              isActive ? "l-selected ml-3" : "l-unselected ml-3"
             }
           >
             zaplanowane treningi
@@ -40,7 +40,7 @@ export default function TrainingSection() {
           <NavLink
             to="workoutsHistory"
             className={({ isActive }) =>
-              isActive ? "l-selected" : "l-unselected"
+              isActive ? "l-selected mr-0" : "l-unselected mr-0"
             }
           >
             wykonane treningi

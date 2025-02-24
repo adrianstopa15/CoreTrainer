@@ -18,7 +18,7 @@ export default function WorkoutCreate() {
           </button>
         </div>
 
-        <p className="mx-4 lg:text-xl mb-16">
+        <p className="mx-4 pScale">
           Wprowadź dane z ostatnio wykonanego treningu
         </p>
       </div>
@@ -32,7 +32,7 @@ export default function WorkoutCreate() {
             Kreator treningów
           </button>
         </div>
-        <p className="mx-4 lg:text-xl mb-16">
+        <p className="mx-4 pScale">
           Stwórz zestaw treningowy w oparciu o swoje preferencje i cele
         </p>
       </div>
