@@ -1,6 +1,6 @@
 import React from "react";
 import { useUserFriendsList } from "../../../../../hooks/useFriends";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import defaultAvatar from "../../../../../assets/defaultAvatar.png";
 export default function UserProfileFriends() {
   const { id } = useParams();
@@ -23,9 +23,11 @@ export default function UserProfileFriends() {
                 alt="profileAvatar"
                 className="profileAvatar"
               />
-              <p className=" text-gray-100 text-center mt-3 p-1">
-                {friend.login}
-              </p>
+              <Link to={`/userProfile/${friend._id}`}>
+                <p className="text-gray-100 text-center mt-3 p-1">
+                  {friend.login}
+                </p>
+              </Link>
               <p className=" text-gray-300 text-center mt-1 p-2">
                 {friend.name} {friend.surname}
               </p>
