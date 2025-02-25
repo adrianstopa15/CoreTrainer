@@ -12,7 +12,7 @@ export default function UserProfileInfo() {
 
   return (
     <>
-      <p className=" lg:text-2xl">Dane osobowe:</p>
+      <h2 className=" lg:text-2xl">Dane osobowe:</h2>
       <p className="userInfoP"> {user ? `${user.userFeatures.roles} ` : ""} </p>
       {user.userFeatures.roles.includes("Podopieczny") && (
         <>
@@ -25,30 +25,18 @@ export default function UserProfileInfo() {
           <p className="userInfoP">
             Staż: {user ? `${user.userFeatures.experience} ` : ""}
           </p>
-          <p className="userInfoP">
-            {" "}
-            Aktualny cel: {user ? `${user.userFeatures.goal} ` : ""}
-          </p>
         </>
       )}
       {user.userFeatures.roles.includes("Trener") && (
         <>
-          Kompetencję:
-          <p className="userInfoP">
+          <h3 className="text-xl mt-4">Kompetencję trenerskie:</h3>
+          <div className="text-lg mb-2 mt-2 profileInfoTrainerBox">
             {user.userFeatures.subroles.map((s) => (
               <p>{s}</p>
             ))}
-          </p>
+          </div>
         </>
       )}
-      <div className="flex">
-        <p className="userInfoP mr-2">Płeć:</p>
-        {user.userFeatures.gender === "woman" ? (
-          <img src={womanIcon} className="h-6 mt-2" />
-        ) : (
-          <img src={manIcon} className="h-6 mt-2" />
-        )}
-      </div>
     </>
   );
 }

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useReducer, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import styles from "./Survey.module.css";
 import Swal from "sweetalert2";
 import axios from "axios";
@@ -9,7 +9,7 @@ import manIcon from "../../../assets/manIcon.png";
 import womanIcon from "../../../assets/womanIcon.png";
 
 function Survey() {
-  const [currentUser, setCurrentUser] = useState(null);
+  const [currentUser, setCurrentUser] = useState<any>(null);
 
   useEffect(() => {
     fetch("http://localhost:5000/api/getCurrentUser", {
@@ -28,6 +28,7 @@ function Survey() {
   }, []);
 
   const navigate = useNavigate();
+
   const trainerRoles = [
     { role: "personalTrainer", name: "Rozpisywanie Treningów" },
     { role: "trainerLead", name: "Prowadzenie Treningów" },
@@ -36,6 +37,7 @@ function Survey() {
     { role: "flexibilityTrainer", name: "Zwiększanie Mobilności" },
     { role: "performanceCoach", name: "Trening dla Sportowców" },
   ];
+
   const internships = [
     { name: "mniej niż miesiąc", value: "beginner" },
     { name: "1-6 miesięcy", value: "novice" },
@@ -44,7 +46,7 @@ function Survey() {
     { name: "ponad 3 lata", value: "expert" },
   ];
 
-  interface userFeatures {
+  interface UserFeatures {
     roles: string[];
     weight: number;
     height: number;
@@ -54,7 +56,8 @@ function Survey() {
     experience: string;
     subroles: string[];
   }
-  const [surveyForm, setSurveyForm] = useState<userFeatures>({
+
+  const [surveyForm, setSurveyForm] = useState<UserFeatures>({
     roles: [],
     weight: 0,
     height: 0,
@@ -65,22 +68,17 @@ function Survey() {
     subroles: [],
   });
 
+  const setGenderMan = () => {
+    setSurveyForm((prev) => ({ ...prev, gender: "man" }));
+  };
+  const setGenderWoman = () => {
+    setSurveyForm((prev) => ({ ...prev, gender: "woman" }));
+  };
+
   const setRole = () => {
     setSurveyForm((prev) => ({
       ...prev,
       roles: ["Podopieczny"],
-    }));
-  };
-  const setGenderMan = () => {
-    setSurveyForm((prev) => ({
-      ...prev,
-      gender: "man",
-    }));
-  };
-  const setGenderWoman = () => {
-    setSurveyForm((prev) => ({
-      ...prev,
-      gender: "woman",
     }));
   };
 
@@ -107,40 +105,15 @@ function Survey() {
       }
     });
   };
-  const handleChange = (e) => {
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
     setSurveyForm((prev) => ({
       ...prev,
       [name]: value,
     }));
-  };
-
-  const showSteps = React.useMemo(() => {
-    const steps = [0, 1];
-    if (surveyForm.roles.includes("Podopieczny")) {
-      steps.push(2);
-    }
-    if (surveyForm.roles.includes("Trener")) {
-      steps.push(3);
-    }
-    steps.push(4);
-    return steps;
-  }, [surveyForm.roles]);
-
-  const [currentIndex, setCurrentIndex] = useState(0);
-
-  const currentStep = showSteps[currentIndex];
-
-  const handleNext = () => {
-    if (currentIndex < showSteps.length - 1) {
-      setCurrentIndex(currentIndex + 1);
-    }
-  };
-
-  const handlePrev = () => {
-    if (currentIndex > 0) {
-      setCurrentIndex(currentIndex - 1);
-    }
   };
 
   const handleChangeCheckbox = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -160,14 +133,38 @@ function Survey() {
     });
   };
 
+  const showSteps = useMemo(() => {
+    const steps = [0, 1];
+    if (surveyForm.roles.includes("Podopieczny")) {
+      steps.push(2);
+    }
+    if (surveyForm.roles.includes("Trener")) {
+      steps.push(3);
+    }
+    steps.push(4);
+    return steps;
+  }, [surveyForm.roles]);
+
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const currentStep = showSteps[currentIndex];
+
+  const handleNext = () => {
+    if (currentIndex < showSteps.length - 1) {
+      setCurrentIndex(currentIndex + 1);
+    }
+  };
+  const handlePrev = () => {
+    if (currentIndex > 0) {
+      setCurrentIndex(currentIndex - 1);
+    }
+  };
+
   const handleSubmitSurvey = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       const response = await fetch("http://localhost:5000/api/submitSurvey", {
         method: "POST",
-        headers: {
-          "Content-Type": "Application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(surveyForm),
         credentials: "include",
       });
@@ -182,10 +179,10 @@ function Survey() {
           position: "top",
           icon: "success",
           title: "Pomyślnie wypełniono ankietę.",
-          text: "W każdej chwili możesz zmienić swoję dane w zakładce profil.",
+          text: "W każdej chwili możesz zmienić swoje dane w zakładce profil.",
           showConfirmButton: true,
           timer: 5000,
-        }).then((result) => {
+        }).then(() => {
           navigate("/loggedMenu");
         });
       }
@@ -197,210 +194,226 @@ function Survey() {
   return (
     <div className={styles.container}>
       <div className={styles.borderGlass}>
-        <div>
-          {currentStep === 0 && (
-            <div className={styles.pageContainer}>
-              <p className={`${styles.pMain} lg:text-6xl my-16`}>
-                Witaj, Miło Cię nam Poznać
-                {currentUser ? ` ${currentUser.name}!` : "nieznajomy"}
-              </p>
+        {currentStep === 0 && (
+          <div className={styles.pageContainer}>
+            <p className={`${styles.pMain} lg:text-6xl my-16`}>
+              Witaj, Miło Cię Nam Poznać{" "}
+              {currentUser ? ` ${currentUser.name}!` : "Nieznajomy!"}
+            </p>
+            <p className="lg:text-4xl">
+              Jako, że widzimy się pierwszy raz, poświęć nam chwilę aby
+              dowiedzieć się więcej o Tobie.
+            </p>
+            <p className="mt-36 text-xl lg:text-3xl">
+              Na początek, wybierz swoją płeć:
+            </p>
+            <div className="flex mt-24 justify-center mb-32">
+              <img
+                src={manIcon}
+                alt="mężczyzna"
+                className={`${
+                  surveyForm.gender === "man"
+                    ? styles.genderIconSelected
+                    : styles.genderIcon
+                } mr-16`}
+                onClick={setGenderMan}
+              />
+              <img
+                src={womanIcon}
+                alt="kobieta"
+                className={`${
+                  surveyForm.gender === "woman"
+                    ? styles.genderIconSelected
+                    : styles.genderIcon
+                }`}
+                onClick={setGenderWoman}
+              />
+            </div>
+          </div>
+        )}
 
-              <p className={`lg:text-4xl`}>
-                Jako, że widzimy się pierwszy raz poświęć nam chwilę, aby
-                dowiedzieć się więcej o Tobie.
-              </p>
-              <p className="mt-36 text-3xl">Na początek, wybierz swoją płeć:</p>
-              <div className="flex mt-24 justify-center">
+        {currentStep === 1 && (
+          <div className={styles.pageContainer}>
+            <p className={`${styles.pMain} lg:text-6xl my-20`}>
+              Aplikacji chcę używać jako:
+            </p>
+            <div className={styles.rolesContainer}>
+              <div
+                onClick={setRole}
+                className={
+                  surveyForm.roles.includes("Podopieczny")
+                    ? `${styles.rolePickerContainerSelected}`
+                    : `${styles.rolePickerContainer}`
+                }
+              >
+                <p className={`lg:text-4xl cursor-pointer my-8`}>Podopieczny</p>
                 <img
-                  src={manIcon}
+                  src={menteeIcon}
+                  className={`${styles.roleIcon} lg:h-48`}
                   alt=""
-                  className={`${surveyForm.gender === "man" ? styles.genderIconSelected : styles.genderIcon} mr-16`}
-                  onClick={setGenderMan}
                 />
+              </div>
+              <div
+                onClick={setRoleTrainer}
+                className={
+                  surveyForm.roles.includes("Trener")
+                    ? `${styles.rolePickerContainerSelected}`
+                    : `${styles.rolePickerContainer}`
+                }
+              >
+                <p className={`lg:text-4xl cursor-pointer my-8`}>Trener</p>
                 <img
-                  src={womanIcon}
+                  src={trainerIcon}
+                  className={`${styles.roleIcon} lg:h-48`}
                   alt=""
-                  className={`${surveyForm.gender === "woman" ? styles.genderIconSelected : styles.genderIcon}`}
-                  onClick={setGenderWoman}
                 />
               </div>
             </div>
-          )}
-          {currentStep === 1 && (
-            <div className={styles.pageContainer}>
-              <p className={`${styles.pMain} lg:text-6xl my-20`}>
-                Aplikacji chcę używać jako:
-              </p>
-              <div className={styles.rolesContainer}>
-                <div
-                  onClick={setRole}
-                  className={
-                    surveyForm.roles.includes("Podopieczny")
-                      ? `${styles.rolePickerContainerSelected}`
-                      : `${styles.rolePickerContainer}`
-                  }
-                >
-                  <p className={`lg:text-4xl cursor-pointer my-8`}>
-                    Podopieczny
-                  </p>
-                  <img
-                    src={menteeIcon}
-                    className={`${styles.roleIcon} lg:h-48`}
-                  />
-                </div>
-                <div
-                  onClick={setRoleTrainer}
-                  className={
-                    surveyForm.roles.includes("Trener")
-                      ? `${styles.rolePickerContainerSelected}`
-                      : `${styles.rolePickerContainer}`
-                  }
-                >
-                  <p className={`lg:text-4xl cursor-pointer my-8`}>Trener</p>
-                  <img
-                    src={trainerIcon}
-                    className={`${styles.roleIcon} lg:h-48`}
-                  />
-                </div>
-              </div>
+          </div>
+        )}
 
-              {/* <p className={styles.pSubMain}>cos tam</p> */}
-            </div>
-          )}
-          {currentStep === 2 && (
-            <div className={styles.pageContainer}>
-              <p className={`${styles.pMain} lg:text-6xl mt-8 mb-20`}>
-                Wypełnij dane sylwetkowe:
-              </p>
-              <form className={`${styles.formMain} lg:text-3xl`}>
-                <label>
-                  <span> Wzrost</span>
-                  <input
-                    type="text"
-                    name="height"
-                    id="height"
-                    onChange={handleChange}
-                  />
-                </label>
-                <label>
-                  <span> Waga</span>{" "}
-                  <input
-                    type="number"
-                    name="weight"
-                    id="weight"
-                    onChange={handleChange}
-                  />
-                </label>
-                <label>
-                  <span> Wiek</span>{" "}
-                  <input
-                    type="number"
-                    name="age"
-                    id="age"
-                    onChange={handleChange}
-                  />
-                </label>
-                <label>
-                  <span>Staż</span>
-                  <select
-                    name="experience"
-                    id="experience"
-                    onChange={handleChange}
-                    className={styles.select}
-                  >
-                    {internships.map((i) => (
-                      <option id={i.value} key={i.name}>
-                        {i.name}
-                      </option>
-                    ))}
-                  </select>
-                </label>
-                <label>
-                  <span>Cel</span>
-                  <select
-                    id="goal"
-                    name="goal"
-                    onChange={handleChange}
-                    className={styles.select}
-                  >
-                    <option id="reduction" key="reduction">
-                      Redukcja
+        {currentStep === 2 && (
+          <div className={styles.pageContainer}>
+            <p className={`${styles.pMain} lg:text-6xl mt-8 mb-20`}>
+              Wypełnij dane sylwetkowe:
+            </p>
+            <form className={`${styles.formMain} lg:text-3xl`}>
+              <label>
+                <span>Wzrost</span>
+                <input
+                  type="number"
+                  name="height"
+                  id="height"
+                  onChange={handleChange}
+                />
+              </label>
+              <label>
+                <span>Waga</span>
+                <input
+                  type="number"
+                  name="weight"
+                  id="weight"
+                  onChange={handleChange}
+                />
+              </label>
+              <label>
+                <span>Wiek</span>
+                <input
+                  type="number"
+                  name="age"
+                  id="age"
+                  onChange={handleChange}
+                />
+              </label>
+              <label>
+                <span>Staż</span>
+                <select
+                  name="experience"
+                  id="experience"
+                  onChange={handleChange}
+                  className={styles.select}
+                >
+                  <option value="">-- wybierz --</option>
+                  {internships.map((i) => (
+                    <option key={i.value} value={i.value}>
+                      {i.name}
                     </option>
-                    <option id="maintain" key="maintain">
-                      Utrzymanie
-                    </option>
-                    <option id="mass" key="mass">
-                      Masa
-                    </option>
-                  </select>
-                </label>
-                <p className="mb-12">Płeć:</p>
-                <label>
-                  <img
-                    src={manIcon}
-                    alt=""
-                    className={`${styles.genderIcon} h-20 mr-16`}
-                  />
-                  <img
-                    src={womanIcon}
-                    alt=""
-                    className={`${styles.genderIcon} h-20`}
-                  />
-                </label>
-              </form>
+                  ))}
+                </select>
+              </label>
+              <label>
+                <span>Cel</span>
+                <select
+                  id="goal"
+                  name="goal"
+                  onChange={handleChange}
+                  className={styles.select}
+                >
+                  <option value="">-- wybierz --</option>
+                  <option value="reduction">Redukcja</option>
+                  <option value="maintain">Utrzymanie</option>
+                  <option value="mass">Masa</option>
+                </select>
+              </label>
+            </form>
+          </div>
+        )}
 
-              {/* <p className={styles.pSubMain}>cos tam</p> */}
-            </div>
-          )}
-          {currentStep === 3 && (
-            <div className={styles.pageContainer}>
-              <p className={`lg:text-6xl mt-12 mb-24`}>
-                Jako trener zaznacz swoję kompetencję:
-              </p>
+        {currentStep === 3 && (
+          <div className={styles.pageContainer}>
+            <p className={`lg:text-6xl mt-12 mb-24`}>
+              Jako trener zaznacz swoje kompetencje:
+            </p>
+            <div className="flex flex-col lg:text-3xl">
               {trainerRoles.map((role) => (
-                <div className="flex flex-col lg:text-3xl">
-                  <label className={styles.checkboxLabel}>
-                    {role.name}
-                    <input
-                      type="checkbox"
-                      key={role.name}
-                      id={role.role}
-                      name={role.role}
-                      onChange={handleChangeCheckbox}
-                      className={`${styles.checkbox} ml-4`}
-                    />
-                  </label>
-                </div>
+                <label key={role.role} className={styles.checkboxLabel}>
+                  {role.name}
+                  <input
+                    type="checkbox"
+                    name={role.role}
+                    onChange={handleChangeCheckbox}
+                    checked={surveyForm.subroles.includes(role.role)}
+                    className={`${styles.checkbox} ml-4`}
+                  />
+                </label>
               ))}
-
-              {/* <p className={styles.pSubMain}>cos tam</p> */}
             </div>
-          )}
-          {currentStep === 4 && (
-            <div className={styles.pageContainer}>
-              <p className={`lg:text-6xl mt-12 mb-24`}>Podsumowanie</p>
-              <div className="flex flex-col justify-center mb-16 lg:text-3xl">
-                <p className="mb-8">{surveyForm.roles.map((r) => `${r} `)}</p>
-                <p className="mb-8">Wzrost: {surveyForm.height}</p>
-                <p className="mb-8">Waga: {surveyForm.weight}</p>
-                <p className="mb-8">Staż: {surveyForm.experience}</p>
+          </div>
+        )}
 
-                <p></p>
-                <p></p>
-              </div>
-              <button onClick={handleSubmitSurvey} className="button-main">
-                Zapisz
-              </button>
+        {currentStep === 4 && (
+          <div className={styles.pageContainer}>
+            <p className={`lg:text-4xl mt-12 mb-16`}>Podsumowanie</p>
+            <div className="flex flex-col justify-center mb-2 gap-2">
+              <p className="mb-4 lg:text-xl">
+                Twoje role: {surveyForm.roles.join(", ")}
+              </p>
+
+              {surveyForm.roles.includes("Podopieczny") && (
+                <>
+                  <p>Wzrost: {surveyForm.height}</p>
+                  <p>Waga: {surveyForm.weight}</p>
+                  <p>Wiek: {surveyForm.age}</p>
+                  <p>Staż: {surveyForm.experience}</p>
+                  <p>Cel: {surveyForm.goal}</p>
+                </>
+              )}
+
+              {surveyForm.roles.includes("Trener") &&
+                surveyForm.subroles.length > 0 && (
+                  <div className="mt-6">
+                    <div className="">
+                      <p className="mb-4 lg:text-xl">
+                        Twoje kompetencje trenerskie:
+                      </p>
+                      {surveyForm.subroles.map((subrole) => (
+                        <p key={subrole} className="mb-3 text-lg">
+                          {trainerRoles.find((r) => r.role === subrole)?.name ||
+                            subrole}
+                        </p>
+                      ))}
+                    </div>
+                  </div>
+                )}
             </div>
-          )}
-        </div>
+            <button onClick={handleSubmitSurvey} className="button-main--blue">
+              Zapisz
+            </button>
+          </div>
+        )}
+
         <div className={styles.buttonContainer}>
-          <button onClick={handlePrev} className="lg:text-xl">
-            wróć
-          </button>
-          <button onClick={handleNext} className="lg:text-xl">
-            dalej
-          </button>
+          {currentIndex > 0 && (
+            <button onClick={handlePrev} className="lg:text-xl mr-4">
+              wróć
+            </button>
+          )}
+
+          {currentIndex < showSteps.length - 1 && (
+            <button onClick={handleNext} className="lg:text-xl">
+              dalej
+            </button>
+          )}
         </div>
       </div>
     </div>
