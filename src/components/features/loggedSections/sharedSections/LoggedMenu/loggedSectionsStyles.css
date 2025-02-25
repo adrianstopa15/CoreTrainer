@@ -11,19 +11,29 @@
 .bgLogged {
   background-color: rgb(28, 30, 33);
   color: white;
-  padding-bottom: 95vh;
+  min-height: 100vh;
+  overflow: hidden;
+  padding-bottom: 5rem;
 }
 .bgLoggedBlack {
   background-color: rgb(10, 10, 10);
   color: white;
-  padding-bottom: 35vh;
   background-image: linear-gradient(rgb(24, 24, 24), rgb(5, 5, 5));
+  min-height: 100vh;
+  overflow: hidden;
+  padding-bottom: 5rem;
+}
+.scaleImg {
+  width: clamp(4rem, -0.333rem + 5.333vw, 8rem);
+}
+.scaleText {
+  font-size: clamp(0.75rem, 0.344rem + 0.5vw, 1.125rem);
 }
 .logHero {
   display: flex;
   flex-direction: row;
-  max-width: 150rem;
   margin: 0 auto;
+  justify-content: center;
 }
 ::-webkit-scrollbar {
   width: 6px;
@@ -44,6 +54,9 @@
 }
 .profileOptionsP {
   display: flex;
+}
+.inputExerciseBox {
+  width: clamp(3rem, -3.149rem + 11.018vw, 12rem) !important;
 }
 .profileOptionsP p {
   margin-right: 8px;
@@ -289,10 +302,8 @@
 .creatorSection-right {
   margin-left: 2rem;
   margin-top: 5rem;
-  min-width: 80rem;
-  max-height: 50rem;
-  min-height: 50rem;
-  max-width: 80rem;
+  height: clamp(10rem, -12.995rem + 46.396vw, 45rem);
+  width: clamp(15rem, -21.135rem + 72.908vw, 70rem);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -329,8 +340,8 @@
 
   /* min-height: 35rem;
   max-height: 35rem; */
-  height: 40rem;
-  overflow-y: auto;
+  height: 25rem;
+  overflow-y: scroll;
 }
 .exercises-grid--card {
   background-image: linear-gradient(
@@ -377,7 +388,8 @@
 .selectedExerciseElement {
   display: flex;
   flex-direction: column;
-  margin-bottom: 10px;
+  min-width: 8rem;
+  margin: 2rem;
 }
 .selectedExerciseBox {
   box-shadow: 0px 5px 15px 0px #00000063;
@@ -393,6 +405,8 @@
   backdrop-filter: blur(50px);
   border-radius: 15px;
   /* box-shadow: rgba(255, 255, 255, 0.045) 0 3px 12px; */
+}
+.exercisesBox {
 }
 .selectedExerciseElementInfo {
   flex: 1;
@@ -411,7 +425,7 @@
   color: white;
   margin-left: 1.5rem;
   font-size: 1.5rem;
-  width: 20rem;
+  width: clamp(2rem, -28rem + 53.333vw, 20rem);
   margin-bottom: 1.5rem;
   font-size: 16px;
 }
@@ -433,10 +447,10 @@
 }
 
 .close-selectedExerciseBox {
-  font-size: 1.3rem;
+  font-size: 1rem;
   position: absolute;
-  top: 0;
-  right: 1%;
+  top: 1%;
+  right: 1.1%;
 }
 .close-selectedExerciseBox:hover {
   color: rgba(253, 4, 4, 0.767);
@@ -674,6 +688,64 @@ abbr[title] {
   filter: brightness(110%);
 }
 
+@media (max-width: 1400px) {
+  .workoutCreatorElement {
+    width: 15rem;
+    font-size: 12px;
+  }
+  .exercises-grid {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+@media (max-width: 1300px) {
+  .addWorkoutForm select {
+    width: clamp(1rem, -8rem + 13.333vw, 42rem);
+  }
+  .selectedExerciseBox {
+    flex-direction: column;
+    align-items: center;
+  }
+  .selectedExerciseElementForm {
+    display: flex;
+    flex-direction: column;
+  }
+  .selectedExerciseElement img {
+    display: none;
+  }
+  .workoutContainer input {
+    font-size: 0.5rem;
+  }
+  .selectedExerciseElement {
+    display: flex;
+    flex-direction: column;
+  }
+  .exercises-grid {
+    grid-template-columns: repeat(1, 1fr);
+  }
+  .exercises-grid--card {
+  }
+  .creatorSection-left {
+    min-width: 15rem;
+    max-width: 20rem;
+  }
+  .creatorSection-right {
+    min-width: 18rem;
+    max-width: 20rem;
+    margin-left: 1rem;
+    margin-top: 1rem;
+  }
+  .logHero {
+    display: flex;
+    flex-direction: column;
+  }
+  .selectedExerciseBox {
+    min-width: fit-content;
+    margin: 0.5rem;
+  }
+  .selectedExerciseElement {
+  }
+}
+
 @media (max-width: 1200px) {
   .workoutCreatorElement {
     width: 20rem;
@@ -692,6 +764,14 @@ abbr[title] {
   }
 }
 @media (max-width: 800px) {
+  .selectedExerciseElement img {
+    max-width: 100px;
+    height: auto;
+  }
+  .selectedExerciseElement {
+    margin: 1rem 0;
+    min-width: auto;
+  }
   .containerCreator {
     grid-template-columns: repeat(1, 1fr);
   }
