@@ -38,21 +38,21 @@ export default function RightPanel({
         onDragOver={handleDragOver}
       >
         {selectedExercises.length === 0 ? (
-          <p className="text-center mt-64 lg:text-lg text-gray-200">
+          <p className="text-center my-12 lg:text-lg text-gray-200">
             -- Przeciągnij ćwiczenia tutaj --
           </p>
         ) : (
           selectedExercises.map((exercise) => (
             <div className="selectedExerciseBox relative" key={exercise.name}>
-              <div className="selectedExerciseElement m-8 min-w-44">
+              <div className="selectedExerciseElement flex items-center">
                 {exercise.img && (
                   <img
                     src={`http://localhost:5000/${exercise.img}`}
                     alt="ex-img"
-                    className="h-32"
+                    className="scaleImg"
                   />
                 )}
-                <p className="text-center mt-1">{exercise.name}</p>
+                <p className="text-center mt-1 scaleText">{exercise.name}</p>
               </div>
 
               <div className="selectedExerciseElementInfo">
@@ -83,7 +83,7 @@ export default function RightPanel({
                             type="number"
                             value={serie.kg}
                             placeholder="ilość kilogramów"
-                            className="mr-2 mb-1 p-1"
+                            className=" inputExerciseBox mr-2 mb-1 p-1"
                             onChange={(ev) =>
                               handleSeriesChange(
                                 exercise.name,
@@ -100,7 +100,7 @@ export default function RightPanel({
                           max={999}
                           value={serie.reps}
                           placeholder="liczba powtórzeń"
-                          className="mb-1 p-1"
+                          className="inputExerciseBox mb-1 p-1"
                           onChange={(ev) =>
                             handleSeriesChange(
                               exercise.name,

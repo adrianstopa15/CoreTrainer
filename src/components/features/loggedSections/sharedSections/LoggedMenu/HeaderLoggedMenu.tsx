@@ -13,6 +13,7 @@ import React, { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { useCurrentUserInfo } from "../../../../../hooks/useUserInfo";
 import axios from "axios";
+import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
 export default function HeaderLoggedMenu() {
   const [isDropdown, setIsDropdown] = useState(false);
   const { data: currentUser } = useCurrentUserInfo();
@@ -133,39 +134,42 @@ export default function HeaderLoggedMenu() {
             href="#"
             className={` my-2  xl:my-0 lg:ml-4  md:text-3xl xl:text-2xl`}
           >
-            <img
-              src={profileIcon}
-              className={`${styles.iconsHeaderProfile} pointerItem`}
-              onClick={toggleDropdown}
-            />
-            {isDropdown && (
-              <div className={styles.profileDropdown}>
-                <ul className={styles.ulDropdown}>
-                  <Link
-                    to={`../userProfile/${currentUser?._id}`}
-                    style={{ textDecoration: "none", color: "inherit" }}
-                  >
-                    <li>
-                      <img src={liIconProfil} className={styles.liIcons} />
-                      Pokaż profil
-                    </li>
-                  </Link>
-                  <Link
-                    to="/userSettings"
-                    style={{ textDecoration: "none", color: "inherit" }}
-                  >
-                    <li>
-                      <img src={liIconSettings} className={styles.liIcons} />
-                      Ustawienia
-                    </li>
-                  </Link>
-                  <li onClick={() => handleLogout()}>
-                    <img src={liIconLogout} className={styles.liIcons} />
-                    Wyloguj się
+            <Popover className="relative flex">
+              <PopoverButton>
+                <img
+                  src={profileIcon}
+                  className={`${styles.iconsHeaderProfile} pointerItem mr-2`}
+                  onClick={toggleDropdown}
+                />
+              </PopoverButton>
+              <PopoverPanel
+                anchor="bottom"
+                className={`${styles.profileDropdown}`}
+              >
+                <Link
+                  to={`../userProfile/${currentUser?._id}`}
+                  style={{ textDecoration: "none", color: "inherit" }}
+                >
+                  <li>
+                    <img src={liIconProfil} className={styles.liIcons} />
+                    <p>Pokaż profil</p>
                   </li>
-                </ul>
-              </div>
-            )}
+                </Link>
+                <Link
+                  to="/userSettings"
+                  style={{ textDecoration: "none", color: "inherit" }}
+                >
+                  <li>
+                    <img src={liIconSettings} className={styles.liIcons} />
+                    <p>Ustawienia</p>
+                  </li>
+                </Link>
+                <li onClick={() => handleLogout()}>
+                  <img src={liIconLogout} className={styles.liIcons} />
+                  <p className="pointerItem">Wyloguj się</p>
+                </li>
+              </PopoverPanel>
+            </Popover>
           </a>
         </nav>
       </header>

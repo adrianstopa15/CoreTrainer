@@ -1,7 +1,7 @@
 .container {
   display: flex;
   align-items: center;
-  height: 100vh;
+  min-height: 100vh;
   flex-direction: column;
   background-color: rgb(20, 20, 20);
   color: rgb(231, 231, 231);
@@ -19,7 +19,7 @@
   border-radius: 10px;
   border: 1px solid rgba(255, 255, 255, 0.18);
   width: 95%;
-  height: 95%;
+  height: clamp(48rem, 43.714rem + 11.429vw, 54rem);
   border-radius: 6px;
 }
 /* .pageContainer {
@@ -61,7 +61,7 @@
 .formMain input,
 .formMain select,
 option {
-  background-color: rgba(128, 128, 128, 0.315);
+  background-color: rgba(65, 65, 65, 0.781);
   width: 15rem;
 }
 select {

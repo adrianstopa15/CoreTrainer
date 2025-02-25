@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import HeaderLoggedMenu from "../LoggedMenu/HeaderLoggedMenu";
 import profileIcon from "../../../../../assets/user.png";
+import womanIcon from "../../../../../assets/womanIcon.png";
+import manIcon from "../../../../../assets/manIcon.png";
 import UserProfileInfo from "./UserProfileInfo";
 import { Link, NavLink, Outlet, useParams } from "react-router-dom";
 import { useUserInfo } from "../../../../../hooks/useUserInfo";
@@ -24,9 +26,7 @@ export default function UserProfile() {
     <>
       <HeaderLoggedMenu />
       <div className="flex justify-center flex-col items-center bgLoggedSub">
-        <div
-          className={`bgLogged flex justify-center flex-col items-center pt-16 px-[15%]`}
-        >
+        <div className={`bgLogged flex flex-col items-center pt-16 px-[15%]`}>
           <p>
             <img
               src={profileIcon}
@@ -34,10 +34,17 @@ export default function UserProfile() {
               className="h-36 mb-2 pointerItem"
             />
           </p>
-          <p className="lg:text-3xl mb-2">
-            {user ? `${user.name} ` : ""}
-            {user ? `${user.surname}` : ""}
-          </p>
+          <div className="flex">
+            <p className="lg:text-3xl mb-2 mr-2">
+              {user ? `${user.name} ` : ""}
+              {user ? `${user.surname}` : ""}
+            </p>
+            {user.userFeatures.gender === "woman" ? (
+              <img src={womanIcon} className="h-6 mt-2" />
+            ) : (
+              <img src={manIcon} className="h-6 mt-2" />
+            )}
+          </div>
           <p className="bm-w w-64 my-1"></p>
           <nav className="profileOptionsP mb-16">
             <NavLink
