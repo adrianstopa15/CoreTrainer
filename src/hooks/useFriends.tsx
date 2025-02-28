@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   fetchFriends,
   fetchFriendsRequests,
@@ -7,7 +7,7 @@ import {
   sendFriendRequest,
 } from "../api/friends";
 import axios from "axios";
-
+import Swal from "sweetalert2";
 const API_URL = "http://localhost:5000/api";
 
 export interface FriendRequestDoc {
@@ -66,13 +66,32 @@ export function useUserFriendsList(userId: string) {
 }
 
 export function useSendFriendRequest() {
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: sendFriendRequest,
     onSuccess: (data) => {
       console.log("zaproszenie wysłane", data);
+      Swal.fire({
+        title: "Zaproszenie zostało wysłane.",
+        icon: "success",
+        showConfirmButton: false,
+        timer: 2500,
+        position: "top",
+      });
+      queryClient.invalidateQueries({ queryKey: ["myRequests", "pending"] });
+      queryClient.invalidateQueries({ queryKey: ["friendsRequests"] });
     },
     onError: (error) => {
       console.error("Błąd podczas wysyłania zaproszenia", error);
+      Swal.fire({
+        title: "Błąd!",
+        text: "Nie udało się wysłać zaproszenia do znajomych.",
+        icon: "error",
+        showConfirmButton: false,
+        timer: 2000,
+        position: "top",
+      });
     },
   });
 }
