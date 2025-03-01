@@ -1,4 +1,4 @@
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import {
   createTrainerRelation,
@@ -7,6 +7,7 @@ import {
   fetchTrainerRelations,
   fetchTrainerRequests,
 } from "../api/trainerRelations";
+import Swal from "sweetalert2";
 
 const API_URL = "http://localhost:5000/api";
 
@@ -79,13 +80,35 @@ export function useFetchTraineeList() {
 // }
 
 export function useCreateTrainerRelation() {
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: createTrainerRelation,
     onSuccess: (data) => {
-      console.log("prośba wysłana", data);
+      console.log("Prośba wysłana", data);
+      Swal.fire({
+        title: "Zaproszenie wysłane!",
+        text: "Prośba o relację trenerską została wysłana.",
+        icon: "success",
+        showConfirmButton: false,
+        timer: 2500,
+        position: "top",
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["trainerRequests", "pending"],
+      });
+      queryClient.invalidateQueries({ queryKey: ["relations", "pending"] });
     },
     onError: (error) => {
       console.error("Błąd podczas wysyłania zaproszenia", error);
+      Swal.fire({
+        title: "Błąd!",
+        text: "Nie udało się wysłać zaproszenia.",
+        icon: "error",
+        showConfirmButton: false,
+        timer: 2000,
+        position: "top",
+      });
     },
   });
 }
