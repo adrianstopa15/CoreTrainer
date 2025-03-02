@@ -64,7 +64,9 @@ export default function TrainingSets() {
         contentLabel="Info o ćwiczeniu"
         style={modalStyles}
       >
-        <div>Zawartosc modala</div>
+        <div>
+          {workoutSets.map((w) => w.exercises.map((e) => <p>{e.name}</p>))}
+        </div>
       </Modal>
     </div>
   );

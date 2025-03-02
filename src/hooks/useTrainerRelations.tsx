@@ -87,8 +87,7 @@ export function useCreateTrainerRelation() {
     onSuccess: (data) => {
       console.log("Prośba wysłana", data);
       Swal.fire({
-        title: "Zaproszenie wysłane!",
-        text: "Prośba o relację trenerską została wysłana.",
+        title: "Prośba została wysłana!",
         icon: "success",
         showConfirmButton: false,
         timer: 2500,
