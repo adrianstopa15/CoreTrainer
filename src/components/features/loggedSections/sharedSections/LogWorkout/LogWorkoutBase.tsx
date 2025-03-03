@@ -16,6 +16,7 @@ import RightPanel from "./RightPanel";
 import AddExerciseModal from "./AddExerciseModal";
 import SaveWorkoutModal from "./SaveWorkoutModal";
 import ExerciseInfoModal from "./ExerciseInfoModal";
+import Swal from "sweetalert2";
 
 interface LogWorkoutBaseProps {
   mode: "user" | "trainer";
@@ -284,7 +285,16 @@ export default function LogWorkoutBase({ mode }: LogWorkoutBaseProps) {
             series: ex.series.map((s) => ({ ...s, kg: "" })),
           })),
         });
+        Swal.fire({
+          title: "Zestaw treningowy został zapisany!",
+          icon: "success",
+          showConfirmButton: false,
+          timer: 2000,
+          position: "top",
+        });
+        setSelectedExercises([]);
         closeWorkoutModal();
+
         return;
       } else {
         await submitWorkoutMutation.mutateAsync({
@@ -305,6 +315,14 @@ export default function LogWorkoutBase({ mode }: LogWorkoutBaseProps) {
           });
         }
       }
+      Swal.fire({
+        title: "Trening został zapisany!",
+        icon: "success",
+        showConfirmButton: false,
+        timer: 2000,
+        position: "top",
+      });
+      setSelectedExercises([]);
       closeWorkoutModal();
     } catch (error) {
       console.error("Nie udało się zapisać treningu", error);
