@@ -79,6 +79,7 @@ export function useSendFriendRequest() {
         timer: 2500,
         position: "top",
       });
+
       queryClient.invalidateQueries({ queryKey: ["myRequests", "pending"] });
       queryClient.invalidateQueries({ queryKey: ["friendsRequests"] });
     },
