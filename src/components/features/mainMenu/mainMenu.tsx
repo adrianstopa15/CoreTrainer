@@ -28,7 +28,7 @@ export default function MainMenu() {
       </div>
       <MidMenu />
 
-      {/* <BottomMenu /> do naprawienia*/}
+      <BottomMenu />
       <footer className="main-footer">
         <p className="pt-5 mx-36 text-xs text-center footer-text">
           Core<span className="text-red-600">Trainer</span>&copy;2024. Wszystkie
