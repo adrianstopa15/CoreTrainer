@@ -21,14 +21,14 @@ export default function UserProfileFriends() {
               <img
                 src={defaultAvatar}
                 alt="profileAvatar"
-                className="profileAvatar"
+                className="profileAvatarImg"
               />
               <Link to={`/userProfile/${friend._id}`}>
-                <p className="text-gray-100 text-center mt-3 p-1">
+                <p className="text-gray-100 text-center mt-1 p-1">
                   {friend.login}
                 </p>
               </Link>
-              <p className=" text-gray-300 text-center mt-1 p-2">
+              <p className=" text-gray-300 text-center p-1">
                 {friend.name} {friend.surname}
               </p>
             </div>
