@@ -125,7 +125,7 @@ export default function WorkoutsHistory() {
             selectedTrainingHistory.exercises.map((exercise, index) => (
               <div key={index}>
                 <p className="my-3">
-                  <strong>{exercise.name}</strong>
+                  <p className="text-lg">{exercise.name}</p>
                 </p>
 
                 <p className="mb-1"></p>
