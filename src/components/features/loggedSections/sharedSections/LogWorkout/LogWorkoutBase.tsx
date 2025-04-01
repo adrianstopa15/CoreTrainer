@@ -268,6 +268,12 @@ export default function LogWorkoutBase({ mode }: LogWorkoutBaseProps) {
     );
   };
 
+  const handleRemoveExercise = (exerciseName: string) => {
+    setSelectedExercises((prevExercises) =>
+      prevExercises.filter((ex) => ex.name !== exerciseName)
+    );
+  };
+
   const handleSubmitWorkout = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
@@ -394,6 +400,7 @@ export default function LogWorkoutBase({ mode }: LogWorkoutBaseProps) {
             handleSeriesChange={handleSeriesChange}
             openWorkoutModal={openWorkoutModal}
             hideKg={hidenKgInput}
+            removeExercise={handleRemoveExercise}
           />
         </div>
       </div>

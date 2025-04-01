@@ -19,6 +19,7 @@ interface RightPanelProps {
 
   openWorkoutModal: () => void;
   hideKg?: boolean;
+  removeExercise: (e) => void;
 }
 
 export default function RightPanel({
@@ -29,6 +30,7 @@ export default function RightPanel({
   handleCountSeries,
   handleSeriesChange,
   openWorkoutModal,
+  removeExercise,
 }: RightPanelProps) {
   return (
     <div className="creatorSection-right">
@@ -110,7 +112,12 @@ export default function RightPanel({
                             )
                           }
                         />
-                        <p className="close-selectedExerciseBox">X</p>
+                        <button
+                          className="close-selectedExerciseBox"
+                          onClick={() => removeExercise(exercise.name)}
+                        >
+                          X
+                        </button>
                       </div>
                     ))}
                   </div>
