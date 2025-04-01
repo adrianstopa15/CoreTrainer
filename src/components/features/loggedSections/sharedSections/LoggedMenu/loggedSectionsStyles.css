@@ -348,7 +348,7 @@
   /* min-height: 35rem;
   max-height: 35rem; */
   height: 25rem;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 .exercises-grid--card {
   background-image: linear-gradient(

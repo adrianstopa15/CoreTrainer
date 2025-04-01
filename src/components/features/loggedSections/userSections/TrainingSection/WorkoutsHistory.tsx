@@ -75,7 +75,11 @@ export default function WorkoutsHistory() {
           withCredentials: true,
         }
       );
-      setTrainingHistory(() => response.data.userWorkouts);
+      const sortedTrainings = response.data.userWorkouts.sort(
+        (a: Training, b: Training) =>
+          new Date(b.date).getTime() - new Date(a.date).getTime()
+      );
+      setTrainingHistory(sortedTrainings);
     } catch (error) {
       console.error(error);
     }
