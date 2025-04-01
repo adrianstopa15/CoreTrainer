@@ -122,6 +122,7 @@ export default function LogWorkoutBase({ mode }: LogWorkoutBaseProps) {
     if (draggedObject.exercises) {
       const exercisesFromSet: ISelectedExercise[] = draggedObject.exercises.map(
         (ex: any) => ({
+          _id: ex._id,
           name: ex.name,
           bodySection: ex.bodySection,
           bodyPart: ex.bodyPart,
@@ -132,7 +133,7 @@ export default function LogWorkoutBase({ mode }: LogWorkoutBaseProps) {
           })),
         })
       );
-      setSelectedExercises((prev) => [...prev, ...exercisesFromSet]);
+      setSelectedExercises(exercisesFromSet);
     } else {
       const exerciseWithSeries: ISelectedExercise = {
         ...draggedObject,
