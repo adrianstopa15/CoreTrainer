@@ -7,6 +7,7 @@ import dumbellIcon from "../../../../../assets/dumbell.png";
 import workoutSetIcon from "../../../../../assets/createWorkout.png";
 import style from "./menteesSection.module.css";
 import axios from "axios";
+import Swal from "sweetalert2";
 export default function ManageMentees() {
   const { data: traineeList } = useFetchTraineeList();
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -41,8 +42,25 @@ export default function ManageMentees() {
           withCredentials: true,
         }
       );
-      console.log("Odpowiedz:", res.data);
+      Swal.fire({
+        title: "Wysłano zestaw ćwiczeń!",
+        icon: "success",
+        timer: 2000,
+        position: "top",
+        showConfirmButton: false,
+      });
+      setNewWorkouts((prev) =>
+        prev.filter((w) => w._id !== selectedWorkout._id)
+      );
+      closeSubModal();
     } catch (error) {
+      // Pokazujemy komunikat o błędzie
+      Swal.fire({
+        title: "Błąd",
+        text: "Nie udało się wysłać zestawu, spróbuj ponownie później.",
+        icon: "error",
+        confirmButtonText: "OK",
+      });
       console.error("Błąd podczas wysyłania zestawu", error);
     }
   };
@@ -118,12 +136,11 @@ export default function ManageMentees() {
                   className={`${style.imageSmall} invert`}
                 />
               </button>
-              <button>
+              <button onClick={() => openModal(t.traineeId)}>
                 <img
                   src={dumbellIcon}
                   alt="dumbell"
                   className={style.imageMedium}
-                  onClick={() => openModal(t.traineeId)}
                 />
               </button>
               <button>
@@ -162,10 +179,10 @@ export default function ManageMentees() {
                       <img
                         src={dumbellIcon}
                         alt="dumbel"
-                        className="absolute left-4 top-1/2 transform -translate-y-1/2 h-10"
+                        className="absolute left-4 top-1/2 transform -translate-y-1/2 h-6"
                       />
 
-                      <h2 className="text-center text-xl">{w.name}</h2>
+                      <h2 className="text-center text-xs">{w.name}</h2>
                     </div>
                   ))
                 ) : (

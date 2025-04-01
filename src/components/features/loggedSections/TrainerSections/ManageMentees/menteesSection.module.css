@@ -88,7 +88,7 @@
   height: clamp(0.5rem, -0.071rem + 1.524vw, 1.3rem);
 }
 .pName {
-  font-size: clamp(0.688rem, 0.375rem + 0.833vw, 1.125rem);
+  font-size: clamp(0.588rem, 0.375rem + 0.833vw, 0.92rem);
 }
 .avatarIcon {
   height: clamp(3.8rem, 2.943rem + 2.286vw, 5rem);
