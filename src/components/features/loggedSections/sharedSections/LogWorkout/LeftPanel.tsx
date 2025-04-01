@@ -1,5 +1,5 @@
 import React from "react";
-import { Exercise } from "./types";
+import { Exercise, ISelectedExercise } from "./types";
 
 import searchIcon from "../../../../../assets/search.png";
 import lowerPartsIcon from "../../../../../assets/lowerPartsIcon.png";
@@ -28,6 +28,7 @@ interface LeftPanelProps {
 
   setModeActiveValue: boolean;
   openModal: () => void;
+  selectedExercises: ISelectedExercise[];
 }
 
 export default function LeftPanel({
@@ -44,6 +45,7 @@ export default function LeftPanel({
   openExerciseInfoModal,
   setModeActiveValue,
   openModal,
+  selectedExercises,
 }: LeftPanelProps) {
   return (
     <div className="creatorSection-left">
@@ -95,6 +97,9 @@ export default function LeftPanel({
                   (e) =>
                     e.bodySection !== filterBodySection &&
                     e.name.toLowerCase().includes(searchQuery)
+                )
+                .filter(
+                  (e) => !selectedExercises.some((sel) => sel._id === e._id)
                 )
                 .map((e) => (
                   <div

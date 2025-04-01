@@ -1,4 +1,5 @@
 export interface ISelectedExercise {
+  _id: string;
   name: string;
   bodySection: string;
   bodyPart: string;

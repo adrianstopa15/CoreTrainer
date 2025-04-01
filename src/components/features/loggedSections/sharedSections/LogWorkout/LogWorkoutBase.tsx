@@ -390,6 +390,7 @@ export default function LogWorkoutBase({ mode }: LogWorkoutBaseProps) {
             openModal={openModal}
             setModeActiveValue={setModeActive}
             mode={mode}
+            selectedExercises={selectedExercises}
           />
 
           <RightPanel
