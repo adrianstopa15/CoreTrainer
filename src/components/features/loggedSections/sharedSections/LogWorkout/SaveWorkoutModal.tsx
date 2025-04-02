@@ -59,14 +59,14 @@ export default function SaveWorkoutModal({
         <form onSubmit={handleSubmitWorkout} className="addWorkoutForm">
           <div className="mb-2">
             <h3>Nazwa treningu</h3>
-            <input
-              type="text"
-              value={workoutName}
-              onChange={(e) => setWorkoutName(e.target.value)}
-              placeholder="Np. Poniedziałek - klatka i triceps"
-              maxLength={30}
-            />
           </div>
+          <input
+            type="text"
+            value={workoutName}
+            onChange={(e) => setWorkoutName(e.target.value)}
+            placeholder="Np. Poniedziałek - klatka i triceps"
+            maxLength={30}
+          />
           {mode === "user" ? (
             <>
               <div>
@@ -102,7 +102,7 @@ export default function SaveWorkoutModal({
             <div className="mb-2">
               <h2>Opis Treningu</h2>
               <textarea
-                placeholder="Opis treningu wraz ze wskazówkami dla podopiecznego"
+                placeholder="Opis treningu wraz ze wskazówkami oraz opisem wykonywania danych ćwiczeń"
                 className="bg-black min-h-20 min-w-64 text-sm p-1"
                 onChange={(e) => setSetDescription(e.target.value)}
                 maxLength={500}

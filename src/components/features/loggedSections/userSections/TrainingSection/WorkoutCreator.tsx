@@ -39,7 +39,7 @@ export default function WorkoutCreator() {
 
           <NavLink
             className="navlink mt-8 button-aqua-dark lg:text-lg mb-8 "
-            to="../autoTrainingCreator"
+            to="../LogWorkoutTrainer"
           >
             Rozpocznij
           </NavLink>

@@ -430,9 +430,9 @@
   text-align: center;
   background-color: rgb(25, 25, 25);
   color: white;
-  margin-left: 1.5rem;
+  /* margin-left: 1.5rem; */
   font-size: 1.5rem;
-  width: clamp(2rem, -28rem + 53.333vw, 20rem);
+  width: clamp(12rem, -28rem + 53.333vw, 20rem);
   margin-bottom: 1.5rem;
   font-size: 16px;
 }
@@ -710,7 +710,7 @@ abbr[title] {
 }
 @media (max-width: 1300px) {
   .addWorkoutForm select {
-    width: clamp(1rem, -8rem + 13.333vw, 42rem);
+    width: clamp(8rem, -8rem + 13.333vw, 42rem);
   }
   .selectedExerciseBox {
     flex-direction: column;

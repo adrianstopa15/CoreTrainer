@@ -8,7 +8,7 @@ import WorkoutsAccept from "./WorkoutsAccept";
 import { useLocation } from "react-router-dom";
 export default function TrainingSection() {
   const location = useLocation();
-  let currentHeader = "Historia Treningów";
+  let currentHeader = "Kalendarz";
   if (location.pathname.includes("workoutCreate")) {
     currentHeader = "Zarządzaj treningiem";
   } else if (location.pathname.includes("manageWorkout")) {
