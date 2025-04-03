@@ -434,7 +434,7 @@ export default function LogWorkoutBase({ mode }: LogWorkoutBaseProps) {
         hideDates={hideDates}
         alwaysSaveAsSet={alwaysSaveAsSet}
         mode={mode}
-        setDescritpion={setDescription}
+        setDescription={setDescription}
         setSetDescription={setSetDescription}
       />
 

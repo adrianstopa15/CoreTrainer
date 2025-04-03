@@ -12,6 +12,7 @@ export type Exercise = {
   bodySection: string;
   img: string | null;
   series: Series[];
+  _id: string;
 };
 export type Training = {
   userId: string;

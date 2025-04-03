@@ -38,11 +38,3 @@ export default function AutoTrainingCreator() {
     </div>
   );
 }
-
-// krok1: witaj w kreatorze treningu
-// kliknij aby rozpoczać
-//krok2: zaleznie od stazu treningowego jakis tekst, np "widze ze dopiero zaczynasz przygode z silownia"... wypelnij ankiete abysmy mogli jak najlepiej wybrac trening dla ciebie
-//krok3: suwaki- uzytkownik zaznacza w jakim stopniu mu zalezy na: siła,  rzeźba, mobilnosc, poprawa postury, ogolna sprawnosc fizyczna, ilosc czasu na trening w tygodniu,
-//ktore partie miesniowe sa najwazniejsze
-//jezeli jest poczatkujacym to tryb zycia, jezeli zaznaczy ze bardzo siedzacy to mniejsza intensywnosc,
-//do uzupelnienia tez ma miec ile dni w tygodniu ma czas na trening, ile czasu moze poswiecac na jeden trening

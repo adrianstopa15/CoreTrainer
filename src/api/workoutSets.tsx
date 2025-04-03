@@ -1,4 +1,5 @@
 import axios from "axios";
+import { Exercise } from "../components/features/loggedSections/sharedSections/LogWorkout/types";
 
 const API_URL = "http://localhost:5000/api";
 
@@ -7,23 +8,11 @@ export interface Series {
   reps: number | string;
 }
 
-export interface Exercise {
-  _id?: string;
-  userId: string;
-  usersWithAccess: string[];
-  isGlobal: boolean;
-  name: string;
-  bodyPart: string;
-  bodySection: string;
-  img: string | null;
-  series: Series[];
-}
-
 export interface WorkoutSetData {
   _id?: string;
-  userId: string;
-  isGlobal: boolean;
-  usersWithAccess: string[];
+  userId?: string;
+  isGlobal?: boolean;
+  usersWithAccess?: string[];
   name: string;
   description: string;
   exercises: Exercise[];

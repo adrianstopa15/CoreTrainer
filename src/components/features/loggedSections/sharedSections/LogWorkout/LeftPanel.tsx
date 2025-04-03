@@ -29,6 +29,7 @@ interface LeftPanelProps {
   setModeActiveValue: boolean;
   openModal: () => void;
   selectedExercises: ISelectedExercise[];
+  mode: "user" | "trainer";
 }
 
 export default function LeftPanel({

@@ -8,7 +8,6 @@ import * as cors from "cors";
 import * as bcrypt from "bcrypt";
 import * as jwt from "jsonwebtoken";
 import * as cookieParser from "cookie-parser";
-import { request } from "http";
 import * as multer from "multer";
 import * as path from "path";
 import Exercise from "./models/Exercise";
@@ -46,7 +45,6 @@ app.post("/api/register", async (req: Request, res: Response) => {
   try {
     const { email, login, name, surname, password } = req.body;
 
-    // Sprawdzenie, czy email się nie powtarza
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res

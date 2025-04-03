@@ -8,13 +8,19 @@ import workoutSetIcon from "../../../../../assets/createWorkout.png";
 import style from "./menteesSection.module.css";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { WorkoutSetData } from "../../../../../api/workoutSets";
+import { User } from "../../../../../api/auth";
+import { Exercise } from "../../sharedSections/LogWorkout/types";
+
 export default function ManageMentees() {
   const { data: traineeList } = useFetchTraineeList();
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [selectedMentee, setSelectedMentee] = useState(null);
+  const [selectedMentee, setSelectedMentee] = useState<User | null>(null);
   const [newWorkouts, setNewWorkouts] = useState([]);
   const [isSubModalOpen, setIsSubModalOpen] = useState(false);
-  const [selectedWorkout, setSelectedWorkout] = useState(null);
+  const [selectedWorkout, setSelectedWorkout] = useState<WorkoutSetData | null>(
+    null
+  );
 
   const fetchNewWorkouts = async (menteeId: string) => {
     if (!menteeId) return;
@@ -34,9 +40,9 @@ export default function ManageMentees() {
   const handleSendWorkout = async () => {
     try {
       const res = await axios.patch(
-        `http://localhost:5000/api/sendWorkoutSet/${selectedWorkout._id}`,
+        `http://localhost:5000/api/sendWorkoutSet/${selectedWorkout?._id}`,
         {
-          menteeId: selectedMentee._id,
+          menteeId: selectedMentee?._id,
         },
         {
           withCredentials: true,
@@ -50,11 +56,10 @@ export default function ManageMentees() {
         showConfirmButton: false,
       });
       setNewWorkouts((prev) =>
-        prev.filter((w) => w._id !== selectedWorkout._id)
+        prev.filter((w: WorkoutSetData) => w._id !== selectedWorkout?._id)
       );
       closeSubModal();
     } catch (error) {
-      // Pokazujemy komunikat o błędzie
       Swal.fire({
         title: "Błąd",
         text: "Nie udało się wysłać zestawu, spróbuj ponownie później.",
@@ -171,7 +176,7 @@ export default function ManageMentees() {
               </p>
               <div className={style.trainingSetElementBox}>
                 {newWorkouts && newWorkouts.length > 0 ? (
-                  newWorkouts.map((w) => (
+                  newWorkouts.map((w: WorkoutSetData) => (
                     <div
                       className={style.trainingSetElement}
                       onClick={() => openSubModal(w)}
@@ -187,7 +192,7 @@ export default function ManageMentees() {
                   ))
                 ) : (
                   <h2 className="text-center mt-4">
-                    {selectedMentee.name} posiada już wszystkie Twoje zestawy...
+                    {selectedMentee.name} posiada już wszystkie Twoje zestawy.
                   </h2>
                 )}
               </div>
@@ -208,7 +213,7 @@ export default function ManageMentees() {
               {selectedWorkout.exercises &&
               selectedWorkout.exercises.length > 0 ? (
                 <div className="mb-4">
-                  {selectedWorkout.exercises.map((exercise: any) => (
+                  {selectedWorkout.exercises.map((exercise: Exercise) => (
                     <p key={exercise._id} className="my-2">
                       {exercise.name}
                     </p>

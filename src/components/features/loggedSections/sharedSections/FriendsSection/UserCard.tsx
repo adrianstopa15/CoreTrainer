@@ -4,7 +4,7 @@ import styles from "./friendsSection.module.css";
 import defaultAvatar from "../../../../../assets/defaultAvatar.png";
 
 interface UserCardProps {
-  userId: string;
+  userId?: string;
   userLogin: string;
   userName: string;
   userSurname: string;

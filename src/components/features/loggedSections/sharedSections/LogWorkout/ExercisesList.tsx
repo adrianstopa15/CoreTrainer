@@ -1,12 +1,17 @@
 import React from "react";
+import { Exercise } from "./types";
+import { WorkoutSetData } from "../../../../../api/workoutSets";
 
 interface ExercisesListProps {
   exercises: Exercise[];
-  workoutSets?: WorkoutSet[];
+  workoutSets?: WorkoutSetData[];
   filterBodySection: string;
   searchQuery: string;
   setModeActive: boolean;
-  onDragStart: (e: React.DragEvent, exercise: Exercise | WorkoutSet) => void;
+  onDragStart: (
+    e: React.DragEvent,
+    exercise: Exercise | WorkoutSetData
+  ) => void;
   onClickExercise: (exercise: Exercise) => void;
 }
 

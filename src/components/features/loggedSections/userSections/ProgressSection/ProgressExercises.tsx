@@ -38,7 +38,7 @@ export default function ProgressExercises() {
   ];
   const RADIAN = Math.PI / 180;
 
-  const renderCustomLabel = (props: any) => {
+  const renderCustomLabel = (props) => {
     const { cx, cy, midAngle, innerRadius, outerRadius, percent, name } = props;
 
     const sx = cx + (outerRadius + 2) * Math.cos(-midAngle * RADIAN);
@@ -116,8 +116,8 @@ export default function ProgressExercises() {
       for (const exercise of training.exercises) {
         const exerciseName = exercise.name;
         const bestOneRepMaxInTraining = exercise.series.reduce((max, serie) => {
-          const kg = serie.kg || 1;
-          const reps = serie.reps || 0;
+          const kg = Number(serie.kg) || 1;
+          const reps = Number(serie.reps) || 0;
           const oneRepMax = kg * (1 + reps / 30);
 
           return Math.max(max, oneRepMax);

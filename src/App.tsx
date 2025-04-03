@@ -38,7 +38,7 @@ import LogWorkoutUser from "./components/features/loggedSections/userSections/Tr
 import TrainingSets from "./components/features/loggedSections/sharedSections/WorkoutCreate/TrainingSets";
 import DefaultTrainingSets from "./components/features/loggedSections/sharedSections/WorkoutCreate/DefaultTrainingSets";
 import TrainersList from "./components/features/loggedSections/sharedSections/FriendsSection/userOptions/TrainersList";
-import TraineeRequests from "./components/features/loggedSections/sharedSections/FriendsSection/trainerOptions/traineeRequests";
+import TraineeRequests from "./components/features/loggedSections/sharedSections/FriendsSection/trainerOptions/TraineeRequests";
 Modal.setAppElement("#root");
 axios.defaults.withCredentials = true;
 

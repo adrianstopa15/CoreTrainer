@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Calendar from "react-calendar";
+import { Exercise } from "../../sharedSections/LogWorkout/types";
 
 interface Workout {
   _id: string;
   name: string;
   date: string;
   trainingTime: number;
-  exercises: any[];
+  exercises: Exercise[];
 }
 
 type DayEvents = Array<{ name: string; hour: string }>;
@@ -75,9 +76,9 @@ export default function WorkoutsCalendar() {
     return "";
   };
 
-  const handleDateChange = (value: Date) => {
-    setSelectedDate(value);
-  };
+  // const handleDateChange = (value: Date) => {
+  //   setSelectedDate(value);
+  // };
 
   const formatDateToString = (date: Date): string => {
     const yyyy = date.getFullYear();
@@ -100,7 +101,9 @@ export default function WorkoutsCalendar() {
           <Calendar
             locale="pl-PL"
             value={selectedDate}
-            onChange={handleDateChange}
+            onChange={(value, event) => {
+              setSelectedDate(value as Date);
+            }}
             tileClassName={tileClassName}
             className="workoutCalendar"
           />

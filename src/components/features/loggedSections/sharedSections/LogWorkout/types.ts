@@ -15,7 +15,7 @@ export interface Exercise {
   name: string;
   bodySection: string;
   bodyPart: string;
-  img: string;
+  img: string | null;
 }
 
 export const muscleGroupMap: Record<string, "góra" | "dół"> = {

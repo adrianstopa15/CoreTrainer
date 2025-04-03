@@ -29,6 +29,7 @@ export default function WorkoutsHistory() {
     bodySection: string;
     img: string | null;
     series: Series[];
+    _id: string;
   };
   type Training = {
     userId: string;

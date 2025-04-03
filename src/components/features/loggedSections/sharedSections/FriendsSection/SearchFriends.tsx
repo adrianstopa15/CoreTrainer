@@ -10,7 +10,6 @@ import {
   useMyRequests,
   useSendFriendRequest,
 } from "../../../../../hooks/useFriends";
-import { useAuth } from "../../../../../hooks/useAuth";
 import UserCard from "./UserCard";
 
 interface User {
