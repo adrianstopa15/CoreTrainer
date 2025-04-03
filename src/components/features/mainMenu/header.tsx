@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import PortalModal from "../../modals/PortalModal";
-import padLock from "../../../assets/Padlock.png";
+import padLock from "../../../assets/padlock.png";
 import loginAvatar from "../../../assets/loginAvatar.png";
 import axios from "axios";
 import { data, useNavigate } from "react-router-dom";
