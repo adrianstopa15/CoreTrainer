@@ -44,7 +44,7 @@ export default function MidMenu() {
           </div>
 
           <div className="mid-item--3 rounded-md  hover-container">
-            <img src={chat} />
+            <img src={chat} className="object-cover w-full h-full" />
             <div className="box-text">
               <h1 className=" text-xl mx-1 xl:text-5xl mb-12 xl:mx-0">
                 Dedykowany Czat
@@ -59,7 +59,13 @@ export default function MidMenu() {
             </div>
           </div>
           <div className="mid-item--4 rounded-md  hover-container">
-            <video autoPlay muted loop playsInline className="">
+            <video
+              autoPlay
+              muted
+              loop
+              playsInline
+              className="object-cover w-full h-full"
+            >
               <source src={report} type="video/mp4" />. Twoja przeglądarka nie
               obsługuje video.
             </video>

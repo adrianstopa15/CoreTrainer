@@ -25,7 +25,7 @@
   position: relative;
 
   transition: 0.3s;
-  background-color: rgba(177, 113, 113, 0.103);
+  background-color: rgba(163, 69, 69, 0.062);
   border-radius: 100%;
 }
 .navbar a::before {
@@ -42,6 +42,7 @@
   color: rgb(255, 255, 255);
   background-color: rgba(163, 40, 40, 0.74);
   border-radius: 100%;
+  text-decoration: none;
 }
 .navbar a:hover::before {
   width: 100%;
@@ -84,7 +85,7 @@
 
 .button-main {
   opacity: 0;
-  font-size: 24px;
+  font-size: clamp(0.875rem, 0.429rem + 1.19vw, 1.5rem);
   background-color: red;
   padding: 0.5rem 0.5rem;
   border-radius: 8px;

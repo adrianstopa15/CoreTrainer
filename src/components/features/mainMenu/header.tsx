@@ -75,7 +75,7 @@ export default function Header() {
   return (
     <>
       <header className="header  lg:flex lg:px-24 py-4 text-center ">
-        <a className=" text-2xl xl:text-6xl text-gray-100">
+        <a className=" text-2xl xl:text-6xl text-gray-100 hover:no-underline hover:text-inherit">
           Core<span className="text-red-600">Trainer</span>
         </a>
         <nav className="navbar text-gray-300 flex flex-col lg:flex-row">
