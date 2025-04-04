@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:5000/api";
+const API_URL = import.meta.env.VITE_API_URL;
 
 export interface User {
   _id: string;
@@ -36,15 +36,16 @@ export interface RegisterResponse {
 export const loginUser = async (
   loginData: LoginData
 ): Promise<LoginResponse> => {
-  const response = await axios.post(`${API_URL}/login`, loginData, {
+  const response = await axios.post(`${API_URL}/api/login`, loginData, {
     withCredentials: true,
   });
+
   return response.data;
 };
 
 export const registerUser = async (
   registerData: RegisterData
 ): Promise<RegisterResponse> => {
-  const response = await axios.post(`${API_URL}/register`, registerData);
+  const response = await axios.post(`${API_URL}/api/register`, registerData);
   return response.data;
 };
