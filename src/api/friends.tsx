@@ -1,7 +1,6 @@
 import { QueryFunctionContext } from "@tanstack/react-query";
 import axios from "axios";
-
-const API_URL = "http://localhost:5000/api";
+import { API_URL } from "../config/api";
 
 export interface Sender {
   _id?: string;
@@ -19,14 +18,14 @@ export interface FriendRequest {
 }
 
 export const fetchFriendsRequests = async (): Promise<FriendRequest[]> => {
-  const response = await axios.get(`${API_URL}/getFriendRequests`, {
+  const response = await axios.get(`${API_URL}/api/getFriendRequests`, {
     withCredentials: true,
   });
   return response.data || [];
 };
 
 export const fetchFriends = async () => {
-  const response = await axios.get(`${API_URL}/getFriends`, {
+  const response = await axios.get(`${API_URL}/api/getFriends`, {
     withCredentials: true,
   });
   return response.data.friendsList;
