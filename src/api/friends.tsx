@@ -35,7 +35,7 @@ export const fetchUserFriends = async (
   context: QueryFunctionContext<readonly [string, string]>
 ) => {
   const [, userId] = context.queryKey;
-  const response = await axios.get(`${API_URL}/getUserFriends/${userId}`);
+  const response = await axios.get(`${API_URL}/api/getUserFriends/${userId}`);
   return response.data.friendsList;
 };
 
