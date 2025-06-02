@@ -67,9 +67,9 @@
 ---
 
 ## Technologie
-- **React (TypeScript)** / **Next.js**  
+- **React (TypeScript)**
 - **Redux** & **React Query**  
-- **Node.js + Express** (REST API)  
+- **Express** (REST API)  
 - **MongoDB + Mongoose**  
 - **JWT** (autoryzacja)  
 - **Multer** (upload plików)  
